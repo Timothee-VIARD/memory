@@ -1,0 +1,120 @@
+{
+  "mode1": {
+    "difficulte1": {
+      "leaderboard": [
+        {
+          "date": "date",
+          "score": "score",
+          "temps": "temps"
+        },
+        {
+          "date": "date",
+          "score": "score",
+          "temps": "temps"
+        },
+        {
+          "date": "date",
+          "score": "score",
+          "temps": "temps"
+        }
+      ]
+    },
+    "difficulte2": {
+      "leaderboard": [
+        {
+          "date": "date",
+          "score": "score",
+          "temps": "temps"
+        },
+        {
+          "date": "date",
+          "score": "score",
+          "temps": "temps"
+        },
+        {
+          "date": "date",
+          "score": "score",
+          "temps": "temps"
+        }
+      ]
+    },
+    "difficulte3": {
+      "leaderboard": [
+        {
+          "date": "date",
+          "score": "score",
+          "temps": "temps"
+        },
+        {
+          "date": "date",
+          "score": "score",
+          "temps": "temps"
+        },
+        {
+          "date": "date",
+          "score": "score",
+          "temps": "temps"
+        }
+      ]
+    }
+  },
+  "mode2": {
+    "difficulte1": {
+      "leaderboard": [
+        {
+          "date": "date",
+          "score": "score",
+          "temps": "temps"
+        },
+        {
+          "date": "date",
+          "score": "score",
+          "temps": "temps"
+        },
+        {
+          "date": "date",
+          "score": "score",
+          "temps": "temps"
+        }
+      ]
+    },
+    "difficulte2": {
+      "leaderboard": [
+        {
+          "date": "date",
+          "score": "score",
+          "temps": "temps"
+        },
+        {
+          "date": "date",
+          "score": "score",
+          "temps": "temps"
+        },
+        {
+          "date": "date",
+          "score": "score",
+          "temps": "temps"
+        }
+      ]
+    },
+    "difficulte3": {
+      "leaderboard": [
+        {
+          "date": "date",
+          "score": "score",
+          "temps": "temps"
+        },
+        {
+          "date": "date",
+          "score": "score",
+          "temps": "temps"
+        },
+        {
+          "date": "date",
+          "score": "score",
+          "temps": "temps"
+        }
+      ]
+    }
+  }
+}

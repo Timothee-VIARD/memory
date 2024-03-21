@@ -1,0 +1,12 @@
+{
+  "cards": [
+    {
+      "name": "Card 1",
+      "image": "../../drawable/cards/basicSkin.png",
+      "description": "This is card 1",
+      "prix": "prix",
+      "estAchetee": false,
+      "rarete": "rarete"
+    }
+  ]
+}

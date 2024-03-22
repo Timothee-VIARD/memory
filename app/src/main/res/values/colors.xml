@@ -2,4 +2,28 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="red">#FFFF0000</color>
+
+    <!-- Card Background Colors -->
+    <color name="background">#FFD3D3D3</color>
+    <color name="background_dark">#FFA9A9A9</color>
+
+    <!-- Card Text Colors -->
+    <color name="text">#FF000000</color>
+
+    <!-- Card Border Colors -->
+    <color name="border">#FF000000</color>
+
+    <!-- Color Rarity Cards -->
+    <color name="common">#FFC0C0C0</color>
+    <color name="uncommon">#FF008000</color>
+    <color name="rare">#FF0000FF</color>
+    <color name="epic">#FF800080</color>
+    <color name="legendary">#FFFFA500</color>
+    <color name="unique">#FFFF0000</color>
+
+    <!-- Card lock colors -->
+    <color name="locked">#51000000</color>
+    <color name="unlocked">#FF00FF00</color>
+
 </resources>

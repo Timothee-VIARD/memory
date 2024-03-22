@@ -1,13 +1,10 @@
 package com.example.memory;
 
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 
 import com.example.memory.databinding.FragmentBottomButtonBinding;
@@ -20,6 +17,8 @@ import com.example.memory.databinding.FragmentBottomButtonBinding;
 public class BottomButton extends Fragment {
 
     private String message;
+    private int height;
+    private int width;
     private FragmentBottomButtonBinding binding;
 
     /**
@@ -32,13 +31,17 @@ public class BottomButton extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
+     * @param message the message in the button
+     * @param length the length of the button.
+     * @param width the width of the button.
      * @return A new instance of fragment TemplateButton.
      */
-    public static BottomButton newInstance(String param1) {
+    public static BottomButton newInstance(String message, int length, int width) {
         BottomButton fragment = new BottomButton();
         Bundle args = new Bundle();
-        args.putString("MESSAGE", param1);
+        args.putString("MESSAGE", message);
+        args.putInt("HEIGHT", length);
+        args.putInt("WIDTH", width);
         fragment.setArguments(args);
         return fragment;
     }
@@ -53,6 +56,8 @@ public class BottomButton extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             message = getArguments().getString("MESSAGE", "");
+            height = getArguments().getInt("HEIGHT", 0);
+            width = getArguments().getInt("WIDTH", 0);
 
         }
     }
@@ -74,6 +79,8 @@ public class BottomButton extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentBottomButtonBinding.inflate(inflater, container, false);
         binding.button.setText(message);
+        binding.button.setWidth(width);
+        binding.button.setHeight(height);
         return binding.getRoot();
     }
 }

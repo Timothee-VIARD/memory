@@ -27,22 +27,24 @@ public class Card extends Fragment implements Serializable {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String NOM = "param1";
-    private static final String DESCRIPTION = "param2";
-    private static final float PRIX = 0;
-    private static final boolean ACHETE = false;
-    private static final String RARETE = "param3";
-    private static final int IMAGE = 0;
+    private static final String NOM = "name";
+    private static final String DESCRIPTION = "descrip";
+    private static final String PRIX = "price";
+    private static final String ACHETE = "bought";
+    private static final String RARETE = "rarity";
+    private static final String IMAGE = "image";
+    private static final String SELECTED = "selected";
 
     // TODO: Rename and change types of parameters
     private String nom;
     private String description;
-    private float prix;
+    private String prix;
     private boolean achete;
     private String rarete;
-    private int image;
+    private String image;
     private FragmentCardBinding binding;
     private OnCardBoughtListener listener;
+    private boolean selected = false;
 
     public Card() {
         // Required empty public constructor
@@ -61,14 +63,14 @@ public class Card extends Fragment implements Serializable {
      * @return A new instance of fragment Card.
      */
     // TODO: Rename and change types and number of parameters
-    public static Card newInstance(String name, int image, float price, String description, boolean isBought, String rarity) {
+    public static Card newInstance(String name, String image, String price, String description, boolean isBought, String rarity) {
         Card fragment = new Card();
         Bundle args = new Bundle();
         args.putString(NOM, name);
-        args.putInt(String.valueOf(IMAGE), image);
-        args.putFloat(String.valueOf(PRIX), price);
+        args.putString(IMAGE, image);
+        args.putString(PRIX, price);
         args.putString(DESCRIPTION, description);
-        args.putBoolean(String.valueOf(ACHETE), isBought);
+        args.putBoolean(ACHETE, isBought);
         args.putString(RARETE, rarity);
         fragment.setArguments(args);
         return fragment;
@@ -80,10 +82,10 @@ public class Card extends Fragment implements Serializable {
         if (getArguments() != null) {
             nom = getArguments().getString(NOM);
             description = getArguments().getString(DESCRIPTION);
-            prix = getArguments().getFloat(String.valueOf(PRIX));
-            achete = getArguments().getBoolean(String.valueOf(ACHETE));
+            prix = getArguments().getString(PRIX);
+            achete = getArguments().getBoolean(ACHETE);
             rarete = getArguments().getString(RARETE);
-            image = getArguments().getInt(String.valueOf(IMAGE));
+            image = getArguments().getString(IMAGE);
         }
     }
 
@@ -92,7 +94,7 @@ public class Card extends Fragment implements Serializable {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentCardBinding.inflate(inflater, container, false);
-        binding.cardImage.setImageResource(Integer.parseInt(String.valueOf(image)));
+        binding.cardImage.setImageResource(getResources().getIdentifier(image, "drawable", getActivity().getPackageName()));
         switch (rarete) {
             case "uncommon":
                 binding.cardImage.setBackground(getResources().getDrawable(R.drawable.uncommon_cards));
@@ -112,6 +114,10 @@ public class Card extends Fragment implements Serializable {
             default:
                 binding.cardImage.setBackground(getResources().getDrawable(R.drawable.common_cards));
                 break;
+        }
+        if (achete) {
+            binding.cardImageObtain.setBackground(getResources().getDrawable(R.drawable.obtained_card));
+            binding.obtainCard.setText("Possédé");
         }
 
         binding.cardImage.setOnClickListener(new View.OnClickListener() {
@@ -145,7 +151,7 @@ public class Card extends Fragment implements Serializable {
         Button dialogButton = dialog.findViewById(R.id.returnButton);
         ImageButton dialogClose = dialog.findViewById(R.id.exitButton);
 
-        dialogImage.setImageResource(image);
+        dialogImage.setImageResource(getResources().getIdentifier(image, "drawable", getActivity().getPackageName()));
         dialogName.setText(nom);
         dialogRarity.setText(rarete);
         switch (rarete) {
@@ -206,32 +212,45 @@ public class Card extends Fragment implements Serializable {
         dialog.show();
     }
 
-    public int getImage() {
-        return image;
+    public String getImage() {
+        return getArguments().getString(IMAGE);
     }
 
     public String getName() {
-        return nom;
+        return getArguments().getString(NOM);
     }
 
     public String getDescription() {
-        return description;
+        return getArguments().getString(DESCRIPTION);
     }
 
-    public float getPrice() {
-        return prix;
+    public String getPrice() {
+        return getArguments().getString(PRIX);
     }
 
-    public boolean isBought() {
-        return achete;
+    public boolean getIsBought() {
+        return getArguments().getBoolean(ACHETE);
     }
 
     public String getRarity() {
-        return rarete;
+        return getArguments().getString(RARETE);
+    }
+
+    public boolean getSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 
     public void setBought() {
         if (!achete) {
+            Bundle args = getArguments();
+            if (args != null) {
+                args.putBoolean(ACHETE, true);
+                setArguments(args);
+            }
             achete = true;
             binding.cardImageObtain.setBackground(getResources().getDrawable(R.drawable.obtained_card));
             binding.obtainCard.setText("Possédé");

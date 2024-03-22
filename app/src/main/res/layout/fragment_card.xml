@@ -8,34 +8,33 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="4dp">
 
         <ImageButton
             android:id="@+id/card_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
             android:padding="5dp" />
 
         <ImageView
             android:id="@+id/card_image_obtain"
-            android:layout_width="100dp"
-            android:layout_height="140dp"
-            android:layout_margin="2dp"
+            android:layout_width="@dimen/weightGapCard"
+            android:layout_height="@dimen/heightGapCard"
             android:padding="5dp" />
 
         <TextView
             android:id="@+id/obtainCard"
-            android:layout_width="100dp"
-            android:layout_height="120dp"
-            android:layout_margin="2dp"
+            android:layout_width="@dimen/weightGapCard"
+            android:layout_height="@dimen/heightGapCard"
             android:gravity="center"
             android:padding="5dp"
-            android:rotation="46"
+            android:rotation="53"
             android:textColor="@color/red"
-            android:textSize="25sp"
+            android:textSize="22sp"
             android:textStyle="bold" />
+
     </FrameLayout>
 
 </FrameLayout>

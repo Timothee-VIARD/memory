@@ -51,6 +51,15 @@ public class Header extends Fragment {
         return fragment;
     }
 
+    public static Header newInstance(int imageID, String title) {
+        Header fragment = new Header();
+        Bundle args = new Bundle();
+        args.putInt(IMAGE, imageID);
+        args.putString(TITLE, title);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

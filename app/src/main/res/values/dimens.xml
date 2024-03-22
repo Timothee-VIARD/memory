@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="heightGapCard">140dp</dimen>
+    <dimen name="weightGapCard">100dp</dimen>
+    <dimen name="heightSkinCard">130dp</dimen>
+    <dimen name="widhtSkinCard">90dp</dimen>
+</resources>

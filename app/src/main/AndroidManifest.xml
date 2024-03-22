@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Memory"
         tools:targetApi="31">
         <activity
+            android:name=".Inventaire"
+            android:exported="true" />
+        <activity
             android:name=".Shop"
             android:exported="true" />
         <activity

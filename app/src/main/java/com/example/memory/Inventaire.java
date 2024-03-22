@@ -1,23 +1,31 @@
 package com.example.memory;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.memory.databinding.ActivityShopBinding;
+import com.example.memory.databinding.ActivityInventaireBinding;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Shop extends AppCompatActivity implements OnCardBoughtListener {
-    ActivityShopBinding binding;
+public class Inventaire extends AppCompatActivity implements OnCardBoughtListener {
+    ActivityInventaireBinding binding;
     private List<TripleCards> fragments;
     private List<Card> cards;
+
     private ReadWriteJSON readWriteJSON;
 
     @Override
@@ -28,10 +36,10 @@ public class Shop extends AppCompatActivity implements OnCardBoughtListener {
 
         readWriteJSON.copyJsonFileToInternalStorage(this);
 
-        binding = ActivityShopBinding.inflate(getLayoutInflater());
+        binding = ActivityInventaireBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        getSupportFragmentManager().beginTransaction().add(R.id.header, Header.newInstance(R.drawable.logo_drawable_main, "Shop", "Buy new cards to improve your deck!")).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.header, Header.newInstance(R.drawable.logo_drawable_main, "Inventaire")).commit();
 
         useJSON();
 
@@ -45,8 +53,26 @@ public class Shop extends AppCompatActivity implements OnCardBoughtListener {
             }
         }
 
-        for (int i = 0; i < cards.size(); i += 3) {
-            TripleCards tripleCards = TripleCards.newInstance(cards.get(i), cards.get(i + 1), cards.get(i + 2));
+        fragments = new ArrayList<>();
+
+        ArrayList<Card> boughtCards = new ArrayList<>();
+
+        for (Card card : cards) {
+            Log.d("card", String.valueOf(card.getIsBought()));
+            if (card.getIsBought()) {
+                boughtCards.add(card);
+            }
+        }
+
+        if (boughtCards.size() % 3 != 0) {
+            int emptyCards = 3 - (boughtCards.size() % 3);
+            for (int i = 0; i < emptyCards; i++) {
+                boughtCards.add(null);
+            }
+        }
+
+        for (int i = 0; i < boughtCards.size(); i += 3) {
+            TripleCards tripleCards = TripleCards.newInstance(boughtCards.get(i), boughtCards.get(i + 1), boughtCards.get(i + 2));
             fragments.add(tripleCards);
         }
 
@@ -103,12 +129,6 @@ public class Shop extends AppCompatActivity implements OnCardBoughtListener {
 
     @Override
     public void onCardBought(Card card) {
-        // Mettez à jour l'état de la carte achetée
-        card.setBought();
-
-        // Mettez à jour le fichier JSON pour refléter le nouvel état de la carte
-        readWriteJSON.editJSON(this, card.getName(), card.getImage(), card.getPrice(), card.getDescription(), true, card.getRarity());
-
         // Mettez à jour les données des fragments existants
         for (int i = 0; i < fragments.size(); i++) {
             TripleCards tripleCards = fragments.get(i);

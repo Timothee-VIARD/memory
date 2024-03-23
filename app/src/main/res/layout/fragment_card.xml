@@ -7,8 +7,8 @@
 
 
     <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/weightGapCard"
+        android:layout_height="@dimen/heightGapCard"
         android:layout_gravity="center"
         android:layout_margin="4dp">
 
@@ -35,6 +35,12 @@
             android:textSize="22sp"
             android:textStyle="bold" />
 
-    </FrameLayout>
+        <RadioButton
+            android:id="@+id/selectButton"
+            android:layout_width="41dp"
+            android:layout_height="41dp"
+            android:layout_gravity="bottom|right"
 
+            android:gravity="bottom|right" />
+    </FrameLayout>
 </FrameLayout>

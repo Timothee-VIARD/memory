@@ -24,6 +24,4 @@
 
     <!-- Card lock colors -->
     <color name="locked">#51000000</color>
-    <color name="unlocked">#FF00FF00</color>
-
 </resources>

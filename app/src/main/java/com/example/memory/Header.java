@@ -66,8 +66,7 @@ public class Header extends Fragment {
         if (getArguments() != null) {
             image = getArguments().getInt(IMAGE);
             title = getArguments().getString(TITLE);
-            if(DESCRITION != "null")
-                description = getArguments().getString(DESCRITION);
+            description = getArguments().getString(DESCRITION);
         }
     }
 

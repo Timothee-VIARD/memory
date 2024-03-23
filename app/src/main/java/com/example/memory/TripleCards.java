@@ -23,7 +23,6 @@ public class TripleCards extends Fragment {
     private Card card1 = null;
     private Card card2 = null;
     private Card card3 = null;
-    private FragmentTripleCardsBinding binding;
 
     public TripleCards() {
         // Required empty public constructor
@@ -69,7 +68,7 @@ public class TripleCards extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = FragmentTripleCardsBinding.inflate(inflater, container, false);
+        FragmentTripleCardsBinding binding = FragmentTripleCardsBinding.inflate(inflater, container, false);
 
         if (savedInstanceState == null) {
             if (card1 != null)

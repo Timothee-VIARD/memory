@@ -23,20 +23,23 @@ public class Shop extends AppCompatActivity implements OnCardBoughtListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         readWriteJSON = new ReadWriteJSON();
-
         readWriteJSON.copyJsonFileToInternalStorage(this);
-
         binding = ActivityShopBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        getSupportFragmentManager().beginTransaction().add(R.id.header, Header.newInstance(R.drawable.logo_drawable_main, "Shop", "Buy new cards to improve your deck!")).commit();
-
-        useJSON();
-
+        getSupportFragmentManager().beginTransaction().add(R.id.header, Header.newInstance(R.drawable.logo_drawable_main, "Shop")).commit();
+        cards = useJSON();
         fragments = new ArrayList<>();
-
+        // Supprime la carte par défaut et mettre a jour le nombre de cartes
+        cards.removeIf(Card::getDefaultCard);
+        // Permet de mettre les cartes aléatoirement
+        for (int i = 0; i < cards.size(); i++) {
+            int randomIndex = (int) (Math.random() * cards.size());
+            Card temp = cards.get(i);
+            cards.set(i, cards.get(randomIndex));
+            cards.set(randomIndex, temp);
+        }
+        // Vérifiez si le nombre total de cartes est un multiple de 3
         if (cards.size() % 3 != 0) {
             // Ajoutez des cartes vides pour que le nombre total de cartes soit un multiple de 3
             int emptyCards = 3 - (cards.size() % 3);
@@ -44,12 +47,10 @@ public class Shop extends AppCompatActivity implements OnCardBoughtListener {
                 cards.add(null);
             }
         }
-
         for (int i = 0; i < cards.size(); i += 3) {
             TripleCards tripleCards = TripleCards.newInstance(cards.get(i), cards.get(i + 1), cards.get(i + 2));
             fragments.add(tripleCards);
         }
-
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         for (TripleCards frag : fragments) {
             ft.add(R.id.cards, frag);
@@ -57,48 +58,42 @@ public class Shop extends AppCompatActivity implements OnCardBoughtListener {
         ft.commit();
     }
 
-    private void useJSON() {
+    private List<Card> useJSON() {
         String jsonString = readWriteJSON.readJSON(this);
-        cards = new ArrayList<>();
+        List<Card> cards = new ArrayList<>();
         try {
             // Create a JSONObject from the JSON string
             JSONObject jsonObject = new JSONObject(jsonString);
-
             // Get the "cards" array from the JSONObject
             JSONArray jsonArray = jsonObject.getJSONArray("cards");
-
             // Iterate over the array
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject cardObject = jsonArray.getJSONObject(i);
-
                 // Get the name of the card
                 String name = cardObject.getString("name");
-
                 // Get the image from the resources
                 String image = cardObject.getString("image");
-
                 // Get the price of the card
                 String price = cardObject.getString("prix");
-
                 // Get the description of the card
                 int descriptionId = getResources().getIdentifier(cardObject.getString("description"), "string", getPackageName());
                 String description = getResources().getString(descriptionId);
-
                 // Get the state of the card
                 boolean isBought = cardObject.getBoolean("estAchetee");
-
-                // Get the rarity of the card
-                String rarity = cardObject.getString("rarete");
-
+                // Get the Rarity of the card
+                Rarity rarity = Rarity.fromString(cardObject.getString("rarete"));
+                // Get default card
+                boolean selected = cardObject.getBoolean("default");
                 // Use the raw to create a new card
-                Card card = Card.newInstance(name, image, price, description, isBought, rarity);
-
+                Card card = Card.newInstance(name, image, price, description, isBought, rarity, selected);
                 // Add the card to your list of cards or to your user interface
                 cards.add(card);
             }
+            return cards;
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     @Override
@@ -125,6 +120,11 @@ public class Shop extends AppCompatActivity implements OnCardBoughtListener {
         ft.commit();
     }
 
+    @Override
+    public void onCardSelected(Card card) {
+        // Ne rien faire lorsqu'une carte est sélectionnée
+    }
+
     private Card updateCard(Card oldCard) {
         // Check if the oldCard is null
         if (oldCard == null) {
@@ -134,7 +134,7 @@ public class Shop extends AppCompatActivity implements OnCardBoughtListener {
         // If the card has been bought, create a new card with the updated state
         if (oldCard.getIsBought()) {
             readWriteJSON.editJSON(this, oldCard.getName(), oldCard.getImage(), oldCard.getPrice(), oldCard.getDescription(), true, oldCard.getRarity());
-            return Card.newInstance(oldCard.getName(), String.valueOf(oldCard.getImage()), oldCard.getPrice(), oldCard.getDescription(), true, oldCard.getRarity());
+            return Card.newInstance(oldCard.getName(), String.valueOf(oldCard.getImage()), oldCard.getPrice(), oldCard.getDescription(), true, oldCard.getRarity(), oldCard.getDefaultCard());
         }
         // Otherwise, return the old card
         return oldCard;

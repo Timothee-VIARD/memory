@@ -3,7 +3,6 @@ package com.example.memory;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Context;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -58,7 +57,7 @@ public class ReadWriteJSON {
         return json;
     }
 
-    public void editJSON(Context context, String cardName, String newImage, String newPrice, String newDescription, boolean newIsBought, String newRarity) {
+    public void editJSON(Context context, String cardName, String newImage, String newPrice, String newDescription, boolean newIsBought, Rarity newRarity) {
         String jsonString = readJSON(context);
         try {
             JSONObject jsonObject = new JSONObject(jsonString);
@@ -74,6 +73,7 @@ public class ReadWriteJSON {
                     cardObject.put("description", newDescription);
                     cardObject.put("estAchetee", newIsBought);
                     cardObject.put("rarete", newRarity);
+                    cardObject.put("selected", false);
                     break;
                 }
             }
@@ -85,9 +85,39 @@ public class ReadWriteJSON {
             OutputStream os = context.openFileOutput("cards.json", MODE_PRIVATE);
             os.write(modifiedJsonString.getBytes());
             os.close();
+        } catch (JSONException | IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-            Log.d("Shop", String.valueOf(readJSON(context)));
+    public void editJSON(Context context, String cardName, String newImage, String newPrice, String newDescription, boolean newIsBought, Rarity newRarity, boolean selected) {
+        String jsonString = readJSON(context);
+        try {
+            JSONObject jsonObject = new JSONObject(jsonString);
+            JSONArray jsonArray = jsonObject.getJSONArray("cards");
 
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject cardObject = jsonArray.getJSONObject(i);
+
+                if (cardObject.getString("name").equals(cardName)) {
+                    // Modifier les propriétés de la carte
+                    cardObject.put("image", newImage);
+                    cardObject.put("prix", newPrice);
+                    cardObject.put("description", newDescription);
+                    cardObject.put("estAchetee", newIsBought);
+                    cardObject.put("rarete", newRarity);
+                    cardObject.put("selected", selected);
+                    break;
+                }
+            }
+
+            // Convertir le JSONObject en chaîne
+            String modifiedJsonString = jsonObject.toString();
+
+            // Écrire la chaîne dans le fichier JSON
+            OutputStream os = context.openFileOutput("cards.json", MODE_PRIVATE);
+            os.write(modifiedJsonString.getBytes());
+            os.close();
         } catch (JSONException | IOException e) {
             e.printStackTrace();
         }

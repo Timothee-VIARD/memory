@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import com.example.memory.databinding.FragmentCardBinding;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,20 +32,26 @@ public class Card extends Fragment implements Serializable {
     private static final String DESCRIPTION = "descrip";
     private static final String PRIX = "price";
     private static final String ACHETE = "bought";
-    private static final String RARETE = "rarity";
+    private static final String RARETE = "Rarity";
     private static final String IMAGE = "image";
+    private static final String INVENTORY = "inventory";
     private static final String SELECTED = "selected";
+    private static final String DEFAULTCARD = "Card";
 
     // TODO: Rename and change types of parameters
     private String nom;
     private String description;
     private String prix;
     private boolean achete;
-    private String rarete;
+    private Rarity rarete;
     private String image;
     private FragmentCardBinding binding;
     private OnCardBoughtListener listener;
     private boolean selected = false;
+    private boolean inventory = false;
+    private static Card currentSelectedCard = null;
+    private ReadWriteJSON readWriteJSON;
+    private boolean defaultCard;
 
     public Card() {
         // Required empty public constructor
@@ -63,7 +70,7 @@ public class Card extends Fragment implements Serializable {
      * @return A new instance of fragment Card.
      */
     // TODO: Rename and change types and number of parameters
-    public static Card newInstance(String name, String image, String price, String description, boolean isBought, String rarity) {
+    public static Card newInstance(String name, String image, String price, String description, boolean isBought, Rarity rarity, boolean defaultCard) {
         Card fragment = new Card();
         Bundle args = new Bundle();
         args.putString(NOM, name);
@@ -71,7 +78,23 @@ public class Card extends Fragment implements Serializable {
         args.putString(PRIX, price);
         args.putString(DESCRIPTION, description);
         args.putBoolean(ACHETE, isBought);
-        args.putString(RARETE, rarity);
+        args.putString(RARETE, String.valueOf(rarity));
+        args.putBoolean(DEFAULTCARD, defaultCard);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static Card newInstance(String name, String image, String price, String description, boolean isBought, Rarity rarity, boolean inventory, boolean selected) {
+        Card fragment = new Card();
+        Bundle args = new Bundle();
+        args.putString(NOM, name);
+        args.putString(IMAGE, image);
+        args.putString(PRIX, price);
+        args.putString(DESCRIPTION, description);
+        args.putBoolean(ACHETE, isBought);
+        args.putString(RARETE, String.valueOf(rarity));
+        args.putBoolean(INVENTORY, inventory);
+        args.putBoolean(SELECTED, selected);
         fragment.setArguments(args);
         return fragment;
     }
@@ -79,45 +102,56 @@ public class Card extends Fragment implements Serializable {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        readWriteJSON = new ReadWriteJSON();
         if (getArguments() != null) {
             nom = getArguments().getString(NOM);
             description = getArguments().getString(DESCRIPTION);
             prix = getArguments().getString(PRIX);
             achete = getArguments().getBoolean(ACHETE);
-            rarete = getArguments().getString(RARETE);
+            rarete = Rarity.valueOf(getArguments().getString(RARETE));
             image = getArguments().getString(IMAGE);
+            inventory = getArguments().getBoolean(INVENTORY);
+            defaultCard = getArguments().getBoolean(DEFAULTCARD);
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentCardBinding.inflate(inflater, container, false);
-        binding.cardImage.setImageResource(getResources().getIdentifier(image, "drawable", getActivity().getPackageName()));
+        binding.cardImage.setImageResource(getResources().getIdentifier(image, "drawable", requireActivity().getPackageName()));
         switch (rarete) {
-            case "uncommon":
+            case UNCOMMON:
                 binding.cardImage.setBackground(getResources().getDrawable(R.drawable.uncommon_cards));
                 break;
-            case "rare":
+            case RARE:
                 binding.cardImage.setBackground(getResources().getDrawable(R.drawable.rare_cards));
                 break;
-            case "epic":
+            case EPIC:
                 binding.cardImage.setBackground(getResources().getDrawable(R.drawable.epic_cards));
                 break;
-            case "legendary":
+            case LEGENDARY:
                 binding.cardImage.setBackground(getResources().getDrawable(R.drawable.legendary_cards));
                 break;
-            case "unique":
+            case UNIQUE:
                 binding.cardImage.setBackground(getResources().getDrawable(R.drawable.unique_cards));
                 break;
             default:
                 binding.cardImage.setBackground(getResources().getDrawable(R.drawable.common_cards));
                 break;
         }
-        if (achete) {
+        if (achete && !inventory) {
             binding.cardImageObtain.setBackground(getResources().getDrawable(R.drawable.obtained_card));
-            binding.obtainCard.setText("Possédé");
+            binding.obtainCard.setText(getString(R.string.obtain));
+        }
+
+        if (inventory) {
+            binding.selectButton.setVisibility(View.VISIBLE);
+            if (getArguments().getBoolean(SELECTED)) {
+                setSelected(true);
+            }
+        } else {
+            binding.selectButton.setVisibility(View.GONE);
         }
 
         binding.cardImage.setOnClickListener(new View.OnClickListener() {
@@ -127,6 +161,15 @@ public class Card extends Fragment implements Serializable {
             }
         });
 
+        if (getArguments() != null && getArguments().getBoolean(INVENTORY)) {
+            binding.selectButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onSelect(v);
+                }
+            });
+        }
+        binding.selectButton.setChecked(selected);
         return binding.getRoot();
     }
 
@@ -142,36 +185,35 @@ public class Card extends Fragment implements Serializable {
     private void showDialog() {
         Dialog dialog = new Dialog(getContext());
         dialog.setContentView(R.layout.custom_dialog);
-
         ImageView dialogImage = dialog.findViewById(R.id.cardImage);
         TextView dialogName = dialog.findViewById(R.id.cardName);
         TextView dialogDescription = dialog.findViewById(R.id.cardDescription);
         TextView dialogPrice = dialog.findViewById(R.id.cardPrice);
         TextView dialogRarity = dialog.findViewById(R.id.cardRarity);
+        TextView dialogSelected = dialog.findViewById(R.id.cardSelected);
         Button dialogButton = dialog.findViewById(R.id.returnButton);
         ImageButton dialogClose = dialog.findViewById(R.id.exitButton);
-
-        dialogImage.setImageResource(getResources().getIdentifier(image, "drawable", getActivity().getPackageName()));
+        dialogImage.setImageResource(getResources().getIdentifier(image, "drawable", requireActivity().getPackageName()));
         dialogName.setText(nom);
-        dialogRarity.setText(rarete);
+        dialogRarity.setText(String.valueOf(rarete));
         switch (rarete) {
-            case "uncommon":
+            case UNCOMMON:
                 dialogImage.setBackground(getResources().getDrawable(R.drawable.uncommon_cards));
                 dialogRarity.setTextColor(getResources().getColor(R.color.uncommon));
                 break;
-            case "rare":
+            case RARE:
                 dialogImage.setBackground(getResources().getDrawable(R.drawable.rare_cards));
                 dialogRarity.setTextColor(getResources().getColor(R.color.rare));
                 break;
-            case "epic":
+            case EPIC:
                 dialogImage.setBackground(getResources().getDrawable(R.drawable.epic_cards));
                 dialogRarity.setTextColor(getResources().getColor(R.color.epic));
                 break;
-            case "legendary":
+            case LEGENDARY:
                 dialogImage.setBackground(getResources().getDrawable(R.drawable.legendary_cards));
                 dialogRarity.setTextColor(getResources().getColor(R.color.legendary));
                 break;
-            case "unique":
+            case UNIQUE:
                 dialogImage.setBackground(getResources().getDrawable(R.drawable.unique_cards));
                 dialogRarity.setTextColor(getResources().getColor(R.color.unique));
                 break;
@@ -182,14 +224,16 @@ public class Card extends Fragment implements Serializable {
         }
         dialogDescription.setText(description);
         if (achete) {
-            dialogPrice.setText("Possédé");
-            dialogButton.setText("Retour");
+            if (!inventory) dialogPrice.setText(getString(R.string.obtain));
+            else dialogPrice.setVisibility(View.GONE);
+            if (selected) dialogSelected.setText(getString(R.string.selected));
+            else dialogSelected.setVisibility(View.GONE);
+            dialogButton.setText(getString(R.string.retrun));
         } else {
             String price = prix + " €";
             dialogPrice.setText(price);
-            dialogButton.setText("Acheter");
+            dialogButton.setText(getString(R.string.buy));
         }
-
         dialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -208,40 +252,81 @@ public class Card extends Fragment implements Serializable {
                 dialog.dismiss();
             }
         });
-
         dialog.show();
     }
 
+    private void onSelect(View view) {
+        setSelected(true);
+        if (listener != null) {
+            listener.onCardSelected(this);
+        }
+    }
+
     public String getImage() {
-        return getArguments().getString(IMAGE);
+        return getArguments() != null ? getArguments().getString(IMAGE) : null;
     }
 
     public String getName() {
-        return getArguments().getString(NOM);
+        return getArguments() != null ? getArguments().getString(NOM) : null;
     }
 
     public String getDescription() {
-        return getArguments().getString(DESCRIPTION);
+        return getArguments() != null ? getArguments().getString(DESCRIPTION) : null;
     }
 
     public String getPrice() {
-        return getArguments().getString(PRIX);
+        return getArguments() != null ? getArguments().getString(PRIX) : null;
     }
 
     public boolean getIsBought() {
-        return getArguments().getBoolean(ACHETE);
+        return getArguments() != null && getArguments().getBoolean(ACHETE);
     }
 
-    public String getRarity() {
-        return getArguments().getString(RARETE);
+    public Rarity getRarity() {
+        return Rarity.valueOf(getArguments() != null ? getArguments().getString(RARETE) : null);
+    }
+
+    public boolean getInventory() {
+        return getArguments() != null && getArguments().getBoolean(INVENTORY);
     }
 
     public boolean getSelected() {
-        return selected;
+        return getArguments() != null && getArguments().getBoolean(SELECTED);
+    }
+    public boolean getDefaultCard() {
+        return getArguments() != null && getArguments().getBoolean(DEFAULTCARD);
     }
 
     public void setSelected(boolean selected) {
+        // Si une nouvelle carte est sélectionnée
+        if (selected && (currentSelectedCard == null || !currentSelectedCard.equals(this))) {
+            // Désélectionner la carte précédemment sélectionnée
+            if (currentSelectedCard != null) {
+                currentSelectedCard.clearSelected();
+            }
+            // Mettre à jour la carte actuellement sélectionnée
+            currentSelectedCard = this;
+        }
+        editButtontStatus(true);
+    }
+
+    public void clearSelected() {
+        if (binding != null) {
+            binding.selectButton.setChecked(false);
+            editButtontStatus(false);
+        }
+    }
+
+    private void editButtontStatus(boolean selected) {
         this.selected = selected;
+        Bundle args = getArguments();
+        if (args != null) {
+            args.putBoolean(SELECTED, selected);
+            setArguments(args);
+        }
+        if (readWriteJSON != null) {
+            readWriteJSON.editJSON(getContext(), getName(), getImage(), getPrice(), getDescription(), getIsBought(), getRarity(), selected);
+        }
     }
 
     public void setBought() {
@@ -253,7 +338,8 @@ public class Card extends Fragment implements Serializable {
             }
             achete = true;
             binding.cardImageObtain.setBackground(getResources().getDrawable(R.drawable.obtained_card));
-            binding.obtainCard.setText("Possédé");
+            binding.obtainCard.setText(getString(R.string.obtain));
+            setSelected(true);
         }
     }
 }

@@ -6,30 +6,44 @@
     tools:context=".BottomButton">
 
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
+        android:orientation="vertical"
         >
+
         <Button
-            android:id="@+id/button"
+            android:id="@+id/button1"
             android:layout_width="150dp"
             android:layout_height="50dp"
-            android:text="Button"
-
+            android:text="@string/message"
+            android:layout_gravity="center"
+            android:tag="retour"
             />
-        <Space
-            android:layout_width="16dp"
+
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            /> <!-- Espacement de 16dp -->
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="150dp"
-            android:layout_height="50dp"
-            android:text="message"
-            android:layout_gravity="bottom|center_horizontal"
-            />
+            android:orientation="horizontal"
+            >
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:text="@string/message"
+                android:tag="Pause"
+                />
 
-    </LinearLayout>
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="150dp"
+                android:text="@string/message"
+                android:layout_height="50dp"
+                android:tag="Fin"
+                />
+        </LinearLayout>
+
+    </FrameLayout>
 
 </FrameLayout>

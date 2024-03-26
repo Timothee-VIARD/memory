@@ -17,8 +17,8 @@ import com.example.memory.databinding.FragmentBottomButtonBinding;
 public class BottomButton extends Fragment {
 
     private String message;
-    private int height;
-    private int width;
+    private String message2;
+    private int nbButton; //faire le nombre de bouton, en invisble ou pas ?
     private FragmentBottomButtonBinding binding;
 
     /**
@@ -31,21 +31,28 @@ public class BottomButton extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param message the message in the button
-     * @param length the length of the button.
-     * @param width the width of the button.
+     * @param message the message in the button.
      * @return A new instance of fragment TemplateButton.
      */
-    public static BottomButton newInstance(String message, int length, int width) {
+    public static BottomButton newInstance(String message, String message2) {
         BottomButton fragment = new BottomButton();
         Bundle args = new Bundle();
         args.putString("MESSAGE", message);
-        args.putInt("HEIGHT", length);
-        args.putInt("WIDTH", width);
+        args.putString("MESSAGE2", message2);
+        args.putInt("NB_BUTTON", 2);
         fragment.setArguments(args);
         return fragment;
     }
 
+
+    public static BottomButton newInstance(String message) {
+        BottomButton fragment = new BottomButton();
+        Bundle args = new Bundle();
+        args.putString("MESSAGE", message);
+        args.putInt("NB_BUTTON", 1);
+        fragment.setArguments(args);
+        return fragment;
+    }
     /**
      * Called when the fragment is being created.
      * @param savedInstanceState If the fragment is being re-created from
@@ -55,9 +62,9 @@ public class BottomButton extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            message = getArguments().getString("MESSAGE", "");
-            height = getArguments().getInt("HEIGHT", 0);
-            width = getArguments().getInt("WIDTH", 0);
+            message = getArguments().getString("MESSAGE", null);
+            message2 = getArguments().getString("MESSAGE2", null);
+            nbButton = getArguments().getInt("NB_BUTTON", 0);
 
         }
     }
@@ -71,16 +78,26 @@ public class BottomButton extends Fragment {
      * but this can be used to generate the LayoutParams of the view.
      * @param savedInstanceState If non-null, this fragment is being re-constructed
      * from a previous saved state as given here.
-     *
      * @return
      */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentBottomButtonBinding.inflate(inflater, container, false);
-        binding.button.setText(message);
-        binding.button.setWidth(width);
-        binding.button.setHeight(height);
+        //BottomButton but = 
+        if (nbButton == 1){
+            binding.button2.setVisibility(View.INVISIBLE);
+            binding.button3.setVisibility(View.INVISIBLE);
+            binding.button1.setVisibility(View.VISIBLE);
+            binding.button1.setText(message);
+        }
+        else {
+            binding.button2.setVisibility(View.VISIBLE);
+            binding.button3.setVisibility(View.VISIBLE);
+            binding.button1.setVisibility(View.INVISIBLE);
+            binding.button3.setText(message2);
+            binding.button2.setText(message);
+        }
+
         return binding.getRoot();
     }
 }

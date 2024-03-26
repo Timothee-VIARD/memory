@@ -2,4 +2,9 @@
     <string name="app_name">memory</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="message">message</string>
+    <string name="button">Button</string>
+    <string name="button2" />
+    <string name="text" />
+    <string name="message2">message2</string>
 </resources>

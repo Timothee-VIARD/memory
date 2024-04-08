@@ -1,5 +1,6 @@
 package com.example.memory;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,5 +22,17 @@ public class MenuGame extends AppCompatActivity {
         setContentView(binding.getRoot());
         getSupportFragmentManager().beginTransaction().add(R.id.buttonsMenuGame, BottomButton.newInstance(getString(R.string.inventory), getString(R.string.shop))).commit();
         getSupportFragmentManager().beginTransaction().add(R.id.headerMenuGame, Header.newInstance(R.drawable.logo_drawable_main, "Memory", "Bienvenue dans le jeu du memory")).commit();
+
+        binding.startButton.setOnClickListener(v -> {
+            Intent intent = new Intent(this, MenuStart.class);
+            startActivity(intent);
+            finish();
+        });
+
+        binding.leaderButton.setOnClickListener(v -> {
+            Intent intent = new Intent(this, Leaderboard.class);
+            startActivity(intent);
+            finish();
+        });
     }
 }

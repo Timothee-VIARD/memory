@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 public class ReadWriteJSON {
     private Context context;
@@ -44,7 +45,7 @@ public class ReadWriteJSON {
             byte[] buffer = new byte[size];
             jsonFile.read(buffer);
             jsonFile.close();
-            json = new String(buffer, "UTF-8");
+            json = new String(buffer, StandardCharsets.UTF_8);
         } catch (IOException ex) {
             ex.printStackTrace();
             return null;
@@ -133,7 +134,7 @@ public class ReadWriteJSON {
             byte[] buffer = new byte[size];
             jsonAssetsFile.read(buffer);
             jsonAssetsFile.close();
-            String json = new String(buffer, "UTF-8");
+            String json = new String(buffer, StandardCharsets.UTF_8);
 
             fileWriter = new FileWriter(file.getAbsoluteFile());
             writer = new BufferedWriter(fileWriter);

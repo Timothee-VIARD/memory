@@ -25,6 +25,12 @@
             android:name=".Shop"
             android:exported="true" />
         <activity
+<<<<<<< HEAD
+=======
+            android:name=".MainActivity"
+            android:exported="true" />
+        <activity
+>>>>>>> 460c929 (temp)
             android:name=".MenuGame"
             android:exported="true">
             <intent-filter>

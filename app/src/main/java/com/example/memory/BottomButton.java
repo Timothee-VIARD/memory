@@ -56,12 +56,10 @@ public class BottomButton extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
     /**
      * Called when the fragment is being created.
-     *
      * @param savedInstanceState If the fragment is being re-created from
-     *                           a previous saved state, this is the state.
+     * a previous saved state, this is the state.
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -156,5 +154,4 @@ public class BottomButton extends Fragment {
 
         return binding.getRoot();
     }
-
 }

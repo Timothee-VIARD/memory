@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         buttons = new ArrayList<>();
-        buttons.add(BottomButton.newInstance("Button 1"));
+        buttons.add(BottomButton.newInstance("Button 1","Button 2"));
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         for (BottomButton button : buttons) {
             transaction.add(binding.fragmentContainer.getId(), button);

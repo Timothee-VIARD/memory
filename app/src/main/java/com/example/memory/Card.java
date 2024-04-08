@@ -228,7 +228,7 @@ public class Card extends Fragment implements Serializable {
             else dialogPrice.setVisibility(View.GONE);
             if (selected) dialogSelected.setText(getString(R.string.selected));
             else dialogSelected.setVisibility(View.GONE);
-            dialogButton.setText(getString(R.string.retrun));
+            dialogButton.setText(getString(R.string.returnString));
         } else {
             String price = prix + " €";
             dialogPrice.setText(price);

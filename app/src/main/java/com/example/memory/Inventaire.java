@@ -29,6 +29,7 @@ public class Inventaire extends AppCompatActivity implements OnCardBoughtListene
         binding = ActivityInventaireBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         getSupportFragmentManager().beginTransaction().add(R.id.header, Header.newInstance(R.drawable.logo_drawable_main, "Inventaire")).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.footer, BottomButton.newInstance(getString(R.string.returnString))).commit();
         cards = useJSON();
         fragments = new ArrayList<>();
 

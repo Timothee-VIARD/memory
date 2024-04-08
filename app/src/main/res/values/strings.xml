@@ -7,7 +7,7 @@
     <!-- Strings-->
     <string name="obtain">Possédé</string>
     <string name="selected">Sélectionné</string>
-    <string name="retrun">Retour</string>
+    <string name="returnString">Retour</string>
     <string name="buy">Acheter</string>
     <string name="message">message</string>
     <string name="button">Button</string>

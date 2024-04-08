@@ -28,6 +28,7 @@ public class Shop extends AppCompatActivity implements OnCardBoughtListener {
         binding = ActivityShopBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         getSupportFragmentManager().beginTransaction().add(R.id.header, Header.newInstance(R.drawable.logo_drawable_main, "Shop")).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.footer, BottomButton.newInstance(getString(R.string.returnString))).commit();
         cards = useJSON();
         fragments = new ArrayList<>();
         // Supprime la carte par défaut et mettre a jour le nombre de cartes

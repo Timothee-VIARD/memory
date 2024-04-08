@@ -14,4 +14,12 @@
     <string name="button2" />
     <string name="text" />
     <string name="message2">message2</string>
+    <string name="inventory">Inventaire</string>
+    <string name="shop">Shop</string>
+    <string name="menu">Menu</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
+    <string name="pause">Pause</string>
+    <string name="continuer">Continuer</string>
+    <string name="restart">Restart</string>
 </resources>

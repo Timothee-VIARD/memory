@@ -24,8 +24,7 @@ public class Inventaire extends AppCompatActivity implements OnCardBoughtListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        readWriteJSON = new ReadWriteJSON();
-        readWriteJSON.copyJsonFileToInternalStorage(this);
+        readWriteJSON = new ReadWriteJSON(getApplicationContext());
         binding = ActivityInventaireBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         getSupportFragmentManager().beginTransaction().add(R.id.header, Header.newInstance(R.drawable.logo_drawable_main, "Inventaire")).commit();
@@ -69,7 +68,7 @@ public class Inventaire extends AppCompatActivity implements OnCardBoughtListene
     }
 
     private List<Card> useJSON() {
-        String jsonString = readWriteJSON.readJSON(this);
+        String jsonString = readWriteJSON.readJSON();
         List<Card> cards = new ArrayList<>();
         try {
             // Create a JSONObject from the JSON string
@@ -85,8 +84,9 @@ public class Inventaire extends AppCompatActivity implements OnCardBoughtListene
                 String image = cardObject.getString("image");
                 // Get the price of the card
                 String price = cardObject.getString("prix");
-                // Get the description of the card
+                // Get the id description of the card
                 int descriptionId = getResources().getIdentifier(cardObject.getString("description"), "string", getPackageName());
+                // Get the description of the card by the ID
                 String description = getResources().getString(descriptionId);
                 // Get the state of the card
                 boolean isBought = cardObject.getBoolean("estAchetee");
@@ -135,7 +135,7 @@ public class Inventaire extends AppCompatActivity implements OnCardBoughtListene
         }
         // If the card has been bought, create a new card with the updated state
         if (oldCard.getIsBought()) {
-            readWriteJSON.editJSON(this, oldCard.getName(), oldCard.getImage(), oldCard.getPrice(), oldCard.getDescription(), true, oldCard.getRarity(), oldCard.getSelected());
+            readWriteJSON.editJSON(oldCard.getName(), true, oldCard.getSelected());
             return Card.newInstance(oldCard.getName(), String.valueOf(oldCard.getImage()), oldCard.getPrice(), oldCard.getDescription(), true, oldCard.getRarity(), oldCard.getInventory(), oldCard.getSelected());
         }
         // Otherwise, return the old card

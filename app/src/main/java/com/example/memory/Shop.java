@@ -3,6 +3,8 @@ package com.example.memory;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.memory.databinding.ActivityShopBinding;
@@ -26,8 +28,8 @@ public class Shop extends AppCompatActivity implements OnCardBoughtListener {
         readWriteJSON = new ReadWriteJSON(getApplicationContext());
         binding = ActivityShopBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        getSupportFragmentManager().beginTransaction().add(R.id.header, Header.newInstance(R.drawable.logo_drawable_main, "Shop")).commit();
-        getSupportFragmentManager().beginTransaction().add(R.id.footer, BottomButton.newInstance(getString(R.string.returnString))).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.header, Header.newInstance(R.drawable.logo_drawable_main, "Shop")).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.footer, BottomButton.newInstance(getString(R.string.returnString))).commit();
         cards = useJSON();
         fragments = new ArrayList<>();
         // Supprime la carte par défaut et mettre a jour le nombre de cartes
@@ -50,6 +52,12 @@ public class Shop extends AppCompatActivity implements OnCardBoughtListener {
         for (int i = 0; i < cards.size(); i += 3) {
             TripleCards tripleCards = TripleCards.newInstance(cards.get(i), cards.get(i + 1), cards.get(i + 2));
             fragments.add(tripleCards);
+        }
+
+        //Supprimez les fragments existants dans le conteneur de cartes
+        FragmentManager fm = getSupportFragmentManager();
+        for (Fragment fragment : fm.getFragments()) {
+            fm.beginTransaction().remove(fragment).commit();
         }
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         for (TripleCards frag : fragments) {

@@ -22,9 +22,9 @@ public class MenuStart extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMenuStartBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        getSupportFragmentManager().beginTransaction().add(R.id.headerStart, Header.newInstance(R.drawable.logo_drawable_main, "Start",
+        getSupportFragmentManager().beginTransaction().replace(R.id.headerStart, Header.newInstance(R.drawable.logo_drawable_main, "Start",
                 "Choisissez votre mode de jeu")).commit();
-        getSupportFragmentManager().beginTransaction().add(R.id.buttonsStart, BottomButton.newInstance("Retour", "Start")).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.buttonsStart, BottomButton.newInstance("Retour", "Start")).commit();
         spinner = findViewById(R.id.spinnerStart);
         List choice = new ArrayList();
         choice.add("Facile");

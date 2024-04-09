@@ -2,6 +2,8 @@ package com.example.memory;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.Configuration;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.memory.databinding.FragmentCardBinding;
@@ -230,6 +233,18 @@ public class Card extends Fragment implements Serializable {
             dialogPrice.setText(price);
             dialogButton.setText(getString(R.string.buy));
         }
+
+        // Test le mode nuit de l'application pour adapter la couleur de la croix de fermeture
+        int nightModeFlags = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        if (nightModeFlags == Configuration.UI_MODE_NIGHT_YES) {
+            // Mode nuit activé, mettre la couleur claire
+            dialogClose.setColorFilter(ContextCompat.getColor(this.getContext(), R.color.primaryLight), PorterDuff.Mode.SRC_IN);
+        } else {
+            // Mode nuit désactivé, mettre la couleur sombre
+            dialogClose.setColorFilter(ContextCompat.getColor(this.getContext(), R.color.primaryDark), PorterDuff.Mode.SRC_IN);
+        }
+        dialogClose.setBackgroundColor(ContextCompat.getColor(this.getContext(), R.color.transparent));
+
         dialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

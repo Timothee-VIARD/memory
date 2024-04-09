@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.memory.databinding.ActivityMenuGameBinding;
 
@@ -20,8 +21,8 @@ public class MenuGame extends AppCompatActivity {
 
         binding = ActivityMenuGameBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        getSupportFragmentManager().beginTransaction().add(R.id.buttonsMenuGame, BottomButton.newInstance(getString(R.string.inventory), getString(R.string.shop))).commit();
-        getSupportFragmentManager().beginTransaction().add(R.id.headerMenuGame, Header.newInstance(R.drawable.logo_drawable_main, "Memory", "Bienvenue dans le jeu du memory")).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.buttonsMenuGame, BottomButton.newInstance(getString(R.string.inventory), getString(R.string.shop))).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.headerMenuGame, Header.newInstance(R.drawable.logo_drawable_main, "Memory", "Bienvenue dans le jeu du memory")).commit();
 
         binding.startButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, MenuStart.class);

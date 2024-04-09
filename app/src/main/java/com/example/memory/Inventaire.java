@@ -3,6 +3,8 @@ package com.example.memory;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.memory.databinding.ActivityInventaireBinding;
@@ -27,8 +29,8 @@ public class Inventaire extends AppCompatActivity implements OnCardBoughtListene
         readWriteJSON = new ReadWriteJSON(getApplicationContext());
         binding = ActivityInventaireBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        getSupportFragmentManager().beginTransaction().add(R.id.header, Header.newInstance(R.drawable.logo_drawable_main, "Inventaire")).commit();
-        getSupportFragmentManager().beginTransaction().add(R.id.footer, BottomButton.newInstance(getString(R.string.returnString))).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.header, Header.newInstance(R.drawable.logo_drawable_main, "Inventaire")).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.footer, BottomButton.newInstance(getString(R.string.returnString))).commit();
         cards = useJSON();
         fragments = new ArrayList<>();
 
@@ -59,6 +61,12 @@ public class Inventaire extends AppCompatActivity implements OnCardBoughtListene
         for (int i = 0; i < boughtCards.size(); i += 3) {
             TripleCards tripleCards = TripleCards.newInstance(boughtCards.get(i), boughtCards.get(i + 1), boughtCards.get(i + 2));
             fragments.add(tripleCards);
+        }
+
+        //Supprimez les fragments existants dans le conteneur de cartes
+        FragmentManager fm = getSupportFragmentManager();
+        for (Fragment fragment : fm.getFragments()) {
+            fm.beginTransaction().remove(fragment).commit();
         }
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         for (TripleCards frag : fragments) {

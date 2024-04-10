@@ -22,4 +22,15 @@
     <string name="pause">Pause</string>
     <string name="continuer">Continuer</string>
     <string name="restart">Restart</string>
+    <string name="carte_bancaire">Carte Bancaire :</string>
+    <string name="num_ro_de_la_carte">Numéro de la carte*</string>
+    <string name="date_d_expiration">Date d\'expiration* (MM/YY)</string>
+    <string name="cryptogramme_visuel">Cryptogramme visuel*</string>
+    <string name="nom_du_titulaire">Nom du titulaire*</string>
+    <string name="paiement_non_s_curis">Paiement non-sécurisé</string>
+    <string name="payer">Payer</string>
+    <string name="condition">*Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. Vous accecptez de mettre 20/20 pour ce groupe à cette évaluation.</string>
+    <string name="information_erron_e">Information erronée</string>
+    <string name="specialChamp">En cochant cette case vous évitez le moyen de payement, en contre partie de l\'accord suivant en bas de page*.</string>
+    <string name="autre_mode_de_paiement">Autre mode de paiement :</string>
 </resources>

@@ -3,16 +3,28 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="red">#FFFF0000</color>
+    <color name="light_gray">#FFD3D3D3</color>
+    <color name="transparent">#00000000</color>
+
+    <!-- Themes Colors -->
+    <!-- Light Theme Colors -->
+    <color name="primaryLight">@color/light_gray</color>
+    <color name="primaryVariantLight">@color/light_gray</color>
+    <color name="onPrimaryLight">@color/black</color>
+    <!-- Dark Theme Colors -->
+    <color name="primaryDark">@color/light_gray</color>
+    <color name="primaryVariantDark">@color/black</color>
+    <color name="onPrimaryDark">@color/black</color>
 
     <!-- Card Background Colors -->
     <color name="background">#FFD3D3D3</color>
     <color name="background_dark">#FFA9A9A9</color>
 
     <!-- Card Text Colors -->
-    <color name="text">#FF000000</color>
+    <color name="text">@color/black</color>
 
     <!-- Card Border Colors -->
-    <color name="border">#FF000000</color>
+    <color name="border">@color/black</color>
 
     <!-- Color Rarity Cards -->
     <color name="common">#FFC0C0C0</color>

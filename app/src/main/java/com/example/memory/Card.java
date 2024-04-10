@@ -2,6 +2,8 @@ package com.example.memory;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.Configuration;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,12 +14,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.memory.databinding.FragmentCardBinding;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,7 +28,6 @@ import java.util.Objects;
  */
 public class Card extends Fragment implements Serializable {
 
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String NOM = "name";
     private static final String DESCRIPTION = "descrip";
@@ -38,7 +39,6 @@ public class Card extends Fragment implements Serializable {
     private static final String SELECTED = "selected";
     private static final String DEFAULTCARD = "Card";
 
-    // TODO: Rename and change types of parameters
     private String nom;
     private String description;
     private String prix;
@@ -69,7 +69,6 @@ public class Card extends Fragment implements Serializable {
      * @param rarity      Rarity of the card.
      * @return A new instance of fragment Card.
      */
-    // TODO: Rename and change types and number of parameters
     public static Card newInstance(String name, String image, String price, String description, boolean isBought, Rarity rarity, boolean defaultCard) {
         Card fragment = new Card();
         Bundle args = new Bundle();
@@ -102,7 +101,6 @@ public class Card extends Fragment implements Serializable {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        readWriteJSON = new ReadWriteJSON();
         if (getArguments() != null) {
             nom = getArguments().getString(NOM);
             description = getArguments().getString(DESCRIPTION);
@@ -118,6 +116,7 @@ public class Card extends Fragment implements Serializable {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        readWriteJSON = new ReadWriteJSON(getContext());
         binding = FragmentCardBinding.inflate(inflater, container, false);
         binding.cardImage.setImageResource(getResources().getIdentifier(image, "drawable", requireActivity().getPackageName()));
         switch (rarete) {
@@ -234,6 +233,18 @@ public class Card extends Fragment implements Serializable {
             dialogPrice.setText(price);
             dialogButton.setText(getString(R.string.buy));
         }
+
+        // Test le mode nuit de l'application pour adapter la couleur de la croix de fermeture
+        int nightModeFlags = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        if (nightModeFlags == Configuration.UI_MODE_NIGHT_YES) {
+            // Mode nuit activé, mettre la couleur claire
+            dialogClose.setColorFilter(ContextCompat.getColor(this.getContext(), R.color.primaryLight), PorterDuff.Mode.SRC_IN);
+        } else {
+            // Mode nuit désactivé, mettre la couleur sombre
+            dialogClose.setColorFilter(ContextCompat.getColor(this.getContext(), R.color.primaryDark), PorterDuff.Mode.SRC_IN);
+        }
+        dialogClose.setBackgroundColor(ContextCompat.getColor(this.getContext(), R.color.transparent));
+
         dialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -293,6 +304,7 @@ public class Card extends Fragment implements Serializable {
     public boolean getSelected() {
         return getArguments() != null && getArguments().getBoolean(SELECTED);
     }
+
     public boolean getDefaultCard() {
         return getArguments() != null && getArguments().getBoolean(DEFAULTCARD);
     }
@@ -317,7 +329,7 @@ public class Card extends Fragment implements Serializable {
         }
     }
 
-    private void editButtontStatus(boolean selected) {
+    public void editButtontStatus(boolean selected) {
         this.selected = selected;
         Bundle args = getArguments();
         if (args != null) {
@@ -325,7 +337,7 @@ public class Card extends Fragment implements Serializable {
             setArguments(args);
         }
         if (readWriteJSON != null) {
-            readWriteJSON.editJSON(getContext(), getName(), getImage(), getPrice(), getDescription(), getIsBought(), getRarity(), selected);
+            readWriteJSON.editJSON(getName(), getIsBought(), selected);
         }
     }
 

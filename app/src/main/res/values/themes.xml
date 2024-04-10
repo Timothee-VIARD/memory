@@ -2,7 +2,11 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.Memory" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/primaryLight</item>
+        <item name="colorPrimaryVariant">@color/primaryVariantLight</item>
+        <item name="colorOnPrimary">@color/onPrimaryLight</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
     </style>
 
     <style name="Theme.Memory" parent="Base.Theme.Memory" />

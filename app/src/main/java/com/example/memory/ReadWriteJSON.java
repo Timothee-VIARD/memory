@@ -1,54 +1,50 @@
 package com.example.memory;
 
-import static android.content.Context.MODE_PRIVATE;
-
 import android.content.Context;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
 public class ReadWriteJSON {
+    private Context context;
 
-    public void copyJsonFileToInternalStorage(Context context) {
-        try {
-            // Open the file from the res/raw directory
-            InputStream is = context.getResources().openRawResource(R.raw.cards);
-
-            // Create an OutputStream to the internal files directory
-            OutputStream os = context.openFileOutput("cards.json", MODE_PRIVATE);
-
-            // Create a buffer to hold the data
-            byte[] buffer = new byte[1024];
-            int length;
-
-            // Read from the InputStream and write to the OutputStream
-            while ((length = is.read(buffer)) > 0) {
-                os.write(buffer, 0, length);
+    public ReadWriteJSON(Context context) {
+        this.context = context;
+        //test si fichier existe sinon le créer et le remplir avec le fichier json de assets
+        File file = new File(context.getFilesDir(), "cards.json");
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
-
-            // Close the streams
-            os.flush();
-            os.close();
-            is.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+            setJSON();
         }
     }
 
-    public String readJSON(Context context) {
+    public String readJSON() {
         String json = null;
+        InputStream jsonAssetsFile;
+        InputStream jsonFile;
         try {
-            InputStream is = context.openFileInput("cards.json");
-            int size = is.available();
+            jsonFile = context.openFileInput("cards.json");
+            if (jsonFile == null) {
+                File file = new File(context.getFilesDir(), "cards.json");
+                file.createNewFile();
+                setJSON();
+            }
+            int size = jsonFile.available();
             byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
+            jsonFile.read(buffer);
+            jsonFile.close();
             json = new String(buffer, StandardCharsets.UTF_8);
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -57,10 +53,14 @@ public class ReadWriteJSON {
         return json;
     }
 
-    public void editJSON(Context context, String cardName, String newImage, String newPrice, String newDescription, boolean newIsBought, Rarity newRarity) {
-        String jsonString = readJSON(context);
+    public void editJSON(String cardName, boolean newIsBought) {
+        String jsonString = readJSON();
+        FileWriter fileWriter = null;
+        BufferedWriter writer = null;
+
+        File file = new File(context.getFilesDir(), "cards.json");
         try {
-            JSONObject jsonObject = new JSONObject(jsonString);
+            JSONObject jsonObject = new JSONObject(readJSON());
             JSONArray jsonArray = jsonObject.getJSONArray("cards");
 
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -68,32 +68,33 @@ public class ReadWriteJSON {
 
                 if (cardObject.getString("name").equals(cardName)) {
                     // Modifier les propriétés de la carte
-                    cardObject.put("image", newImage);
-                    cardObject.put("prix", newPrice);
-                    cardObject.put("description", newDescription);
                     cardObject.put("estAchetee", newIsBought);
-                    cardObject.put("rarete", newRarity);
-                    cardObject.put("selected", false);
+                    jsonArray.put(i, cardObject);
                     break;
                 }
             }
 
-            // Convertir le JSONObject en chaîne
-            String modifiedJsonString = jsonObject.toString();
+            // Convertir le jsonArray en jsonobject
+            jsonObject.put("cards", jsonArray);
 
-            // Écrire la chaîne dans le fichier JSON
-            OutputStream os = context.openFileOutput("cards.json", MODE_PRIVATE);
-            os.write(modifiedJsonString.getBytes());
-            os.close();
+            //Editer la carte qui correspond au cardName
+            fileWriter = new FileWriter(file.getAbsoluteFile());
+            writer = new BufferedWriter(fileWriter);
+            writer.write(jsonObject.toString());
+            writer.close();
         } catch (JSONException | IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void editJSON(Context context, String cardName, String newImage, String newPrice, String newDescription, boolean newIsBought, Rarity newRarity, boolean selected) {
-        String jsonString = readJSON(context);
+    public void editJSON(String cardName, boolean newIsBought, boolean selected) {
+        String jsonString = readJSON();
+        FileWriter fileWriter = null;
+        BufferedWriter writer = null;
+
+        File file = new File(context.getFilesDir(), "cards.json");
         try {
-            JSONObject jsonObject = new JSONObject(jsonString);
+            JSONObject jsonObject = new JSONObject(readJSON());
             JSONArray jsonArray = jsonObject.getJSONArray("cards");
 
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -101,24 +102,45 @@ public class ReadWriteJSON {
 
                 if (cardObject.getString("name").equals(cardName)) {
                     // Modifier les propriétés de la carte
-                    cardObject.put("image", newImage);
-                    cardObject.put("prix", newPrice);
-                    cardObject.put("description", newDescription);
                     cardObject.put("estAchetee", newIsBought);
-                    cardObject.put("rarete", newRarity);
                     cardObject.put("selected", selected);
+                    jsonArray.put(i, cardObject);
                     break;
                 }
             }
 
-            // Convertir le JSONObject en chaîne
-            String modifiedJsonString = jsonObject.toString();
+            // Convertir le jsonArray en jsonobject
+            jsonObject.put("cards", jsonArray);
 
-            // Écrire la chaîne dans le fichier JSON
-            OutputStream os = context.openFileOutput("cards.json", MODE_PRIVATE);
-            os.write(modifiedJsonString.getBytes());
-            os.close();
+            //Editer la carte qui correspond au cardName
+            fileWriter = new FileWriter(file.getAbsoluteFile());
+            writer = new BufferedWriter(fileWriter);
+            writer.write(jsonObject.toString());
+            writer.close();
         } catch (JSONException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setJSON() {
+        InputStream jsonAssetsFile;
+        FileWriter fileWriter = null;
+        BufferedWriter writer = null;
+
+        File file = new File(context.getFilesDir(), "cards.json");
+        try {
+            jsonAssetsFile = context.getAssets().open("cards.json");
+            int size = jsonAssetsFile.available();
+            byte[] buffer = new byte[size];
+            jsonAssetsFile.read(buffer);
+            jsonAssetsFile.close();
+            String json = new String(buffer, StandardCharsets.UTF_8);
+
+            fileWriter = new FileWriter(file.getAbsoluteFile());
+            writer = new BufferedWriter(fileWriter);
+            writer.write(json);
+            writer.close();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

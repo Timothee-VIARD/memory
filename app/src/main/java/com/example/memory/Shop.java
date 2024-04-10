@@ -3,6 +3,8 @@ package com.example.memory;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.memory.databinding.ActivityShopBinding;
@@ -23,12 +25,11 @@ public class Shop extends AppCompatActivity implements OnCardBoughtListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        readWriteJSON = new ReadWriteJSON();
-        readWriteJSON.copyJsonFileToInternalStorage(this);
+        readWriteJSON = new ReadWriteJSON(getApplicationContext());
         binding = ActivityShopBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        getSupportFragmentManager().beginTransaction().add(R.id.header, Header.newInstance(R.drawable.logo_drawable_main, "Shop")).commit();
-        getSupportFragmentManager().beginTransaction().add(R.id.footer, BottomButton.newInstance(getString(R.string.returnString))).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.header, Header.newInstance(R.drawable.logo_drawable_main, "Shop")).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.footer, BottomButton.newInstance(getString(R.string.returnString))).commit();
         cards = useJSON();
         fragments = new ArrayList<>();
         // Supprime la carte par défaut et mettre a jour le nombre de cartes
@@ -52,6 +53,12 @@ public class Shop extends AppCompatActivity implements OnCardBoughtListener {
             TripleCards tripleCards = TripleCards.newInstance(cards.get(i), cards.get(i + 1), cards.get(i + 2));
             fragments.add(tripleCards);
         }
+
+        //Supprimez les fragments existants dans le conteneur de cartes
+        FragmentManager fm = getSupportFragmentManager();
+        for (Fragment fragment : fm.getFragments()) {
+            fm.beginTransaction().remove(fragment).commit();
+        }
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         for (TripleCards frag : fragments) {
             ft.add(R.id.cards, frag);
@@ -60,7 +67,7 @@ public class Shop extends AppCompatActivity implements OnCardBoughtListener {
     }
 
     private List<Card> useJSON() {
-        String jsonString = readWriteJSON.readJSON(this);
+        String jsonString = readWriteJSON.readJSON();
         List<Card> cards = new ArrayList<>();
         try {
             // Create a JSONObject from the JSON string
@@ -72,12 +79,13 @@ public class Shop extends AppCompatActivity implements OnCardBoughtListener {
                 JSONObject cardObject = jsonArray.getJSONObject(i);
                 // Get the name of the card
                 String name = cardObject.getString("name");
-                // Get the image from the resources
+                // Get the image from the resourcesa
                 String image = cardObject.getString("image");
                 // Get the price of the card
                 String price = cardObject.getString("prix");
-                // Get the description of the card
+                // Get the id description of the card
                 int descriptionId = getResources().getIdentifier(cardObject.getString("description"), "string", getPackageName());
+                // Get the description of the card by the ID
                 String description = getResources().getString(descriptionId);
                 // Get the state of the card
                 boolean isBought = cardObject.getBoolean("estAchetee");
@@ -87,7 +95,6 @@ public class Shop extends AppCompatActivity implements OnCardBoughtListener {
                 boolean selected = cardObject.getBoolean("default");
                 // Use the raw to create a new card
                 Card card = Card.newInstance(name, image, price, description, isBought, rarity, selected);
-                // Add the card to your list of cards or to your user interface
                 cards.add(card);
             }
             return cards;
@@ -103,7 +110,7 @@ public class Shop extends AppCompatActivity implements OnCardBoughtListener {
         card.setBought();
 
         // Mettez à jour le fichier JSON pour refléter le nouvel état de la carte
-        readWriteJSON.editJSON(this, card.getName(), card.getImage(), card.getPrice(), card.getDescription(), true, card.getRarity());
+        readWriteJSON.editJSON(card.getName(), true);
 
         // Mettez à jour les données des fragments existants
         for (int i = 0; i < fragments.size(); i++) {
@@ -134,7 +141,7 @@ public class Shop extends AppCompatActivity implements OnCardBoughtListener {
 
         // If the card has been bought, create a new card with the updated state
         if (oldCard.getIsBought()) {
-            readWriteJSON.editJSON(this, oldCard.getName(), oldCard.getImage(), oldCard.getPrice(), oldCard.getDescription(), true, oldCard.getRarity());
+            readWriteJSON.editJSON(oldCard.getName(), true);
             return Card.newInstance(oldCard.getName(), String.valueOf(oldCard.getImage()), oldCard.getPrice(), oldCard.getDescription(), true, oldCard.getRarity(), oldCard.getDefaultCard());
         }
         // Otherwise, return the old card

@@ -18,6 +18,7 @@ public class MenuGame extends AppCompatActivity {
 
         // Copier le fichier JSON vers le stockage interne
         ReadWriteJSON readWriteJSON = new ReadWriteJSON(getApplicationContext());
+        readWriteJSON.setJSON();
 
         binding = ActivityMenuGameBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

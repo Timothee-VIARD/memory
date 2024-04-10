@@ -4,4 +4,6 @@
     <dimen name="weightGapCard">100dp</dimen>
     <dimen name="heightSkinCard">130dp</dimen>
     <dimen name="widhtSkinCard">90dp</dimen>
+    <dimen name="heightPayments">20dp</dimen>
+    <dimen name="widhtPayments">30dp</dimen>
 </resources>

@@ -9,8 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,6 +22,7 @@ import androidx.fragment.app.Fragment;
 import com.example.memory.databinding.FragmentCardBinding;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -183,7 +186,8 @@ public class Card extends Fragment implements Serializable {
 
     private void showDialog() {
         Dialog dialog = new Dialog(getContext());
-        dialog.setContentView(R.layout.custom_dialog);
+        dialog.setContentView(R.layout.card_dialog);
+
         ImageView dialogImage = dialog.findViewById(R.id.cardImage);
         TextView dialogName = dialog.findViewById(R.id.cardName);
         TextView dialogDescription = dialog.findViewById(R.id.cardDescription);
@@ -192,6 +196,7 @@ public class Card extends Fragment implements Serializable {
         TextView dialogSelected = dialog.findViewById(R.id.cardSelected);
         Button dialogButton = dialog.findViewById(R.id.returnButton);
         ImageButton dialogClose = dialog.findViewById(R.id.exitButton);
+
         dialogImage.setImageResource(getResources().getIdentifier(image, "drawable", requireActivity().getPackageName()));
         dialogName.setText(nom);
         dialogRarity.setText(String.valueOf(rarete));
@@ -234,26 +239,23 @@ public class Card extends Fragment implements Serializable {
             dialogButton.setText(getString(R.string.buy));
         }
 
-        // Test le mode nuit de l'application pour adapter la couleur de la croix de fermeture
-        int nightModeFlags = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
-        if (nightModeFlags == Configuration.UI_MODE_NIGHT_YES) {
-            // Mode nuit activé, mettre la couleur claire
-            dialogClose.setColorFilter(ContextCompat.getColor(this.getContext(), R.color.primaryLight), PorterDuff.Mode.SRC_IN);
-        } else {
-            // Mode nuit désactivé, mettre la couleur sombre
-            dialogClose.setColorFilter(ContextCompat.getColor(this.getContext(), R.color.primaryDark), PorterDuff.Mode.SRC_IN);
-        }
-        dialogClose.setBackgroundColor(ContextCompat.getColor(this.getContext(), R.color.transparent));
+        changeColor(dialogClose);
 
         dialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setBought();
-                if (listener != null) {
-                    listener.onCardBought(Card.this);
+                if (!Objects.equals(prix, "Free") && dialogButton.getText().equals(getString(R.string.buy))) {
+                    dialog.dismiss();
+                    if (onBuy()) {
+                        dialog.show();
+                    }
+                } else {
+                    setBought();
+                    if (listener != null) {
+                        listener.onCardBought(Card.this);
+                    }
+                    dialog.dismiss();
                 }
-                dialog.dismiss();
-                dialog.dismiss();
             }
         });
 
@@ -264,6 +266,97 @@ public class Card extends Fragment implements Serializable {
             }
         });
         dialog.show();
+    }
+
+    private boolean onBuy() {
+        boolean result = false;
+        Dialog dialog = new Dialog(getContext());
+        dialog.setContentView(R.layout.buy_dialog);
+
+        ImageView dialogImage = dialog.findViewById(R.id.cardImage);
+        TextView dialogName = dialog.findViewById(R.id.cardName);
+        TextView dialogRarity = dialog.findViewById(R.id.cardRarity);
+        TextView dialogPrice = dialog.findViewById(R.id.cardPrice);
+        ImageButton dialogClose = dialog.findViewById(R.id.exitButton);
+        Button dialogButton = dialog.findViewById(R.id.buyButton);
+        TextView dialogError = dialog.findViewById(R.id.errorMessage);
+        LinearLayout dialogLayout = dialog.findViewById(R.id.specialCard);
+        TextView dialogCondition = dialog.findViewById(R.id.condition);
+        CheckBox dialogCheckBox = dialog.findViewById(R.id.specialCheckBox);
+
+        changeColor(dialogClose);
+
+        dialogImage.setImageResource(getResources().getIdentifier(image, "drawable", requireActivity().getPackageName()));
+        dialogName.setText(nom);
+        dialogRarity.setText(String.valueOf(rarete));
+        switch (rarete) {
+            case UNCOMMON:
+                dialogImage.setBackground(getResources().getDrawable(R.drawable.uncommon_cards));
+                dialogRarity.setTextColor(getResources().getColor(R.color.uncommon));
+                break;
+            case RARE:
+                dialogImage.setBackground(getResources().getDrawable(R.drawable.rare_cards));
+                dialogRarity.setTextColor(getResources().getColor(R.color.rare));
+                break;
+            case EPIC:
+                dialogImage.setBackground(getResources().getDrawable(R.drawable.epic_cards));
+                dialogRarity.setTextColor(getResources().getColor(R.color.epic));
+                break;
+            case LEGENDARY:
+                dialogImage.setBackground(getResources().getDrawable(R.drawable.legendary_cards));
+                dialogRarity.setTextColor(getResources().getColor(R.color.legendary));
+                break;
+            case UNIQUE:
+                dialogImage.setBackground(getResources().getDrawable(R.drawable.unique_cards));
+                dialogRarity.setTextColor(getResources().getColor(R.color.unique));
+                break;
+            default:
+                dialogImage.setBackground(getResources().getDrawable(R.drawable.common_cards));
+                dialogRarity.setTextColor(getResources().getColor(R.color.common));
+                break;
+        }
+
+        String price = prix + "€";
+        dialogPrice.setText(price);
+
+        if(rarete == Rarity.UNIQUE) {
+            dialogLayout.setVisibility(View.VISIBLE);
+            dialogCondition.setVisibility(View.VISIBLE);
+        }
+
+        if(dialogCheckBox.isChecked()) {
+            result = true;
+        }
+
+        dialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogError.setVisibility(View.VISIBLE);
+                dialog.show();
+            }
+        });
+
+        dialogCheckBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(dialogCheckBox.isChecked()) {
+                    setBought();
+                    if (listener != null) {
+                        listener.onCardBought(Card.this);
+                    }
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        dialogClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+        return result;
     }
 
     private void onSelect(View view) {
@@ -307,6 +400,19 @@ public class Card extends Fragment implements Serializable {
 
     public boolean getDefaultCard() {
         return getArguments() != null && getArguments().getBoolean(DEFAULTCARD);
+    }
+
+    private void changeColor(ImageButton dialogClose) {
+        // Test le mode nuit de l'application pour adapter la couleur de la croix de fermeture
+        int nightModeFlags = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        if (nightModeFlags == Configuration.UI_MODE_NIGHT_YES) {
+            // Mode nuit activé, mettre la couleur claire
+            dialogClose.setColorFilter(ContextCompat.getColor(this.getContext(), R.color.primaryLight), PorterDuff.Mode.SRC_IN);
+        } else {
+            // Mode nuit désactivé, mettre la couleur sombre
+            dialogClose.setColorFilter(ContextCompat.getColor(this.getContext(), R.color.primaryDark), PorterDuff.Mode.SRC_IN);
+        }
+        dialogClose.setBackgroundColor(ContextCompat.getColor(this.getContext(), R.color.transparent));
     }
 
     public void setSelected(boolean selected) {

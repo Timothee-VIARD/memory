@@ -7,6 +7,8 @@
     <string name="leaderboard" translatable="false">Leaderboard</string>
     <string name="stop" translatable="false">Stop</string>
     <string name="pause" translatable="false">Pause</string>
+    <string name="nav_header_desc" translatable="false">Navigation header</string>
+    <string name="github" translatable="false">GitHub</string>
 
     <!-- Cards -->
     <string name="card1_description">La plus basique des cartes</string>
@@ -54,4 +56,14 @@
     <string name="information_erron_e">Information erronée</string>
     <string name="specialChamp">En cochant cette case, vous évitez le moyen de payement, en contre partie de l\'accord suivant en bas de page*.</string>
     <string name="autre_mode_de_paiement">Autre mode de paiement :</string>
+
+    <!--String pour la navigation bar-->
+    <string name="title_activity_setting">Setting</string>
+    <string name="langue">Langue</string>
+    <string name="menu_home">Accueil</string>
+    <string name="about">A propos</string>
+    <string name="language_selector">Choix de la langue :</string>
+    <string name="about_string">Voici le projet Android des meilleurs : DIBKE Mathis, MAIGNAN Clémence et Viard Timothée.</string>
+    <string name="github_string">Vous trouverez le projet sur le github de VIARD Timothée : https://github.com/Timothee-VIARD/memory</string>
+    <string name="easter_egg">Si vous êtes arrivé jusque ici, c\'est que vous vous êtes perdu. Mais vous repartez avec un petit cadeau : un cookie ! 🍪. \n\nVous gagnez aussi les codes d\'une carte bancaires utilisable UNIQUEMENT sur notre application, profitez-en ! (Numéro de carte : 4242 4242 4242 4242, Date d\'expiration : 12/24, Code de sécurité : 424, Nom : ESEO)</string>
 </resources>

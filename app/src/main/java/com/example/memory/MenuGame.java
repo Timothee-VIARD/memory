@@ -1,60 +1,48 @@
 package com.example.memory;
 
-import android.content.Intent;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
 import com.example.memory.databinding.ActivityMenuGameBinding;
-
-import java.util.Locale;
+import com.google.android.material.navigation.NavigationView;
 
 public class MenuGame extends AppCompatActivity {
-
     private ActivityMenuGameBinding binding;
-    private String language;
+    private AppBarConfiguration mAppBarConfiguration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Copier le fichier JSON vers le stockage interne
+
         ReadWriteJSON readWriteJSON = new ReadWriteJSON(getApplicationContext());
         readWriteJSON.setJSON();
 
         binding = ActivityMenuGameBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.buttonsMenuGame, BottomButton.newInstance(getString(R.string.inventory), getString(R.string.shop))).commit();
-        getSupportFragmentManager().beginTransaction().replace(R.id.headerMenuGame, Header.newInstance(R.drawable.logo_drawable_main, getString(R.string.app_name), getString(R.string.Welcome_Message))).commit();
+        setSupportActionBar(binding.appBarSettings.toolbar);
 
-        Resources res = getResources();
-        Configuration conf = res.getConfiguration();
-        if (conf.getLocales().get(0).getLanguage().equals("fr"))
-            binding.languageButton.setChecked(true);
+        DrawerLayout drawer = binding.drawerLayout;
+        NavigationView navigationView = binding.navView;
+        mAppBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.nav_home, R.id.nav_language, R.id.nav_about)
+                .setOpenableLayout(drawer)
+                .build();
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+        NavigationUI.setupWithNavController(navigationView, navController);
+    }
 
-        binding.startButton.setOnClickListener(v -> {
-            Intent intent = new Intent(this, MenuStart.class);
-            startActivity(intent);
-            finish();
-        });
-
-        binding.leaderButton.setOnClickListener(v -> {
-            Intent intent = new Intent(this, Leaderboard.class);
-            startActivity(intent);
-            finish();
-        });
-
-        binding.languageButton.setOnClickListener(v -> {
-            if (conf.getLocales().get(0).getLanguage().equals("fr"))
-                conf.setLocale(new Locale("en"));
-            else if (conf.getLocales().get(0).getLanguage().equals("en"))
-                conf.setLocale(new Locale("fr"));
-            res.updateConfiguration(conf, res.getDisplayMetrics());
-            Intent intent = new Intent(this, MenuGame.class);
-            startActivity(intent);
-            finish();
-        });
+    @Override
+    public boolean onSupportNavigateUp() {
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
+                || super.onSupportNavigateUp();
     }
 }

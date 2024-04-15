@@ -1,118 +1,58 @@
 {
-  "mode1": {
-    "difficulte1": {
-      "leaderboard": [
+  "Normal": {
+    "1": {
+      "leaderboardFacile": [
         {
-          "date": "date",
-          "score": "score",
-          "temps": "temps"
-        },
-        {
-          "date": "date",
-          "score": "score",
-          "temps": "temps"
-        },
-        {
-          "date": "date",
-          "score": "score",
-          "temps": "temps"
+          "date": "02/04/2024",
+          "score": 3,
+          "attempts": 2
         }
       ]
     },
-    "difficulte2": {
-      "leaderboard": [
+    "2": {
+      "leaderboardMoyen": [
         {
-          "date": "date",
-          "score": "score",
-          "temps": "temps"
-        },
-        {
-          "date": "date",
-          "score": "score",
-          "temps": "temps"
-        },
-        {
-          "date": "date",
-          "score": "score",
-          "temps": "temps"
+          "date": "06/04/2024",
+          "score": 3,
+          "attempts": 6
         }
       ]
     },
-    "difficulte3": {
-      "leaderboard": [
+    "3": {
+      "leaderboardDifficile": [
         {
-          "date": "date",
-          "score": "score",
-          "temps": "temps"
-        },
-        {
-          "date": "date",
-          "score": "score",
-          "temps": "temps"
-        },
-        {
-          "date": "date",
-          "score": "score",
-          "temps": "temps"
+          "date": "10/04/2024",
+          "score": 3,
+          "attempts": 10
         }
       ]
     }
   },
-  "mode2": {
-    "difficulte1": {
-      "leaderboard": [
+  "Contre la Montre": {
+    "1": {
+      "leaderboardFacile": [
         {
-          "date": "date",
-          "score": "score",
-          "temps": "temps"
-        },
-        {
-          "date": "date",
-          "score": "score",
-          "temps": "temps"
-        },
-        {
-          "date": "date",
-          "score": "score",
-          "temps": "temps"
+          "date": "02/04/2024",
+          "score": 31,
+          "attempts": 2
         }
       ]
     },
-    "difficulte2": {
-      "leaderboard": [
+    "2": {
+      "leaderboardMoyen": [
         {
-          "date": "date",
-          "score": "score",
-          "temps": "temps"
-        },
-        {
-          "date": "date",
-          "score": "score",
-          "temps": "temps"
-        },
-        {
-          "date": "date",
-          "score": "score",
-          "temps": "temps"
+          "date": "06/04/2024",
+          "score": 35,
+          "attempts": 62
         }
       ]
     },
-    "difficulte3": {
-      "leaderboard": [
+    "3": {
+      "leaderboardDifficile": [
         {
-          "date": "date",
-          "score": "score",
-          "temps": "temps"
-        },
-        {
-          "date": "date",
-          "score": "score",
-          "temps": "temps"
-        },
-        {
-          "date": "date",
-          "score": "score",
-          "temps": "temps"
+          "date": "10/04/2024",
+          "score": 32,
+          "attempts": 101
         }
       ]
     }

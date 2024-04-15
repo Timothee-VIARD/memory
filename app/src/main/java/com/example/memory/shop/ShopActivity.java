@@ -20,7 +20,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShopActivity extends AppCompatActivity implements OnCardBoughtListener {
+public class ShopActivity extends AppCompatActivity implements OnCardBoughtListener, BottomNavFragment.OnFragmentInteractionListener {
     ActivityShopBinding binding;
     private List<TripleCardsFragment> fragments;
     private List<CardFragment> cards;
@@ -29,11 +29,11 @@ public class ShopActivity extends AppCompatActivity implements OnCardBoughtListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        readWriteJSON = new ReadWriteJSON(getApplicationContext());
+        readWriteJSON = new ReadWriteJSON(getApplicationContext(), "cards.json");
         binding = ActivityShopBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        getSupportFragmentManager().beginTransaction().replace(R.id.header, Header.newInstance(R.drawable.logo_shop_drawable, getString(R.string.shop))).commit();
-        getSupportFragmentManager().beginTransaction().replace(R.id.footer, BottomButton.newInstance(getString(R.string.returnString))).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.header, HeaderFragment.newInstance(R.drawable.logo_shop_drawable, getString(R.string.shop))).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.footer, BottomNavFragment.newInstance(getString(R.string.returnString))).commit();
         cards = useJSON();
         fragments = new ArrayList<>();
         // Supprime la carte par défaut et mettre a jour le nombre de cartes
@@ -71,7 +71,7 @@ public class ShopActivity extends AppCompatActivity implements OnCardBoughtListe
     }
 
     private List<CardFragment> useJSON() {
-        String jsonString = readWriteJSON.readJSON();
+        String jsonString = readWriteJSON.readJSON("cards.json");
         List<CardFragment> cards = new ArrayList<>();
         try {
             // Create a JSONObject from the JSON string
@@ -114,7 +114,7 @@ public class ShopActivity extends AppCompatActivity implements OnCardBoughtListe
         card.setBought();
 
         // Mettez à jour le fichier JSON pour refléter le nouvel état de la carte
-        readWriteJSON.editJSON(card.getName(), true);
+        readWriteJSON.editJSONCard(card.getName(), true);
 
         // Mettez à jour les données des fragments existants
         for (int i = 0; i < fragments.size(); i++) {
@@ -145,10 +145,14 @@ public class ShopActivity extends AppCompatActivity implements OnCardBoughtListe
 
         // If the card has been bought, create a new card with the updated state
         if (oldCard.getIsBought()) {
-            readWriteJSON.editJSON(oldCard.getName(), true);
+            readWriteJSON.editJSONCard(oldCard.getName(), true);
             return CardFragment.newInstance(oldCard.getName(), String.valueOf(oldCard.getImage()), oldCard.getPrice(), oldCard.getDescription(), true, oldCard.getRarity(), oldCard.getDefaultCard());
         }
         // Otherwise, return the old card
         return oldCard;
+    }
+
+    @Override
+    public void onPauseGame() {
     }
 }

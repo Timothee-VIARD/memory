@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class InventaireActivity extends AppCompatActivity implements OnCardBoughtListener {
+public class InventaireActivity extends AppCompatActivity implements OnCardBoughtListener, BottomNavFragment.OnFragmentInteractionListener {
     ActivityInventaireBinding binding;
     private List<TripleCardsFragment> fragments;
     private List<CardFragment> cards;
@@ -30,11 +30,11 @@ public class InventaireActivity extends AppCompatActivity implements OnCardBough
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        readWriteJSON = new ReadWriteJSON(getApplicationContext());
+        readWriteJSON = new ReadWriteJSON(getApplicationContext(), "cards.json");
         binding = ActivityInventaireBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        getSupportFragmentManager().beginTransaction().replace(R.id.header, Header.newInstance(R.drawable.logo_inventory_drawable, getString(R.string.inventory))).commit();
-        getSupportFragmentManager().beginTransaction().replace(R.id.footer, BottomButton.newInstance(getString(R.string.returnString))).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.header, HeaderFragment.newInstance(R.drawable.logo_inventory_drawable, getString(R.string.inventory))).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.footer, BottomNavFragment.newInstance(getString(R.string.returnString))).commit();
         cards = useJSON();
         fragments = new ArrayList<>();
 
@@ -80,7 +80,7 @@ public class InventaireActivity extends AppCompatActivity implements OnCardBough
     }
 
     private List<CardFragment> useJSON() {
-        String jsonString = readWriteJSON.readJSON();
+        String jsonString = readWriteJSON.readJSON("cards.json");
         List<CardFragment> cards = new ArrayList<>();
         try {
             // Create a JSONObject from the JSON string
@@ -147,10 +147,14 @@ public class InventaireActivity extends AppCompatActivity implements OnCardBough
         }
         // If the card has been bought, create a new card with the updated state
         if (oldCard.getIsBought()) {
-            readWriteJSON.editJSON(oldCard.getName(), true, oldCard.getSelected());
+            readWriteJSON.editJSONCard(oldCard.getName(), true, oldCard.getSelected());
             return CardFragment.newInstance(oldCard.getName(), String.valueOf(oldCard.getImage()), oldCard.getPrice(), oldCard.getDescription(), true, oldCard.getRarity(), oldCard.getInventory(), oldCard.getSelected());
         }
         // Otherwise, return the old card
         return oldCard;
+    }
+
+    @Override
+    public void onPauseGame() {
     }
 }

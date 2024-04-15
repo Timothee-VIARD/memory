@@ -17,7 +17,9 @@ import com.example.memory.navigation.HeaderFragment;
 import com.example.memory.utilities.ReadWriteJSON;
 import com.google.android.material.navigation.NavigationView;
 
-public class HomeActivity extends AppCompatActivity implements BottomNavFragment.OnFragmentInteractionListener{
+import java.util.Locale;
+
+public class HomeActivity extends AppCompatActivity implements BottomNavFragment.OnFragmentInteractionListener {
 
     private ActivityMenuGameBinding binding;
     private AppBarConfiguration mAppBarConfiguration;
@@ -25,9 +27,13 @@ public class HomeActivity extends AppCompatActivity implements BottomNavFragment
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Copier le fichier JSON vers le stockage interne
+        ReadWriteJSON readWriteJSONCards = new ReadWriteJSON(getApplicationContext(), "cards.json");
+        ReadWriteJSON readWriteJSONLeaderboard = new ReadWriteJSON(getApplicationContext(), "leaderboard.json");
 
-        ReadWriteJSON readWriteJSON = new ReadWriteJSON(getApplicationContext());
-        readWriteJSON.setJSON();
+        // TODO : Supprimer les lignes suivantes
+//        readWriteJSONCards.setJSON("cards.json");
+//        readWriteJSONLeaderboard.setJSON("leaderboard.json");
 
         binding = ActivityMenuGameBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -63,7 +69,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavFragment
             else if (conf.getLocales().get(0).getLanguage().equals("en"))
                 conf.setLocale(new Locale("fr"));
             res.updateConfiguration(conf, res.getDisplayMetrics());
-            Intent intent = new Intent(this, MenuGame.class);
+            Intent intent = new Intent(this, HomeActivity.class);
             startActivity(intent);
             finish();
         });

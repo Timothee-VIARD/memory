@@ -162,10 +162,6 @@ public class BottomNavFragment extends Fragment {
                         SharedPreferences sharedPref = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
                         intent.putExtra("difficulty", sharedPref.getInt("seekBarValue", 0) + 1);
                         intent.putExtra("mode", sharedPref.getString("mode", "Normal"));
-                    } else if (message2.equals(getString(R.string.continuer))) {
-                        //TODO: fermer le dialog box
-                    } else if (message2.equals(getString(R.string.restart))) {
-                        //TODO : regenerer la page
                     } else if (message2.equals(getString(R.string.stop))) {
                         intent = new Intent(getActivity(), HomeActivity.class);
                     }

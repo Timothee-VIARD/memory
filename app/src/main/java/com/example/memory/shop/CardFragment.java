@@ -126,7 +126,7 @@ public class CardFragment extends Fragment implements Serializable {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        readWriteJSON = new ReadWriteJSON(getContext());
+        readWriteJSON = new ReadWriteJSON(getContext(), "cards.json");
         binding = FragmentCardBinding.inflate(inflater, container, false);
         binding.cardImage.setImageResource(getResources().getIdentifier(image, "drawable", requireActivity().getPackageName()));
         switch (rarete) {
@@ -391,7 +391,7 @@ public class CardFragment extends Fragment implements Serializable {
                 if (dialogCardNumber.getText().toString().equals("4242424242424242") && dialogCardExpiration.getText().toString().equals("12/42") && dialogCardCVV.getText().toString().equals("424") && dialogCardName.getText().toString().equals("ESEO")) {
                     setBought();
                     if (listener != null) {
-                        listener.onCardBought(Card.this);
+                        listener.onCardBought(CardFragment.this);
                     }
                     alertDialog.dismiss();
                 } else {
@@ -508,7 +508,7 @@ public class CardFragment extends Fragment implements Serializable {
             setArguments(args);
         }
         if (readWriteJSON != null) {
-            readWriteJSON.editJSON(getName(), getIsBought(), selected);
+            readWriteJSON.editJSONCard(getName(), getIsBought(), selected);
         }
     }
 

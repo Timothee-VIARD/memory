@@ -2,21 +2,23 @@ package com.example.memory.game;
 
 import static java.lang.Math.round;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Dialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.memory.navigation.BottomNavFragment;
-import com.example.memory.navigation.HeaderFragment;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.memory.HomeActivity;
 import com.example.memory.R;
 import com.example.memory.cards.GameCard;
 import com.example.memory.databinding.ActivityGameBinding;
+import com.example.memory.navigation.BottomNavFragment;
+import com.example.memory.navigation.HeaderFragment;
+import com.example.memory.utilities.ReadWriteJSON;
 import com.google.android.flexbox.AlignContent;
 import com.google.android.flexbox.AlignItems;
 import com.google.android.flexbox.FlexDirection;
@@ -24,6 +26,7 @@ import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.flexbox.JustifyContent;
 
+import java.text.ParseException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -34,6 +37,7 @@ public class GameActivity extends AppCompatActivity implements BottomNavFragment
     private String mode;
     private int widthCard = 383;
     private int heightCard = 536;
+    private ReadWriteJSON readWriteJSON;
     private Timer timer;
     private int seconds = 0;
     private int cardSet = R.drawable.basic_set;
@@ -47,9 +51,10 @@ public class GameActivity extends AppCompatActivity implements BottomNavFragment
         startTimer(false);
 
         Intent intent = getIntent();
-        this.difficulty = intent.getIntExtra("difficulty", 1);
+        this.difficulty = intent.getIntExtra("difficulty", 0);
         this.mode = intent.getStringExtra("mode");
 
+        readWriteJSON = new ReadWriteJSON(getApplicationContext(), "leaderboard.json");
         TextView modeView = findViewById(R.id.mode);
         modeView.setText(mode);
         TextView difficultyView = findViewById(R.id.difficulty);
@@ -117,6 +122,13 @@ public class GameActivity extends AppCompatActivity implements BottomNavFragment
     public void endGame() {
         stopTimer();
         Dialog dialog = new Dialog(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            try {
+                readWriteJSON.editJSONLeaderboard(mode, String.valueOf(difficulty), game.getScore(), game.getAttempts());
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+        }
         dialog.setContentView(R.layout.menu_dialog);
         TextView title = dialog.findViewById(R.id.title);
         TextView score = dialog.findViewById(R.id.score);

@@ -1,7 +1,5 @@
 package com.example.memory.game.gameSetting;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,6 +8,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.SeekBar;
 import android.widget.Spinner;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.memory.R;
 import com.example.memory.databinding.ActivityMenuStartBinding;
@@ -29,8 +29,8 @@ public class MenuStartActivity extends AppCompatActivity implements BottomNavFra
         super.onCreate(savedInstanceState);
         binding = ActivityMenuStartBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        getSupportFragmentManager().beginTransaction().replace(R.id.headerStart, Header.newInstance(R.drawable.logo_drawable_main, getString(R.string.start), getString(R.string.game_select))).commit();
-        getSupportFragmentManager().beginTransaction().replace(R.id.buttonsStart, BottomButton.newInstance(getString(R.string.returnString), getString(R.string.start))).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.headerStart, HeaderFragment.newInstance(R.drawable.logo_drawable_main, getString(R.string.start), getString(R.string.game_select))).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.buttonsStart, BottomNavFragment.newInstance(getString(R.string.returnString), getString(R.string.start))).commit();
         spinner = findViewById(R.id.spinnerStart);
         List<String> choice = new ArrayList<>();
         choice.add(getString(R.string.gamemode1));
@@ -38,6 +38,19 @@ public class MenuStartActivity extends AppCompatActivity implements BottomNavFra
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, choice);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                SeekBar seekBar = findViewById(R.id.seekBarStart);
+                setPreferences(seekBar.getProgress(), spinner.getSelectedItem().toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         //Récupération de la difficulté choisie dans la seek bar
         SeekBar seekBar = findViewById(R.id.seekBarStart);
@@ -82,6 +95,5 @@ public class MenuStartActivity extends AppCompatActivity implements BottomNavFra
 
     @Override
     public void onPauseGame() {
-
     }
 }

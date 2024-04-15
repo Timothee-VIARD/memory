@@ -56,6 +56,8 @@
     <string name="information_erron_e">Information erronée</string>
     <string name="specialChamp">En cochant cette case, vous évitez le moyen de payement, en contre partie de l\'accord suivant en bas de page*.</string>
     <string name="autre_mode_de_paiement">Autre mode de paiement :</string>
+    <string name="normal">Normal</string>
+    <string name="contre_la_montre">Contre la Montre</string>
 
     <!--String pour la navigation bar-->
     <string name="title_activity_setting">Setting</string>

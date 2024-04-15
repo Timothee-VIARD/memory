@@ -63,7 +63,7 @@
     <string name="menu_home">Accueil</string>
     <string name="about">A propos</string>
     <string name="language_selector">Choix de la langue :</string>
-    <string name="about_string">Voici le projet Android des meilleurs : DIBKE Mathis, MAIGNAN Clémence et Viard Timothée.</string>
+    <string name="about_string">Voici le projet Android des meilleurs : DIBKE Mathis, MAIGNAN Clémence et VIARD Timothée.</string>
     <string name="github_string">Vous trouverez le projet sur le github de VIARD Timothée : https://github.com/Timothee-VIARD/memory</string>
     <string name="easter_egg">Si vous êtes arrivé jusque ici, c\'est que vous vous êtes perdu. Mais vous repartez avec un petit cadeau : un cookie ! 🍪. \n\nVous gagnez aussi les codes d\'une carte bancaires utilisable UNIQUEMENT sur notre application, profitez-en ! (Numéro de carte : 4242 4242 4242 4242, Date d\'expiration : 12/24, Code de sécurité : 424, Nom : ESEO)</string>
 </resources>

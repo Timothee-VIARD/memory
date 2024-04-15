@@ -20,12 +20,30 @@
             android:layout_marginTop="5dp"
             android:text="@string/language_selector" />
 
-        <CheckBox
-            android:id="@+id/checkBoxLanguage"
-            style="@style/Secondary"
-            android:layout_width="200dp"
-            android:layout_height="75dp"
-            android:drawableLeft="@drawable/fr"
-            android:gravity="center" />
+        <RadioGroup
+            android:id="@+id/radioGroupLanguage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/radioButtonFrench"
+                style="@style/Secondary"
+                android:layout_width="wrap_content"
+                android:layout_height="75dp"
+                android:gravity="center"
+                android:drawableStart="@drawable/fr_drawable"/>
+
+            <RadioButton
+                android:id="@+id/radioButtonEnglish"
+                style="@style/Secondary"
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:gravity="center"
+                android:drawableStart="@drawable/en_drawable"/>
+        </RadioGroup>
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

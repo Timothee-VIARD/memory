@@ -16,14 +16,14 @@
     <color name="primaryVariantDark">@color/black</color>
     <color name="onPrimaryDark">@color/black</color>
 
-    <!-- Card Background Colors -->
+    <!-- CardFragment Background Colors -->
     <color name="background">#FFD3D3D3</color>
     <color name="background_dark">#FFA9A9A9</color>
 
-    <!-- Card Text Colors -->
+    <!-- CardFragment Text Colors -->
     <color name="text">@color/black</color>
 
-    <!-- Card Border Colors -->
+    <!-- CardFragment Border Colors -->
     <color name="border">@color/black</color>
 
     <!-- Color Rarity Cards -->
@@ -34,6 +34,6 @@
     <color name="legendary">#FFFFA500</color>
     <color name="unique">#FFFF0000</color>
 
-    <!-- Card lock colors -->
+    <!-- CardFragment lock colors -->
     <color name="locked">#51000000</color>
 </resources>

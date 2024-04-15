@@ -1,4 +1,4 @@
-package com.example.memory;
+package com.example.memory.utilities;
 
 import android.content.Context;
 

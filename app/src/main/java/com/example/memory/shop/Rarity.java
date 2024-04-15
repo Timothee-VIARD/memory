@@ -1,4 +1,4 @@
-package com.example.memory;
+package com.example.memory.shop;
 
 public enum Rarity {
     COMMON(0),     // 0

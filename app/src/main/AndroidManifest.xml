@@ -13,25 +13,23 @@
         android:theme="@style/Theme.Memory"
         tools:targetApi="31">
         <activity
-            android:name=".MenuStart"
-            android:exported="false"
-            android:screenOrientation="portrait" />
+            android:name=".game.gameSetting.MenuStartActivity"
+            android:exported="true" />
         <activity
-            android:name=".Leaderboard"
-            android:exported="false"
-            android:screenOrientation="portrait" />
+            android:name=".game.LeaderboardActivity"
+            android:exported="true" />
         <activity
-            android:name=".Inventaire"
-            android:exported="false"
-            android:screenOrientation="portrait" />
+            android:name=".game.GameActivity"
+            android:exported="true" />
         <activity
-            android:name=".Shop"
-            android:exported="false"
-            android:screenOrientation="portrait" />
+            android:name=".shop.InventaireActivity"
+            android:exported="true" />
         <activity
-            android:name=".MenuGame"
-            android:exported="true"
-            android:screenOrientation="portrait">
+            android:name=".shop.ShopActivity"
+            android:exported="true" />
+        <activity
+            android:name=".HomeActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

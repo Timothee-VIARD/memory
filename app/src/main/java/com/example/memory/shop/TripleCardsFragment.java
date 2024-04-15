@@ -1,4 +1,4 @@
-package com.example.memory;
+package com.example.memory.shop;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,20 +7,25 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.memory.R;
 import com.example.memory.databinding.FragmentTripleCardsBinding;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link TripleCards#newInstance} factory method to
+ * Use the {@link TripleCardsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TripleCards extends Fragment {
+public class TripleCardsFragment extends Fragment {
 
-    private Card card1 = null;
-    private Card card2 = null;
-    private Card card3 = null;
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
-    public TripleCards() {
+    // TODO: Rename and change types of parameters
+    private CardFragment card1 = null;
+    private CardFragment card2 = null;
+    private CardFragment card3 = null;
+
+    public TripleCardsFragment() {
         // Required empty public constructor
     }
 
@@ -33,8 +38,9 @@ public class TripleCards extends Fragment {
      * @param card3 Third card.
      * @return A new instance of fragment Triple_Cards.
      */
-    public static TripleCards newInstance(Card card1, Card card2, Card card3) {
-        TripleCards fragment = new TripleCards();
+    public static TripleCardsFragment newInstance(CardFragment card1, CardFragment card2, CardFragment card3) {
+        TripleCardsFragment fragment = new TripleCardsFragment();
+    // TODO: Rename and change types and number of parameters
         Bundle args = new Bundle();
         if (card1 != null)
             args.putSerializable("cardA", card1);
@@ -51,11 +57,11 @@ public class TripleCards extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             if (getArguments().getSerializable("cardA") != null)
-                card1 = (Card) getArguments().getSerializable("cardA");
+                card1 = (CardFragment) getArguments().getSerializable("cardA");
             if (getArguments().getSerializable("cardB") != null)
-                card2 = (Card) getArguments().getSerializable("cardB");
+                card2 = (CardFragment) getArguments().getSerializable("cardB");
             if (getArguments().getSerializable("cardC") != null)
-                card3 = (Card) getArguments().getSerializable("cardC");
+                card3 = (CardFragment) getArguments().getSerializable("cardC");
         }
     }
 
@@ -77,26 +83,26 @@ public class TripleCards extends Fragment {
         return binding.getRoot();
     }
 
-    public Card getCard1() {
+    public CardFragment getCard1() {
         return card1;
     }
 
-    public Card getCard2() {
+    public CardFragment getCard2() {
         return card2;
     }
 
-    public Card getCard3() {
+    public CardFragment getCard3() {
         return card3;
     }
 
-    public void setCard1(Card card) {
+    public void setCard1(CardFragment card) {
         card1 = card;
     }
-    public void setCard2(Card card) {
+    public void setCard2(CardFragment card) {
         card2 = card;
     }
 
-    public void setCard3(Card card) {
+    public void setCard3(CardFragment card) {
         card3 = card;
     }
 }

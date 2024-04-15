@@ -1,4 +1,4 @@
-package com.example.memory;
+package com.example.memory.navigation;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,10 +11,10 @@ import com.example.memory.databinding.FragmentHeaderBinding;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link Header#newInstance} factory method to
+ * Use the {@link HeaderFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Header extends Fragment {
+public class HeaderFragment extends Fragment {
 
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class Header extends Fragment {
     private String title;
     private String description;
 
-    public Header() {
+    public HeaderFragment() {
         // Required empty public constructor
     }
 
@@ -37,10 +37,11 @@ public class Header extends Fragment {
      * @param imageID     Parameter 1.
      * @param title       Parameter 2.
      * @param description Parameter 3.
-     * @return A new instance of fragment Header.
+     * @return A new instance of fragment HeaderFragment.
      */
-    public static Header newInstance(int imageID, String title, String description) {
-        Header fragment = new Header();
+    public static HeaderFragment newInstance(int imageID, String title, String description) {
+        HeaderFragment fragment = new HeaderFragment();
+    // TODO: Rename and change types and number of parameters
         Bundle args = new Bundle();
         args.putInt(IMAGE, imageID);
         args.putString(TITLE, title);
@@ -49,8 +50,8 @@ public class Header extends Fragment {
         return fragment;
     }
 
-    public static Header newInstance(int imageID, String title) {
-        Header fragment = new Header();
+    public static HeaderFragment newInstance(int imageID, String title) {
+        HeaderFragment fragment = new HeaderFragment();
         Bundle args = new Bundle();
         args.putInt(IMAGE, imageID);
         args.putString(TITLE, title);

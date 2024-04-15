@@ -1,33 +1,39 @@
-package com.example.memory;
+package com.example.memory.navigation;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.fragment.app.Fragment;
 
-import com.example.memory.databinding.FragmentBottomButtonBinding;
+import com.example.memory.HomeActivity;
+import com.example.memory.R;
+import com.example.memory.databinding.FragmentBottomNavBinding;
+import com.example.memory.game.GameActivity;
+import com.example.memory.shop.InventaireActivity;
+import com.example.memory.shop.ShopActivity;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link BottomButton#newInstance} factory method to
+ * Use the {@link BottomNavFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class BottomButton extends Fragment {
+public class BottomNavFragment extends Fragment {
 
     private String message;
     private String message2;
     private int nbButton; //faire le nombre de bouton, en invisble ou pas ?
-    private FragmentBottomButtonBinding binding;
+    private FragmentBottomNavBinding binding;
+    private OnFragmentInteractionListener mListener;
 
     /**
      * Use this factory method to create a new instance of templateButton
      */
-    public BottomButton() {
+    public BottomNavFragment() {
     }
 
     /**
@@ -37,8 +43,8 @@ public class BottomButton extends Fragment {
      * @param message the message in the button.
      * @return A new instance of fragment TemplateButton.
      */
-    public static BottomButton newInstance(String message, String message2) {
-        BottomButton fragment = new BottomButton();
+    public static BottomNavFragment newInstance(String message, String message2) {
+        BottomNavFragment fragment = new BottomNavFragment();
         Bundle args = new Bundle();
         args.putString("MESSAGE", message);
         args.putString("MESSAGE2", message2);
@@ -48,18 +54,24 @@ public class BottomButton extends Fragment {
     }
 
 
-    public static BottomButton newInstance(String message) {
-        BottomButton fragment = new BottomButton();
+    public static BottomNavFragment newInstance(String message) {
+        BottomNavFragment fragment = new BottomNavFragment();
         Bundle args = new Bundle();
         args.putString("MESSAGE", message);
         args.putInt("NB_BUTTON", 1);
         fragment.setArguments(args);
         return fragment;
     }
+
+    public interface OnFragmentInteractionListener {
+        void onPauseGame();
+    }
+
     /**
      * Called when the fragment is being created.
+     *
      * @param savedInstanceState If the fragment is being re-created from
-     * a previous saved state, this is the state.
+     *                           a previous saved state, this is the state.
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,6 +81,17 @@ public class BottomButton extends Fragment {
             message2 = getArguments().getString("MESSAGE2", null);
             nbButton = getArguments().getInt("NB_BUTTON", 0);
 
+        }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
         }
     }
 
@@ -86,8 +109,8 @@ public class BottomButton extends Fragment {
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentBottomButtonBinding.inflate(inflater, container, false);
-        //BottomButton but = 
+        binding = FragmentBottomNavBinding.inflate(inflater, container, false);
+        //BottomNavFragment but =
         if (nbButton == 1) {
             binding.button2.setVisibility(View.INVISIBLE);
             binding.button3.setVisibility(View.INVISIBLE);
@@ -96,7 +119,7 @@ public class BottomButton extends Fragment {
             binding.button1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(getActivity(), MenuGame.class);
+                    Intent intent = new Intent(getActivity(), HomeActivity.class);
                     startActivity(intent);
                     getActivity().finish();
                 }
@@ -112,15 +135,15 @@ public class BottomButton extends Fragment {
                 public void onClick(View v) {
                     Intent intent = null;
                     if (message.equals(getString(R.string.returnString))) {
-                        intent = new Intent(getActivity(), MenuGame.class);
+                        intent = new Intent(getActivity(), HomeActivity.class);
                     } else if (message.equals(getString(R.string.inventory))) {
-                        intent = new Intent(getActivity(), Inventaire.class);
+                        intent = new Intent(getActivity(), InventaireActivity.class);
                     } else if (message.equals(getString(R.string.menu))) {
-                        intent = new Intent(getActivity(), MenuGame.class);
+                        intent = new Intent(getActivity(), HomeActivity.class);
                     } else if (message.equals(getString(R.string.pause))) {
-                        //TODO : generer la dialog box
+                        mListener.onPauseGame();
                     } else if (message.equals(getString(R.string.stop))) {
-                        intent = new Intent(getActivity(), MenuGame.class);
+                        intent = new Intent(getActivity(), HomeActivity.class);
                     }
                     if (intent != null) {
                         startActivity(intent);
@@ -133,16 +156,18 @@ public class BottomButton extends Fragment {
                 public void onClick(View v) {
                     Intent intent = null;
                     if (message2.equals(getString(R.string.shop))) {
-                        intent = new Intent(getActivity(), Shop.class);
+                        intent = new Intent(getActivity(), ShopActivity.class);
                     } else if (message2.equals(getString(R.string.start))) {
-                        //TODO: remove comment
-                        // intent = new Intent(getActivity(), GameActivity.class);
+                        intent = new Intent(getActivity(), GameActivity.class);
+                        SharedPreferences sharedPref = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+                        intent.putExtra("difficulty", sharedPref.getInt("seekBarValue", 0) + 1);
+                        intent.putExtra("mode", sharedPref.getString("mode", "Normal"));
                     } else if (message2.equals(getString(R.string.continuer))) {
                         //TODO: fermer le dialog box
                     } else if (message2.equals(getString(R.string.restart))) {
                         //TODO : regenerer la page
                     } else if (message2.equals(getString(R.string.stop))) {
-                        intent = new Intent(getActivity(), MenuGame.class);
+                        intent = new Intent(getActivity(), HomeActivity.class);
                     }
                     if (intent != null) {
                         startActivity(intent);

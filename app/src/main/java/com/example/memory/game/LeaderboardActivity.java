@@ -1,4 +1,4 @@
-package com.example.memory;
+package com.example.memory.game;
 
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
@@ -7,11 +7,13 @@ import android.widget.Spinner;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.memory.databinding.ActivityLeaderboardBinding;
+import com.example.memory.navigation.BottomNavFragment;
+import com.example.memory.navigation.HeaderFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Leaderboard extends AppCompatActivity {
+public class LeaderboardActivity extends AppCompatActivity {
 
     private ActivityLeaderboardBinding binding;
 

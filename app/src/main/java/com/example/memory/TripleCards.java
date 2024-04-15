@@ -16,10 +16,6 @@ import com.example.memory.databinding.FragmentTripleCardsBinding;
  */
 public class TripleCards extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-
-    // TODO: Rename and change types of parameters
     private Card card1 = null;
     private Card card2 = null;
     private Card card3 = null;
@@ -37,7 +33,6 @@ public class TripleCards extends Fragment {
      * @param card3 Third card.
      * @return A new instance of fragment Triple_Cards.
      */
-    // TODO: Rename and change types and number of parameters
     public static TripleCards newInstance(Card card1, Card card2, Card card3) {
         TripleCards fragment = new TripleCards();
         Bundle args = new Bundle();

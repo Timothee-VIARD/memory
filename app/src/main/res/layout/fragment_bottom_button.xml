@@ -32,7 +32,7 @@
             <Button
                 android:id="@+id/button2"
                 style="@style/Secondary"
-                android:layout_width="130dp"
+                android:layout_width="140dp"
                 android:layout_height="50dp"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
@@ -42,7 +42,7 @@
             <Button
                 android:id="@+id/button3"
                 style="@style/Secondary"
-                android:layout_width="130dp"
+                android:layout_width="140dp"
                 android:layout_height="50dp"
                 android:layout_margin="5dp"
                 android:layout_weight="1"

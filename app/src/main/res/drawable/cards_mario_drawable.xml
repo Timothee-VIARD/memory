@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:drawable="@drawable/cards_mario"
+        android:width="@dimen/widhtSkinCard"
+        android:height="@dimen/heightSkinCard" />
+</layer-list >

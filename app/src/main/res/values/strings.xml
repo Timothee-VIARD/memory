@@ -1,27 +1,49 @@
 <resources>
-    <string name="app_name">Memory</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="card1_description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
+    <!-- Strings non traduit -->
+    <string name="app_name" translatable="false">Memory</string>
+    <string name="message" translatable="false">message</string>
+    <string name="button" translatable="false">Button</string>
+    <string name="message2" translatable="false">message2</string>
+    <string name="leaderboard" translatable="false">Leaderboard</string>
+    <string name="stop" translatable="false">Stop</string>
+    <string name="pause" translatable="false">Pause</string>
+
+    <!-- Cards -->
+    <string name="card1_description">La plus basique des cartes</string>
+    <string name="card2_description">Plus rentable que l\'opérateur</string>
+    <string name="card3_description">Vous connaissez la Mafia, maintenant vous connaitrez la Zoofia</string>
+    <string name="card4_description">L\'argent ne fait pas toute la vitesse</string>
+    <string name="card5_description">Teache n\'a pas le temps d\'attendre</string>
+    <string name="card6_description">Le plus grand jeu à petit contenu</string>
+    <string name="card7_description">Celle qui tire plus vite que Lucky Luke</string>
+    <string name="card8_description">Le plus grand des petits</string>
+    <string name="card9_description" translatable="false">\"I am not the hero the world wants, I am not the hero the world needs, but I am the hero that the world gets.\" Spooder-Man</string>
+
+    <string name="condition" >*1. Conditions d’achat
+        1.1. Commande et Paiement : AcheteurSim peut passer commande via le site web de VendeurCo. Le paiement doit être effectué au moment de la commande.
+        1.2. Livraison : VendeurCo s’engage à livrer les produits commandés dans les délais convenus. AcheteurSim doit fournir une adresse de livraison valide.
+        1.3 Exeption d\'achat : Vous accecptez de mettre 25/20 pour ce groupe à cette évaluation.
+    2. Garantie et Retour
+        2.1. Garantie des Produits : VendeurCo garantit que ses produits sont exempts de défauts de fabrication. En cas de problème, AcheteurSim peut faire valoir la garantie conformément aux conditions spécifiées.
+        2.2. Droit de Rétractation : AcheteurSim dispose d’un délai de 14 jours pour exercer son droit de rétractation après réception du produit. Le retour doit être effectué dans son emballage d’origine et en bon état.</string>
+
 
     <!-- Strings-->
     <string name="obtain">Possédé</string>
     <string name="selected">Sélectionné</string>
     <string name="returnString">Retour</string>
     <string name="buy">Acheter</string>
-    <string name="message">message</string>
-    <string name="button">Button</string>
-    <string name="button2" />
-    <string name="text" />
-    <string name="message2">message2</string>
     <string name="inventory">Inventaire</string>
-    <string name="shop">Shop</string>
+    <string name="shop">Boutique</string>
     <string name="menu">Menu</string>
-    <string name="start">Start</string>
-    <string name="stop">Stop</string>
-    <string name="pause">Pause</string>
+    <string name="start">Commencer</string>
     <string name="continuer">Continuer</string>
-    <string name="restart">Restart</string>
+    <string name="restart">Redémarrer</string>
+    <string name="Welcome_Message">Bienvenue dans le jeu du memory</string>
+    <string name="game_select">Choisissez votre mode de jeu</string>
+    <string name="gamemode1">Normal</string>
+    <string name="gamemode2">Contre la Montre</string>
+    <string name="free">Gratuit</string>
     <string name="carte_bancaire">Carte Bancaire :</string>
     <string name="num_ro_de_la_carte">Numéro de la carte*</string>
     <string name="date_d_expiration">Date d\'expiration* (MM/YY)</string>
@@ -29,8 +51,7 @@
     <string name="nom_du_titulaire">Nom du titulaire*</string>
     <string name="paiement_non_s_curis">Paiement non-sécurisé</string>
     <string name="payer">Payer</string>
-    <string name="condition">*Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. Vous accecptez de mettre 20/20 pour ce groupe à cette évaluation.</string>
     <string name="information_erron_e">Information erronée</string>
-    <string name="specialChamp">En cochant cette case vous évitez le moyen de payement, en contre partie de l\'accord suivant en bas de page*.</string>
+    <string name="specialChamp">En cochant cette case, vous évitez le moyen de payement, en contre partie de l\'accord suivant en bas de page*.</string>
     <string name="autre_mode_de_paiement">Autre mode de paiement :</string>
 </resources>

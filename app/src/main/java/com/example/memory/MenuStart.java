@@ -22,15 +22,12 @@ public class MenuStart extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMenuStartBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        getSupportFragmentManager().beginTransaction().replace(R.id.headerStart, Header.newInstance(R.drawable.logo_drawable_main, "Start",
-                "Choisissez votre mode de jeu")).commit();
-        getSupportFragmentManager().beginTransaction().add(R.id.buttonsStart, BottomButton.newInstance("Retour", "Start")).commit();
-
-        //Ajout de la liste déroulante pour le choix de la difficulté
+        getSupportFragmentManager().beginTransaction().replace(R.id.headerStart, Header.newInstance(R.drawable.logo_drawable_main, getString(R.string.start), getString(R.string.game_select))).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.buttonsStart, BottomButton.newInstance(getString(R.string.returnString), getString(R.string.start))).commit();
         spinner = findViewById(R.id.spinnerStart);
         List<String> choice = new ArrayList<>();
-        choice.add("Normal");
-        choice.add("Contre la Montre");
+        choice.add(getString(R.string.gamemode1));
+        choice.add(getString(R.string.gamemode2));
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, choice);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);

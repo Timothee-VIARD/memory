@@ -51,6 +51,16 @@
                 android:onClick="onClick"
                 android:text="Leaderboard" />
 
+            <CheckBox
+                android:id="@+id/languageButton"
+                style="@style/Secondary"
+                android:layout_width="200dp"
+                android:layout_height="75dp"
+                android:layout_gravity="center"
+                android:layout_margin="15dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:drawableStart="@drawable/fr"/>
         </LinearLayout>
 
         <LinearLayout

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Cards -->
+    <string name="card1_description">The most basic of cards</string>
+    <string name="card2_description">More profitable than the operator</string>
+    <string name="card3_description">You know the Mafia, now you will know the Zoofia</string>
+    <string name="card4_description">Money doesn\'t make all the speed</string>
+    <string name="card5_description">Teache doesn\'t have time to wait</string>
+    <string name="card6_description">The biggest game with little content</string>
+    <string name="card7_description">The one who shoots faster than Lucky Luke</string>
+    <string name="card8_description">The biggest of the small</string>
+
+    <string name="condition">*1. Object of the Agreement
+        The purpose of this Agreement is to define the terms of purchase, delivery, warranty and return of the products sold by SellerCo to BuyerSim.
+        1.1. Purchase and Payment: BuyerSim can place an order via the SellerCo website. Payment must be made at the time of the order.
+        1.2. Delivery: SellerCo undertakes to deliver the products ordered within the agreed deadlines. BuyerSim must provide a valid delivery address.
+        1.3. Purchase Exception: You agree to give this group a 25/20 rating.
+    2. Warranty and Return
+        2.1. Product Warranty: SellerCo guarantees that its products are free from manufacturing defects. In case of a problem, BuyerSim can assert the warranty in accordance with the specified conditions.
+        2.2. Right of Withdrawal: BuyerSim has a period of 14 days to exercise his right of withdrawal after receiving the product. The return must be made in its original packaging and in good condition.</string>
+
+    <!-- Strings Traduit -->
+    <string name="obtain">Owned</string>
+    <string name="selected">Selected</string>
+    <string name="returnString">Return</string>
+    <string name="buy">Buy</string>
+    <string name="inventory">Inventory</string>
+    <string name="shop">Shop</string>
+    <string name="menu">Menu</string>
+    <string name="start">Start</string>
+    <string name="restart">Restart</string>
+    <string name="game_select">Select your gamemode</string>
+    <string name="free">Free</string>
+    <string name="continuer">Continue</string>
+    <string name="Welcome_Message">Welcome to the memory game</string>
+    <string name="gamemode1">Normal</string>
+    <string name="gamemode2">Against the Clock</string>
+    <string name="carte_bancaire">Credit Card :</string>
+    <string name="num_ro_de_la_carte">Card number*</string>
+    <string name="date_d_expiration">Expiration date* (MM/YY)</string>
+    <string name="cryptogramme_visuel">Visual cryptogram*</string>
+    <string name="nom_du_titulaire">Name of the holder*</string>
+    <string name="paiement_non_s_curis">Unsecure payment</string>
+    <string name="payer">Pay</string>
+    <string name="information_erron_e">Incorrect information</string>
+    <string name="specialChamp">By checking this box you avoid the means of payment, in return for the agreement below*</string>
+    <string name="autre_mode_de_paiement">Other payment method :</string>
+
+</resources>

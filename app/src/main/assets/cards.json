@@ -1,244 +1,95 @@
 {
   "cards": [
     {
-      "name": "Card 1",
-      "image": "basicskin_drawable",
+      "name": "Basic Simple",
+      "image": "cards_basicskin_drawable",
       "description": "card1_description",
-      "prix": "19.99",
+      "prix": "Free",
       "estAchetee": true,
       "rarete": "Common",
       "selected": true,
       "default": true
     },
     {
-      "name": "Card 2",
-      "image": "basicskin_drawable",
-      "description": "card1_description",
-      "prix": "9.99",
-      "estAchetee": false,
-      "rarete": "Uncommon",
-      "selected": false,
-      "default": false
-    },
-    {
-      "name": "Card 3",
-      "image": "basicskin_drawable",
-      "description": "card1_description",
-      "prix": "29.99",
-      "estAchetee": true,
-      "rarete": "Rare",
-      "selected": true,
-      "default": false
-    },
-    {
-      "name": "Card 4",
-      "image": "basicskin_drawable",
-      "description": "card1_description",
-      "prix": "59.99",
-      "estAchetee": false,
-      "rarete": "Epic",
-      "selected": false,
-      "default": false
-    },
-    {
-      "name": "Card 5",
-      "image": "basicskin_drawable",
-      "description": "card1_description",
-      "prix": "109.99",
-      "estAchetee": true,
-      "rarete": "Legendary",
-      "selected": true,
-      "default": false
-    },
-    {
-      "name": "Card 6",
-      "image": "basicskin_drawable",
-      "description": "card1_description",
-      "prix": "209.99",
+      "name": "Free",
+      "image": "cards_basicskin2_drawable",
+      "description": "card2_description",
+      "prix": "Free",
       "estAchetee": false,
       "rarete": "Common",
       "selected": false,
       "default": false
     },
     {
-      "name": "Card 7",
-      "image": "basicskin_drawable",
-      "description": "card1_description",
-      "prix": "409.99",
-      "estAchetee": false,
-      "rarete": "Rare",
-      "selected": false,
-      "default": false
-    },
-    {
-      "name": "Card 8",
-      "image": "basicskin_drawable",
-      "description": "card1_description",
-      "prix": "809.99",
-      "estAchetee": false,
-      "rarete": "Epic",
-      "selected": false,
-      "default": false
-    },
-    {
-      "name": "Card 9",
-      "image": "basicskin_drawable",
-      "description": "card1_description",
-      "prix": "1 609.99",
-      "estAchetee": false,
-      "rarete": "Uncommon",
-      "selected": false,
-      "default": false
-    },
-    {
-      "name": "Card 10",
-      "image": "basicskin_drawable",
-      "description": "card1_description",
-      "prix": "3 209.99",
+      "name": "Le Zoo",
+      "image": "cards_zoo_drawable",
+      "description": "card3_description",
+      "prix": "999 999 999 999 999,99",
       "estAchetee": false,
       "rarete": "Unique",
       "selected": false,
       "default": false
     },
     {
-      "name": "Card 11",
-      "image": "basicskin_drawable",
-      "description": "card1_description",
-      "prix": "6 419.99",
+      "name": "3ario",
+      "image": "cards_mario_drawable",
+      "description": "card4_description",
+      "prix": "3,33",
       "estAchetee": false,
-      "rarete": "Legendary",
+      "rarete": "Uncommon",
       "selected": false,
       "default": false
     },
     {
-      "name": "Card 12",
-      "image": "basicskin_drawable",
-      "description": "card1_description",
-      "prix": "12 839.99",
+      "name": "Suber Sonig Bros.",
+      "image": "cards_sonic_drawable",
+      "description": "card5_description",
+      "prix": "4,99",
       "estAchetee": false,
-      "rarete": "Common",
+      "rarete": "Uncommon",
       "selected": false,
       "default": false
     },
     {
-      "name": "Card 13",
-      "image": "basicskin_drawable",
-      "description": "card1_description",
-      "prix": "25 679.99",
+      "name": "Density",
+      "image": "cards_density_drawable",
+      "description": "card6_description",
+      "prix": "29,99999",
       "estAchetee": false,
       "rarete": "Rare",
       "selected": false,
       "default": false
     },
     {
-      "name": "Card 14",
-      "image": "basicskin_drawable",
-      "description": "card1_description",
-      "prix": "51 359.99",
+      "name": "Overmatch",
+      "image": "cards_overmatch_drawable",
+      "description": "card7_description",
+      "prix": "39.99",
+      "estAchetee": false,
+      "rarete": "Rare",
+      "selected": false,
+      "default": false
+    },
+    {
+      "name": "Call of Bounty",
+      "image": "cards_call_of_bounty_drawable",
+      "description": "card8_description",
+      "prix": "39.99",
+      "estAchetee": false,
+      "rarete": "Rare",
+      "selected": false,
+      "default": false
+    },
+    {
+      "name": "Spooder-Man into the Spooder-Verse",
+      "image": "cards_spooderman_drawable",
+      "description": "card9_description",
+      "prix": "89.99",
       "estAchetee": false,
       "rarete": "Epic",
       "selected": false,
       "default": false
-    },
-    {
-      "name": "Card 15",
-      "image": "basicskin_drawable",
-      "description": "card1_description",
-      "prix": "102 719.99",
-      "estAchetee": false,
-      "rarete": "Legendary",
-      "selected": false,
-      "default": false
-    },
-    {
-      "name": "Card 16",
-        "image": "basicskin_drawable",
-        "description": "card1_description",
-        "prix": "205 439.99",
-        "estAchetee": false,
-        "rarete": "Common",
-        "selected": false,
-        "default": false
-    },
-    {
-      "name": "Card 17",
-        "image": "basicskin_drawable",
-        "description": "card1_description",
-        "prix": "410 879.99",
-        "estAchetee": true,
-        "rarete": "Rare",
-        "selected": true,
-        "default": false
-    },
-    {
-      "name": "Card 18",
-        "image": "basicskin_drawable",
-        "description": "card1_description",
-        "prix": "821 759.99",
-        "estAchetee": false,
-        "rarete": "Epic",
-        "selected": false,
-        "default": false
-    },
-    {
-      "name": "Card 19",
-        "image": "basicskin_drawable",
-        "description": "card1_description",
-        "prix": "1 643 519.99",
-        "estAchetee": false,
-        "rarete": "Legendary",
-        "selected": false,
-        "default": false
-    },
-    {
-      "name": "Card 20",
-        "image": "basicskin_drawable",
-        "description": "card1_description",
-        "prix": "3 287 039.99",
-        "estAchetee": false,
-        "rarete": "Common",
-        "selected": false,
-        "default": false
-    },
-    {
-      "name": "Card 21",
-        "image": "basicskin_drawable",
-        "description": "card1_description",
-        "prix": "6 574 079.99",
-        "estAchetee": false,
-        "rarete": "Rare",
-        "selected": false,
-        "default": false
-    },
-    {
-      "name": "Card 22",
-        "image": "basicskin_drawable",
-        "description": "card1_description",
-        "prix": "13 148 159.99",
-        "estAchetee": false,
-        "rarete": "Epic",
-        "selected": false,
-        "default": false
-    },
-    {
-      "name": "Card 23",
-        "image": "basicskin_drawable",
-        "description": "card1_description",
-        "prix": "26 296 319.99",
-        "estAchetee": false,
-        "rarete": "Legendary",
-        "selected": false,
-        "default": false
-    },
-    {
-      "name": "Card 24",
-        "image": "basicskin_drawable",
-        "description": "card1_description",
-        "prix": "52 592 639.99",
-        "estAchetee": false,
-        "rarete": "Common",
-        "selected": false,
-        "default": false
     }
   ]
 }
+

@@ -1,15 +1,19 @@
 package com.example.memory;
 
-import android.app.Dialog;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -55,6 +59,7 @@ public class Card extends Fragment implements Serializable {
     private static Card currentSelectedCard = null;
     private ReadWriteJSON readWriteJSON;
     private boolean defaultCard;
+    private boolean slash = false;
 
     public Card() {
         // Required empty public constructor
@@ -124,26 +129,26 @@ public class Card extends Fragment implements Serializable {
         binding.cardImage.setImageResource(getResources().getIdentifier(image, "drawable", requireActivity().getPackageName()));
         switch (rarete) {
             case UNCOMMON:
-                binding.cardImage.setBackground(getResources().getDrawable(R.drawable.uncommon_cards));
+                binding.cardImage.setBackground(getResources().getDrawable(R.drawable.outline_uncommon_cards));
                 break;
             case RARE:
-                binding.cardImage.setBackground(getResources().getDrawable(R.drawable.rare_cards));
+                binding.cardImage.setBackground(getResources().getDrawable(R.drawable.outline_rare_cards));
                 break;
             case EPIC:
-                binding.cardImage.setBackground(getResources().getDrawable(R.drawable.epic_cards));
+                binding.cardImage.setBackground(getResources().getDrawable(R.drawable.outline_epic_cards));
                 break;
             case LEGENDARY:
-                binding.cardImage.setBackground(getResources().getDrawable(R.drawable.legendary_cards));
+                binding.cardImage.setBackground(getResources().getDrawable(R.drawable.outline_legendary_cards));
                 break;
             case UNIQUE:
-                binding.cardImage.setBackground(getResources().getDrawable(R.drawable.unique_cards));
+                binding.cardImage.setBackground(getResources().getDrawable(R.drawable.outline_unique_cards));
                 break;
             default:
-                binding.cardImage.setBackground(getResources().getDrawable(R.drawable.common_cards));
+                binding.cardImage.setBackground(getResources().getDrawable(R.drawable.outline_common_cards));
                 break;
         }
         if (achete && !inventory) {
-            binding.cardImageObtain.setBackground(getResources().getDrawable(R.drawable.obtained_card));
+            binding.cardImageObtain.setBackground(getResources().getDrawable(R.drawable.fill_obtained_card));
             binding.obtainCard.setText(getString(R.string.obtain));
         }
 
@@ -185,8 +190,11 @@ public class Card extends Fragment implements Serializable {
     }
 
     private void showDialog() {
-        Dialog dialog = new Dialog(getContext());
-        dialog.setContentView(R.layout.card_dialog);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext(), R.style.CustomAlertDialog);
+        ViewGroup viewGroup = (ViewGroup) getView().findViewById(android.R.id.content);
+        View dialog = LayoutInflater.from(this.getContext()).inflate(R.layout.card_dialog, viewGroup, false);
+        builder.setView(dialog);
+        final AlertDialog alertDialog = builder.create();
 
         ImageView dialogImage = dialog.findViewById(R.id.cardImage);
         TextView dialogName = dialog.findViewById(R.id.cardName);
@@ -202,27 +210,27 @@ public class Card extends Fragment implements Serializable {
         dialogRarity.setText(String.valueOf(rarete));
         switch (rarete) {
             case UNCOMMON:
-                dialogImage.setBackground(getResources().getDrawable(R.drawable.uncommon_cards));
+                dialogImage.setBackground(getResources().getDrawable(R.drawable.outline_uncommon_cards));
                 dialogRarity.setTextColor(getResources().getColor(R.color.uncommon));
                 break;
             case RARE:
-                dialogImage.setBackground(getResources().getDrawable(R.drawable.rare_cards));
+                dialogImage.setBackground(getResources().getDrawable(R.drawable.outline_rare_cards));
                 dialogRarity.setTextColor(getResources().getColor(R.color.rare));
                 break;
             case EPIC:
-                dialogImage.setBackground(getResources().getDrawable(R.drawable.epic_cards));
+                dialogImage.setBackground(getResources().getDrawable(R.drawable.outline_epic_cards));
                 dialogRarity.setTextColor(getResources().getColor(R.color.epic));
                 break;
             case LEGENDARY:
-                dialogImage.setBackground(getResources().getDrawable(R.drawable.legendary_cards));
+                dialogImage.setBackground(getResources().getDrawable(R.drawable.outline_legendary_cards));
                 dialogRarity.setTextColor(getResources().getColor(R.color.legendary));
                 break;
             case UNIQUE:
-                dialogImage.setBackground(getResources().getDrawable(R.drawable.unique_cards));
+                dialogImage.setBackground(getResources().getDrawable(R.drawable.outline_unique_cards));
                 dialogRarity.setTextColor(getResources().getColor(R.color.unique));
                 break;
             default:
-                dialogImage.setBackground(getResources().getDrawable(R.drawable.common_cards));
+                dialogImage.setBackground(getResources().getDrawable(R.drawable.outline_common_cards));
                 dialogRarity.setTextColor(getResources().getColor(R.color.common));
                 break;
         }
@@ -234,7 +242,9 @@ public class Card extends Fragment implements Serializable {
             else dialogSelected.setVisibility(View.GONE);
             dialogButton.setText(getString(R.string.returnString));
         } else {
-            String price = prix + " €";
+            String price = null;
+            if (!Objects.equals(prix, "Free")) price = prix + " €";
+            else price = getString(R.string.free);
             dialogPrice.setText(price);
             dialogButton.setText(getString(R.string.buy));
         }
@@ -245,16 +255,16 @@ public class Card extends Fragment implements Serializable {
             @Override
             public void onClick(View v) {
                 if (!Objects.equals(prix, "Free") && dialogButton.getText().equals(getString(R.string.buy))) {
-                    dialog.dismiss();
+                    alertDialog.dismiss();
                     if (onBuy()) {
-                        dialog.show();
+                        alertDialog.show();
                     }
                 } else {
                     setBought();
                     if (listener != null) {
                         listener.onCardBought(Card.this);
                     }
-                    dialog.dismiss();
+                    alertDialog.dismiss();
                 }
             }
         });
@@ -262,16 +272,19 @@ public class Card extends Fragment implements Serializable {
         dialogClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
+                alertDialog.dismiss();
             }
         });
-        dialog.show();
+        alertDialog.show();
     }
 
     private boolean onBuy() {
         boolean result = false;
-        Dialog dialog = new Dialog(getContext());
-        dialog.setContentView(R.layout.buy_dialog);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext(), R.style.CustomAlertDialog);
+        ViewGroup viewGroup = (ViewGroup) getView().findViewById(android.R.id.content);
+        View dialog = LayoutInflater.from(this.getContext()).inflate(R.layout.buy_dialog, viewGroup, false);
+        builder.setView(dialog);
+        final AlertDialog alertDialog = builder.create();
 
         ImageView dialogImage = dialog.findViewById(R.id.cardImage);
         TextView dialogName = dialog.findViewById(R.id.cardName);
@@ -283,6 +296,10 @@ public class Card extends Fragment implements Serializable {
         LinearLayout dialogLayout = dialog.findViewById(R.id.specialCard);
         TextView dialogCondition = dialog.findViewById(R.id.condition);
         CheckBox dialogCheckBox = dialog.findViewById(R.id.specialCheckBox);
+        EditText dialogCardNumber = dialog.findViewById(R.id.cardNumber);
+        EditText dialogCardExpiration = dialog.findViewById(R.id.cardExpiry);
+        EditText dialogCardCVV = dialog.findViewById(R.id.cardCVV);
+        EditText dialogCardName = dialog.findViewById(R.id.cardHolderName);
 
         changeColor(dialogClose);
 
@@ -291,60 +308,106 @@ public class Card extends Fragment implements Serializable {
         dialogRarity.setText(String.valueOf(rarete));
         switch (rarete) {
             case UNCOMMON:
-                dialogImage.setBackground(getResources().getDrawable(R.drawable.uncommon_cards));
+                dialogImage.setBackground(getResources().getDrawable(R.drawable.outline_uncommon_cards));
                 dialogRarity.setTextColor(getResources().getColor(R.color.uncommon));
                 break;
             case RARE:
-                dialogImage.setBackground(getResources().getDrawable(R.drawable.rare_cards));
+                dialogImage.setBackground(getResources().getDrawable(R.drawable.outline_rare_cards));
                 dialogRarity.setTextColor(getResources().getColor(R.color.rare));
                 break;
             case EPIC:
-                dialogImage.setBackground(getResources().getDrawable(R.drawable.epic_cards));
+                dialogImage.setBackground(getResources().getDrawable(R.drawable.outline_epic_cards));
                 dialogRarity.setTextColor(getResources().getColor(R.color.epic));
                 break;
             case LEGENDARY:
-                dialogImage.setBackground(getResources().getDrawable(R.drawable.legendary_cards));
+                dialogImage.setBackground(getResources().getDrawable(R.drawable.outline_legendary_cards));
                 dialogRarity.setTextColor(getResources().getColor(R.color.legendary));
                 break;
             case UNIQUE:
-                dialogImage.setBackground(getResources().getDrawable(R.drawable.unique_cards));
+                dialogImage.setBackground(getResources().getDrawable(R.drawable.outline_unique_cards));
                 dialogRarity.setTextColor(getResources().getColor(R.color.unique));
                 break;
             default:
-                dialogImage.setBackground(getResources().getDrawable(R.drawable.common_cards));
+                dialogImage.setBackground(getResources().getDrawable(R.drawable.outline_common_cards));
                 dialogRarity.setTextColor(getResources().getColor(R.color.common));
                 break;
         }
 
-        String price = prix + "€";
+        String price = prix + " €";
         dialogPrice.setText(price);
 
-        if(rarete == Rarity.UNIQUE) {
+        dialogCardExpiration.setFilters(new InputFilter[]{new InputFilter.LengthFilter(5)});
+
+        if (rarete == Rarity.UNIQUE || rarete == Rarity.LEGENDARY) {
             dialogLayout.setVisibility(View.VISIBLE);
             dialogCondition.setVisibility(View.VISIBLE);
         }
 
-        if(dialogCheckBox.isChecked()) {
+        if (dialogCheckBox.isChecked()) {
             result = true;
         }
+
+        dialogCardExpiration.addTextChangedListener(new TextWatcher() {
+            private boolean mFormatting;  // this is a flag which prevents the stack overflow.
+            private int mAfter;
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // nothing to do here
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                if (!mFormatting) {
+                    //we store the length to decide after whether we will add / or remove it
+                    mAfter = after;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!mFormatting) {
+                    mFormatting = true;
+                    if (mAfter != 0 && s.length() == 2) {
+                        int month = Integer.parseInt(s.toString());
+                        if (month < 1 || month > 12) {
+                            s.clear();
+                        } else {
+                            s.append("/");
+                        }
+                    } else if (mAfter == 0 && s.length() == 2) {
+                        s.delete(1, 2);
+                    }
+                    mFormatting = false;
+                }
+            }
+        });
 
         dialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialogError.setVisibility(View.VISIBLE);
-                dialog.show();
+                if (dialogCardNumber.getText().toString().equals("4242424242424242") && dialogCardExpiration.getText().toString().equals("12/42") && dialogCardCVV.getText().toString().equals("424") && dialogCardName.getText().toString().equals("ESEO")) {
+                    setBought();
+                    if (listener != null) {
+                        listener.onCardBought(Card.this);
+                    }
+                    alertDialog.dismiss();
+                } else {
+                    dialogError.setVisibility(View.VISIBLE);
+                    alertDialog.show();
+                }
             }
         });
 
         dialogCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(dialogCheckBox.isChecked()) {
+                if (dialogCheckBox.isChecked()) {
                     setBought();
                     if (listener != null) {
                         listener.onCardBought(Card.this);
                     }
-                    dialog.dismiss();
+                    alertDialog.dismiss();
                 }
             }
         });
@@ -352,10 +415,10 @@ public class Card extends Fragment implements Serializable {
         dialogClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
+                alertDialog.dismiss();
             }
         });
-        dialog.show();
+        alertDialog.show();
         return result;
     }
 
@@ -455,7 +518,7 @@ public class Card extends Fragment implements Serializable {
                 setArguments(args);
             }
             achete = true;
-            binding.cardImageObtain.setBackground(getResources().getDrawable(R.drawable.obtained_card));
+            binding.cardImageObtain.setBackground(getResources().getDrawable(R.drawable.fill_obtained_card));
             binding.obtainCard.setText(getString(R.string.obtain));
             setSelected(true);
         }

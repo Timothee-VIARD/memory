@@ -16,13 +16,12 @@ import com.example.memory.databinding.FragmentHeaderBinding;
  */
 public class Header extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
+
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String IMAGE = String.valueOf(0);
     private static final String TITLE = "param2";
     private static final String DESCRITION = null;
 
-    // TODO: Rename and change types of parameters
     private int image;
     private String title;
     private String description;
@@ -40,7 +39,6 @@ public class Header extends Fragment {
      * @param description Parameter 3.
      * @return A new instance of fragment Header.
      */
-    // TODO: Rename and change types and number of parameters
     public static Header newInstance(int imageID, String title, String description) {
         Header fragment = new Header();
         Bundle args = new Bundle();

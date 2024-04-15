@@ -46,4 +46,14 @@
     <string name="specialChamp">By checking this box you avoid the means of payment, in return for the agreement below*</string>
     <string name="autre_mode_de_paiement">Other payment method :</string>
 
+    <!--String for the navigation bar-->
+    <string name="title_activity_setting">Setting</string>
+    <string name="langue">Language</string>
+    <string name="menu_home">Home</string>
+    <string name="about">About</string>
+    <string name="language_selector">Language selector :</string>
+    <string name="about_string">Here is the Android project of the best: DIBKE Mathis, MAIGNAN Clémence and Viard Timothée.</string>
+    <string name="github_string">You can find the project on the github of VIARD Timothée: https://github.com/Timothee-VIARD/memory</string>
+    <string name="easter_egg">If you\'ve made it this far, it\'s because you\'re lost. But you leave with a little gift: a cookie! 🍪. \n\nYou also win the codes of a credit card usable ONLY on our application, enjoy! (Card number: 4242 4242 4242 4242, Expiration date: 12/24, Security code: 424, Name: ESEO)</string>
+
 </resources>

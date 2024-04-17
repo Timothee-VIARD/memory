@@ -24,7 +24,7 @@
     },
     {
       "name": "Le Zoo",
-      "imageFront": "basic_set",
+      "imageFront": "zoo_set",
       "imageBack": "cards_zoo_drawable",
       "description": "card3_description",
       "prix": "999 999 999 999 999,99",
@@ -96,6 +96,39 @@
       "prix": "89.99",
       "estAchetee": false,
       "rarete": "Epic",
+      "selected": false,
+      "default": false
+    },
+    {
+      "name": "Valoriant",
+      "imageFront": "basic_set",
+      "imageBack": "cards_valoriant_drawable",
+      "description": "card10_description",
+      "prix": "14.99",
+      "estAchetee": false,
+      "rarete": "Uncommon",
+      "selected": false,
+      "default": false
+    },
+    {
+      "name": "The Legend of Zaldo",
+      "imageFront": "basic_set",
+      "imageBack": "cards_zaldo_drawable",
+      "description": "card11_description",
+      "prix": "11.99",
+      "estAchetee": false,
+      "rarete": "Uncommon",
+      "selected": false,
+      "default": false
+    },
+    {
+      "name": "Dooooom",
+      "imageFront": "basic_set",
+      "imageBack": "cards_dooooom_drawable",
+      "description": "card12_description",
+      "prix": "13.99",
+      "estAchetee": false,
+      "rarete": "Uncommon",
       "selected": false,
       "default": false
     }

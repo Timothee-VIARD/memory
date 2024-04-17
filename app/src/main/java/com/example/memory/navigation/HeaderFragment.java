@@ -1,12 +1,17 @@
 package com.example.memory.navigation;
 
+import android.content.res.Configuration;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.memory.R;
 import com.example.memory.databinding.FragmentHeaderBinding;
 
 /**
@@ -78,7 +83,23 @@ public class HeaderFragment extends Fragment {
             binding.descriptionView.setText(description);
         }
         binding.imageView.setImageDrawable(getResources().getDrawable(imageBack));
+        if(!title.equals(getString(R.string.app_name)) && !title.equals(getString(R.string.start))) {
+            changeColor(binding.imageView);
+        }
         // Inflate the layout for this fragment
         return binding.getRoot();
+    }
+
+    private void changeColor(ImageView dialogClose) {
+        // Test le mode nuit de l'application pour adapter la couleur de la croix de fermeture
+        int nightModeFlags = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        if (nightModeFlags == Configuration.UI_MODE_NIGHT_YES) {
+            // Mode nuit activé, mettre la couleur claire
+            dialogClose.setColorFilter(ContextCompat.getColor(this.getContext(), R.color.primaryLight), PorterDuff.Mode.SRC_IN);
+        } else {
+            // Mode nuit désactivé, mettre la couleur sombre
+            dialogClose.setColorFilter(ContextCompat.getColor(this.getContext(), R.color.primaryDark), PorterDuff.Mode.SRC_IN);
+        }
+        dialogClose.setBackgroundColor(ContextCompat.getColor(this.getContext(), R.color.transparent));
     }
 }

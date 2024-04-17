@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="center"
-            android:text="@string/about" />
+            android:text="@string/about_us" />
 
         <TextView
             style="@style/Secondary"

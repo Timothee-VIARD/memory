@@ -20,6 +20,9 @@
     <string name="card7_description">Celle qui tire plus vite que Lucky Luke</string>
     <string name="card8_description">Le plus grand des petits</string>
     <string name="card9_description" translatable="false">\"I am not the hero the world wants, I am not the hero the world needs, but I am the hero that the world gets.\" Spooder-Man</string>
+    <string name="card10_description">Le jeu de tactique qui vous rendra valeureux</string>
+    <string name="card11_description">Le légendaire Lonk qui part sur les traces de la princesse Zaldo</string>
+    <string name="card12_description" translatable="false">Because you are a doooooom</string>
 
     <string name="condition" >*1. Conditions d’achat
         1.1. Commande et Paiement : AcheteurSim peut passer commande via le site web de VendeurCo. Le paiement doit être effectué au moment de la commande.
@@ -74,6 +77,6 @@
     <string name="language_selector">Choix de la langue :</string>
     <string name="about_string">Voici le projet Android des meilleurs : DIBKE Mathis, MAIGNAN Clémence et VIARD Timothée.</string>
     <string name="github_string">Vous trouverez le projet sur le github de VIARD Timothée : https://github.com/Timothee-VIARD/memory</string>
-    <string name="easter_egg">Si vous êtes arrivé jusque ici, c\'est que vous vous êtes perdu. Mais vous repartez avec un petit cadeau : un cookie ! 🍪. \n\nVous gagnez aussi les codes d\'une carte bancaires utilisable UNIQUEMENT sur notre application, profitez-en ! (Numéro de carte : 4242 4242 4242 4242, Date d\'expiration : 12/24, Code de sécurité : 424, Nom : ESEO)</string>
-
+    <string name="easter_egg">Si vous êtes arrivé jusque ici, c\'est que vous vous êtes perdu. Mais vous repartez avec un petit cadeau : un cookie ! 🍪. \n\nVous gagnez aussi les codes d\'une carte bancaires utilisable UNIQUEMENT sur notre application, profitez-en ! (Numéro de carte : 4242 4242 4242 4242, Date d\'expiration : 12/42, Code de sécurité : 424, Nom : ESEO)</string>
+    <string name="about_us">A propos de nous</string>
 </resources>

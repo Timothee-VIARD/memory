@@ -1,16 +1,16 @@
-package com.example.memory.ui.about;
+package com.example.memory.pages.home;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class AboutViewModel extends ViewModel {
+public class HomeViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
-    public AboutViewModel() {
+    public HomeViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is slideshow fragment");
+
     }
 
     public LiveData<String> getText() {

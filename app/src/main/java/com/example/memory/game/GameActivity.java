@@ -3,7 +3,6 @@ package com.example.memory.game;
 import static java.lang.Math.round;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -21,7 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.memory.HomeActivity;
 import com.example.memory.R;
-import com.example.memory.cards.GameCard;
+import com.example.memory.game.cards.GameCard;
 import com.example.memory.databinding.ActivityGameBinding;
 import com.example.memory.game.service.ChronoService;
 import com.example.memory.navigation.BottomNavFragment;

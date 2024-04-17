@@ -1,4 +1,4 @@
-package com.example.memory.ui.language;
+package com.example.memory.pages.language;
 
 import android.content.res.Configuration;
 import android.content.res.Resources;

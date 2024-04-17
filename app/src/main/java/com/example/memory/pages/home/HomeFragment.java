@@ -1,4 +1,4 @@
-package com.example.memory.ui.home;
+package com.example.memory.pages.home;
 
 import android.content.Intent;
 import android.os.Bundle;

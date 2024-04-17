@@ -1,4 +1,4 @@
-package com.example.memory.cards;
+package com.example.memory.game.cards;
 
 public enum CardPairs {
     PAIR_1(1, "pair_1"),

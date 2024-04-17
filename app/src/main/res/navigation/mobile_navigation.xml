@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.example.memory.ui.home.HomeFragment"
+        android:name="com.example.memory.pages.home.HomeFragment"
         android:label=""
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/nav_language"
-        android:name="com.example.memory.ui.language.LanguageFragment"
+        android:name="com.example.memory.pages.language.LanguageFragment"
         android:label="@string/langue"
         tools:layout="@layout/fragment_language" />
 
     <fragment
         android:id="@+id/nav_about"
-        android:name="com.example.memory.ui.about.AboutFragment"
+        android:name="com.example.memory.pages.about.AboutFragment"
         android:label="@string/about"
         tools:layout="@layout/fragment_about" />
 </navigation>

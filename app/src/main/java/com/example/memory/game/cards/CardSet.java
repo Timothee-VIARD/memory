@@ -1,4 +1,4 @@
-package com.example.memory.cards;
+package com.example.memory.game.cards;
 
 import android.content.Context;
 import android.graphics.Bitmap;

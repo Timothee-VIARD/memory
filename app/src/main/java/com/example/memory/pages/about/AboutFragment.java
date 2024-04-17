@@ -1,4 +1,4 @@
-package com.example.memory.ui.about;
+package com.example.memory.pages.about;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;

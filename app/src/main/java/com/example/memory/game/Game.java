@@ -4,8 +4,8 @@ import android.content.Context;
 import android.os.Handler;
 import android.widget.ImageView;
 
-import com.example.memory.cards.CardSet;
-import com.example.memory.cards.GameCard;
+import com.example.memory.game.cards.CardSet;
+import com.example.memory.game.cards.GameCard;
 
 import java.util.ArrayList;
 import java.util.Collections;

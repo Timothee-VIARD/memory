@@ -36,8 +36,6 @@ import java.util.Objects;
  * create an instance of this fragment.
  */
 public class CardFragment extends Fragment implements Serializable {
-
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String NOM = "name";
     private static final String DESCRIPTION = "descrip";
     private static final String PRIX = "price";
@@ -61,10 +59,11 @@ public class CardFragment extends Fragment implements Serializable {
     private static CardFragment currentSelectedCard = null;
     private ReadWriteJSON readWriteJSON;
     private boolean defaultCard;
-    private boolean slash = false;
 
+    /**
+     * Interface to implement the listener for the card bought.
+     */
     public CardFragment() {
-        // Required empty public constructor
     }
 
     /**
@@ -93,6 +92,18 @@ public class CardFragment extends Fragment implements Serializable {
         return fragment;
     }
 
+    /**
+     * Use this factory method to create a new instance of
+     * @param name Name of the card.
+     * @param image Image of the card.
+     * @param price Price of the card.
+     * @param description Description of the card.
+     * @param isBought If the card is bought.
+     * @param rarity Rarity of the card.
+     * @param inventory If the card is in the inventory.
+     * @param selected If the card is selected.
+     * @return A new instance of fragment CardFragment.
+     */
     public static CardFragment newInstance(String name, String image, String price, String description, boolean isBought, Rarity rarity, boolean inventory, boolean selected) {
         CardFragment fragment = new CardFragment();
         Bundle args = new Bundle();
@@ -108,6 +119,11 @@ public class CardFragment extends Fragment implements Serializable {
         return fragment;
     }
 
+    /**
+     * Use this factory method to create a new instance of
+     * @param savedInstanceState If the fragment is being re-created from
+     * a previous saved state, this is the state.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,9 +139,20 @@ public class CardFragment extends Fragment implements Serializable {
         }
     }
 
+    /**
+     * Use this factory method to create a new instance of
+     * @param inflater The LayoutInflater object that can be used to inflate
+     * any views in the fragment,
+     * @param container If non-null, this is the parent view that the fragment's
+     * UI should be attached to.  The fragment should not add the view itself,
+     * but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     *
+     * @return The View for the fragment's UI, or null.
+     */
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         readWriteJSON = new ReadWriteJSON(getContext(), "cards.json");
         binding = FragmentCardBinding.inflate(inflater, container, false);
         binding.cardImage.setImageResource(getResources().getIdentifier(imageBack, "drawable", requireActivity().getPackageName()));
@@ -182,15 +209,21 @@ public class CardFragment extends Fragment implements Serializable {
         return binding.getRoot();
     }
 
+    /**
+     * Use this factory method to create a new instance of
+     * @param context The context.
+     */
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        // 3. Assurez-vous que l'activité hôte implémente OnCardBoughtListener
         if (context instanceof OnCardBoughtListener) {
             listener = (OnCardBoughtListener) context;
         }
     }
 
+    /**
+     * Use this function to show the dialog of the card.
+     */
     private void showDialog() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext(), R.style.CustomAlertDialog);
         ViewGroup viewGroup = (ViewGroup) getView().findViewById(android.R.id.content);
@@ -280,6 +313,10 @@ public class CardFragment extends Fragment implements Serializable {
         alertDialog.show();
     }
 
+    /**
+     * Use this function to buy a card.
+     * @return The result of the purchase.
+     */
     private boolean onBuy() {
         boolean result = false;
         final AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext(), R.style.CustomAlertDialog);
@@ -350,18 +387,16 @@ public class CardFragment extends Fragment implements Serializable {
         }
 
         dialogCardExpiration.addTextChangedListener(new TextWatcher() {
-            private boolean mFormatting;  // this is a flag which prevents the stack overflow.
+            private boolean mFormatting;
             private int mAfter;
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // nothing to do here
             }
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 if (!mFormatting) {
-                    //we store the length to decide after whether we will add / or remove it
                     mAfter = after;
                 }
             }
@@ -424,6 +459,10 @@ public class CardFragment extends Fragment implements Serializable {
         return result;
     }
 
+    /**
+     * Use this function to select a card.
+     * @param view The view.
+     */
     private void onSelect(View view) {
         setSelected(true);
         if (listener != null) {
@@ -431,42 +470,82 @@ public class CardFragment extends Fragment implements Serializable {
         }
     }
 
+    /**
+     * Use this function to get the image of the card.
+     * @return  The image of the card.
+     */
     public String getImage() {
         return getArguments() != null ? getArguments().getString(IMAGE_BACK) : null;
     }
 
+    /**
+     * Use this function to get the name of the card.
+     * @return The name of the card.
+     */
     public String getName() {
         return getArguments() != null ? getArguments().getString(NOM) : null;
     }
 
+    /**
+     * Use this function to get the description of the card.
+     * @return The description of the card.
+     */
     public String getDescription() {
         return getArguments() != null ? getArguments().getString(DESCRIPTION) : null;
     }
 
+    /**
+     * Use this function to get the price of the card.
+     * @return The price of the card.
+     */
     public String getPrice() {
         return getArguments() != null ? getArguments().getString(PRIX) : null;
     }
 
+    /**
+     * Use this function to get if the card is bought.
+     * @return If the card is bought.
+     */
     public boolean getIsBought() {
         return getArguments() != null && getArguments().getBoolean(ACHETE);
     }
 
+    /**
+     * Use this function to get the rarity of the card.
+     * @return The rarity of the card.
+     */
     public Rarity getRarity() {
         return Rarity.valueOf(getArguments() != null ? getArguments().getString(RARETE) : null);
     }
 
+    /**
+     * Use this function to get if the card is in the inventory.
+     * @return If the card is in the inventory.
+     */
     public boolean getInventory() {
         return getArguments() != null && getArguments().getBoolean(INVENTORY);
     }
 
+    /**
+     * Use this function to get if the card is selected.
+     * @return If the card is selected.
+     */
     public boolean getSelected() {
         return getArguments() != null && getArguments().getBoolean(SELECTED);
     }
 
+    /**
+     * Use this function to get if the card is the default card.
+     * @return If the card is the default card.
+     */
     public boolean getDefaultCard() {
         return getArguments() != null && getArguments().getBoolean(DEFAULTCARD);
     }
 
+    /**
+     * Use this function to set the color of the exit button.
+     * @param dialogClose The dialog close.
+     */
     private void changeColor(ImageButton dialogClose) {
         // Test le mode nuit de l'application pour adapter la couleur de la croix de fermeture
         int nightModeFlags = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
@@ -480,6 +559,10 @@ public class CardFragment extends Fragment implements Serializable {
         dialogClose.setBackgroundColor(ContextCompat.getColor(this.getContext(), R.color.transparent));
     }
 
+    /**
+     * Use this function to set the card as selected.
+     * @param selected If the card is selected.
+     */
     public void setSelected(boolean selected) {
         // Si une nouvelle carte est sélectionnée
         if (selected && (currentSelectedCard == null || !currentSelectedCard.equals(this))) {
@@ -493,6 +576,26 @@ public class CardFragment extends Fragment implements Serializable {
         editButtontStatus(true);
     }
 
+    /**
+     * Use this function to set the card as default.
+     * @param defaultcard If the card is default.
+     */
+    public void setDefaultcard(boolean defaultcard) {
+        this.defaultCard = defaultcard;
+        Bundle args = getArguments();
+        if (args != null) {
+            args.putBoolean(DEFAULTCARD, defaultcard);
+            setArguments(args);
+        }
+        if (readWriteJSON != null) {
+            readWriteJSON.editJSONCard(getName(), getDefaultCard(), defaultcard);
+        }
+
+    }
+
+    /**
+     * Use this function to clear the selected card.
+     */
     public void clearSelected() {
         if (binding != null) {
             binding.selectButton.setChecked(false);
@@ -500,6 +603,10 @@ public class CardFragment extends Fragment implements Serializable {
         }
     }
 
+    /**
+     * Use this function to edit the button status.
+     * @param selected If the button is selected.
+     */
     public void editButtontStatus(boolean selected) {
         this.selected = selected;
         Bundle args = getArguments();
@@ -512,6 +619,9 @@ public class CardFragment extends Fragment implements Serializable {
         }
     }
 
+    /**
+     * Use this function to set the card as bought.
+     */
     public void setBought() {
         if (!achete) {
             Bundle args = getArguments();

@@ -21,27 +21,41 @@ public class ChronoService extends Service {
     private String mode;
     private boolean isPaused = false;
 
+    /**
+     * Instantiates a new Chrono service.
+     */
     public ChronoService() {
     }
 
+    /**
+     * Reset timer.
+     */
     public void resetTimer() {
         this.seconds = -1;
     }
 
+    /**
+     * The interface On second change listener.
+     */
     public interface OnSecondChangeListener {
         void onSecondChange(int seconds);
     }
 
+    /**
+     * The interface On timer finished listener.
+     */
     public interface OnTimerFinishedListener {
         void onTimerFinished();
     }
 
+    /**
+     * The type My binder.
+     */
     public class MyBinder extends Binder {
         public ChronoService getService() {
             return ChronoService.this;
         }
     }
-
     private final MyBinder myBinder = new MyBinder();
 
     @Override
@@ -108,6 +122,10 @@ public class ChronoService extends Service {
         return START_STICKY;
     }
 
+    /**
+     * Sets chrono timer.
+     * @param difficulty the difficulty
+     */
     public void setChronoTimer(int difficulty) {
         switch (difficulty) {
             case 1:
@@ -122,22 +140,39 @@ public class ChronoService extends Service {
         }
     }
 
+    /**
+     * Pause timer.
+     */
     public void pauseTimer() {
         isPaused = true;
     }
 
+    /**
+     * Resume timer.
+     */
     public void resumeTimer() {
         isPaused = false;
     }
 
+    /**
+     * Sets on second change listener.
+     * @param onSecondChangeListener the on second change listener
+     */
     public void setOnSecondChangeListener(OnSecondChangeListener onSecondChangeListener) {
         this.onSecondChangeListener = onSecondChangeListener;
     }
 
+    /**
+     * Sets on timer finished listener.
+     * @param listener the listener
+     */
     public void setOnTimerFinishedListener(OnTimerFinishedListener listener) {
         this.onTimerFinishedListener = listener;
     }
 
+    /**
+     * Cancel timer.
+     */
     public void cancelTimer() {
         if (timer != null) {
             timer.cancel();
@@ -145,6 +180,10 @@ public class ChronoService extends Service {
         }
     }
 
+    /**
+     * Gets seconds.
+     * @return the seconds
+     */
     public int getSeconds() {
         return seconds;
     }

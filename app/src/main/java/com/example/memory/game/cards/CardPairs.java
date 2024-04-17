@@ -20,11 +20,20 @@ public enum CardPairs {
     private final int difficulty;
     private final String name;
 
+    /**
+     * Constructor
+     * @param difficulty the game difficulty
+     * @param name the name of the card pair
+     */
     CardPairs(int difficulty, String name) {
         this.difficulty = difficulty;
         this.name = name;
     }
 
+    /**
+     * Get the name of the card pair
+     * @return the name of the card pair
+     */
     public int getDifficulty() {
         return difficulty;
     }

@@ -26,7 +26,7 @@ public class BottomNavFragment extends Fragment {
 
     private String message;
     private String message2;
-    private int nbButton; //faire le nombre de bouton, en invisble ou pas ?
+    private int nbButton;
     private FragmentBottomNavBinding binding;
     private OnFragmentInteractionListener mListener;
 
@@ -53,7 +53,13 @@ public class BottomNavFragment extends Fragment {
         return fragment;
     }
 
-
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param message the message in the button.
+     * @return A new instance of fragment TemplateButton.
+     */
     public static BottomNavFragment newInstance(String message) {
         BottomNavFragment fragment = new BottomNavFragment();
         Bundle args = new Bundle();
@@ -63,6 +69,9 @@ public class BottomNavFragment extends Fragment {
         return fragment;
     }
 
+    /**
+     * Called when the fragment is being attached to a context.
+     */
     public interface OnFragmentInteractionListener {
         void onPauseGame();
     }
@@ -84,6 +93,10 @@ public class BottomNavFragment extends Fragment {
         }
     }
 
+    /**
+     * Called when the fragment is being attached to a context.
+     * @param context the context.
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -110,7 +123,6 @@ public class BottomNavFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentBottomNavBinding.inflate(inflater, container, false);
-        //BottomNavFragment but =
         if (nbButton == 1) {
             binding.button2.setVisibility(View.INVISIBLE);
             binding.button3.setVisibility(View.INVISIBLE);

@@ -25,16 +25,16 @@ public class HomeActivity extends AppCompatActivity implements BottomNavFragment
     private ActivityMenuGameBinding binding;
     private AppBarConfiguration mAppBarConfiguration;
 
+    /**
+     * This method is called when the activity is created.
+     * It sets up the navigation drawer and the fragments.
+     * @param savedInstanceState the saved instance state
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Copier le fichier JSON vers le stockage interne
         ReadWriteJSON readWriteJSONCards = new ReadWriteJSON(getApplicationContext(), "cards.json");
         ReadWriteJSON readWriteJSONLeaderboard = new ReadWriteJSON(getApplicationContext(), "leaderboard.json");
-
-        // TODO : Supprimer les lignes suivantes
-//        readWriteJSONCards.setJSON("cards.json");
-//        readWriteJSONLeaderboard.setJSON("leaderboard.json");
 
         binding = ActivityMenuGameBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -52,6 +52,13 @@ public class HomeActivity extends AppCompatActivity implements BottomNavFragment
         NavigationUI.setupWithNavController(navigationView, navController);
     }
 
+
+    /**
+     * This method is called when the activity is resumed.
+     * It does nothing.
+     * It is overridden to implement the interface.
+     * @see BottomNavFragment.OnFragmentInteractionListener
+     */
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
@@ -59,8 +66,11 @@ public class HomeActivity extends AppCompatActivity implements BottomNavFragment
                 || super.onSupportNavigateUp();
     }
 
+    /**
+     * This method is called when the game is paused.
+     * It does nothing.
+     */
     @Override
     public void onPauseGame() {
-        // Implement what should happen when the game is paused
     }
 }

@@ -27,6 +27,11 @@ public class CardSet {
     private List<GameCard> gameCards = new ArrayList<>();
     private Context context;
 
+    /**
+     * Constructor for the CardSet class.
+     * @param context the context
+     * @param difficulty the difficulty
+     */
     public CardSet(Context context, int difficulty) {
         this.context = context;
         this.difficulty = difficulty;
@@ -38,10 +43,18 @@ public class CardSet {
         }
     }
 
+    /**
+     * Returns the image front.
+     * @return the image front
+     */
     public ImageView getImageFrontView() {
         return imageFrontView;
     }
 
+    /**
+     * Returns the image back.
+     * @return the image back
+     */
     public List<GameCard> getGameCards() {
         return this.gameCards;
     }
@@ -80,7 +93,6 @@ public class CardSet {
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject card = jsonArray.getJSONObject(i);
             if (card.getString("selected").equals("true")) {
-                // todo select the set for specific skins
                 this.imageFront = context.getResources().getIdentifier(card.getString("imageFront"), "drawable", context.getPackageName());
                 this.imageBack = context.getResources().getIdentifier(card.getString("imageBack"), "drawable", context.getPackageName());
                 break;

@@ -32,8 +32,10 @@ public class LeaderboardActivity extends AppCompatActivity implements BottomNavF
     private Object[] mode;
     private String[] seekBarDifficulty;
 
-    private Spinner spinner;
-
+    /**
+     * Method to create the leaderboard activity
+     * @param savedInstanceState the saved instance state
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +47,7 @@ public class LeaderboardActivity extends AppCompatActivity implements BottomNavF
         setContentView(binding.getRoot());
         getSupportFragmentManager().beginTransaction().add(R.id.buttonsLeader, BottomNavFragment.newInstance(getString(R.string.returnString))).commit();
         getSupportFragmentManager().beginTransaction().add(R.id.headerLeader, HeaderFragment.newInstance(R.drawable.logo_leaderboard_drawable, getString(R.string.leaderboard), getString(R.string.Welcome_Message))).commit();
-        spinner = findViewById(R.id.spinnerLeader);
+        Spinner spinner = findViewById(R.id.spinnerLeader);
         List<String> choice = new ArrayList<>();
         choice.add(getString(R.string.normal));
         choice.add(getString(R.string.contre_la_montre));
@@ -62,11 +64,9 @@ public class LeaderboardActivity extends AppCompatActivity implements BottomNavF
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                //rien
             }
         });
 
-        //Récupération de la difficulté choisie dans la seek bar
         seekBarDifficulty[0] = String.valueOf(binding.seekBarLeader.getProgress());
         binding.seekBarLeader.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -77,16 +77,17 @@ public class LeaderboardActivity extends AppCompatActivity implements BottomNavF
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                //rien
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                //rien
             }
         });
     }
 
+    /**
+     * Method to update the leaderboard
+     */
     private void updateLeaderboard() {
         try {
             JSONObject leaderboard = new JSONObject(readWriteJSON.readJSON("leaderboard.json"));
@@ -126,15 +127,18 @@ public class LeaderboardActivity extends AppCompatActivity implements BottomNavF
         }
     }
 
+    /**
+     * Method to display the leaderboard
+     *
+     * @param jsonArray the JSON array containing the leaderboard
+     * @throws JSONException if there is an error with the JSON
+     */
     private void displayLeaderboard(JSONArray jsonArray) throws JSONException {
-        //récupérer les 3 plus grands scores, si le score est égal, on prend celui qui a la valeur attempts la plus basse
-        // Convert JSONArray to List<JSONObject>
         List<JSONObject> jsonList = new ArrayList<>();
         for (int i = 0; i < jsonArray.length(); i++) {
             jsonList.add(jsonArray.getJSONObject(Integer.parseInt(String.valueOf(i))));
         }
 
-        // Sort the list
         Collections.sort(jsonList, new Comparator<JSONObject>() {
             @Override
             public int compare(JSONObject o1, JSONObject o2) {
@@ -146,7 +150,7 @@ public class LeaderboardActivity extends AppCompatActivity implements BottomNavF
                         int attempts2 = o2.getInt("attempts");
                         return Integer.compare(attempts2, attempts1);
                     } else {
-                        return Integer.compare(score2, score1); // Note the order for descending sort
+                        return Integer.compare(score2, score1);
                     }
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
@@ -154,10 +158,8 @@ public class LeaderboardActivity extends AppCompatActivity implements BottomNavF
             }
         });
 
-        // Extract top 3 scores
         List<JSONObject> topScores = jsonList.subList(0, Math.min(3, jsonList.size()));
 
-        // Stocker les 3 meilleurs scores
         JSONObject result1 = topScores.get(0) != null ? topScores.get(0) : null;
         JSONObject result2 = topScores.size() > 1 ? topScores.get(1) : null;
         JSONObject result3 = topScores.size() > 2 ? topScores.get(2) : null;
@@ -217,6 +219,9 @@ public class LeaderboardActivity extends AppCompatActivity implements BottomNavF
         }
     }
 
+    /**
+     * Method to return to the previous activity
+     */
     @Override
     public void onPauseGame() {
     }

@@ -47,6 +47,10 @@ public class GameActivity extends AppCompatActivity implements BottomNavFragment
     private int heightCard = 536;
     private ReadWriteJSON readWriteJSON;
     private int seconds = 0;
+
+    /**
+     * ServiceConnection to bind the service to the activity and get the service instance to call the methods
+     */
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -65,6 +69,10 @@ public class GameActivity extends AppCompatActivity implements BottomNavFragment
         }
     };
 
+    /**
+     * Method called when the activity is created
+     * @param savedInstanceState the saved instance state
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,6 +111,9 @@ public class GameActivity extends AppCompatActivity implements BottomNavFragment
         setUI(flexboxLayout);
     }
 
+    /**
+     * Method to generate the dimensions of the cards depending on the difficulty
+     */
     private void generateDimensions() {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -138,6 +149,9 @@ public class GameActivity extends AppCompatActivity implements BottomNavFragment
         }
     }
 
+    /**
+     * Method to update the UI of the game
+     */
     public void updateUI() {
         FlexboxLayout flexboxLayout = findViewById(R.id.container);
         flexboxLayout.removeAllViews();
@@ -146,6 +160,10 @@ public class GameActivity extends AppCompatActivity implements BottomNavFragment
         updateMultiplier();
     }
 
+    /**
+     * Method to set the UI of the game
+     * @param flexboxLayout the layout of the game
+     */
     private void setUI(FlexboxLayout flexboxLayout) {
         for (GameCard gameCard : game.getGameCards()) {
             ImageView imageView = gameCard.getImage();
@@ -162,11 +180,17 @@ public class GameActivity extends AppCompatActivity implements BottomNavFragment
         }
     }
 
+    /**
+     * Method to update the score of the game
+     */
     public void updateScore() {
         TextView score = findViewById(R.id.score);
         score.setText("Score : " + game.getScore());
     }
 
+    /**
+     * Method to update the multiplier of the game
+     */
     public void updateMultiplier() {
         TextView multiplier = findViewById(R.id.multiplier);
         if (game.getScoreMultiplier() < 0) {
@@ -176,6 +200,9 @@ public class GameActivity extends AppCompatActivity implements BottomNavFragment
         }
     }
 
+    /**
+     * Method to end the game
+     */
     public void endGame() {
         if (isBound) {
             chronoService.cancelTimer();
@@ -235,6 +262,9 @@ public class GameActivity extends AppCompatActivity implements BottomNavFragment
         alertDialog.show();
     }
 
+    /**
+     * Method called when the user clicks on the stop button
+     */
     @Override
     public void onPauseGame() {
         if (isBound) {
@@ -284,6 +314,10 @@ public class GameActivity extends AppCompatActivity implements BottomNavFragment
         alertDialog.show();
     }
 
+    /**
+     * Method called to set the difficulty text
+     * @param difficultyView the text view of the difficulty
+     */
     private void setDifficultyText(TextView difficultyView) {
         switch (difficulty) {
             case 1:
@@ -298,6 +332,10 @@ public class GameActivity extends AppCompatActivity implements BottomNavFragment
         }
     }
 
+    /**
+     *  Method called when the user clicks on the stop button
+     * @param seconds the seconds of the timer
+     */
     @Override
     public void onSecondChange(int seconds) {
         runOnUiThread(new Runnable() {
@@ -309,11 +347,17 @@ public class GameActivity extends AppCompatActivity implements BottomNavFragment
         });
     }
 
+    /**
+     * Method called when the timer is finished
+     */
     @Override
     public void onTimerFinished() {
         endGame();
     }
 
+    /**
+     * Method called when the activity is destroyed
+     */
     public void onDestroy() {
         super.onDestroy();
         if (isBound) {

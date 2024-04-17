@@ -27,6 +27,12 @@ public class Game {
     private int successStreak = 0;
     private int failureStreak = 0;
 
+    /**
+     * Constructor for the Game class
+     * @param context The context of the activity
+     * @param difficulty The difficulty of the game
+     * @param gameActivity The activity of the game
+     */
     public Game(Context context, int difficulty, GameActivity gameActivity) {
         this.difficulty = difficulty;
         this.context = context;
@@ -36,10 +42,17 @@ public class Game {
         generateGame();
     }
 
+    /**
+     * Getter for the game cards
+     * @return The list of game cards
+     */
     public List<GameCard> getGameCards() {
         return gameCards;
     }
 
+    /**
+     * Method to generate the game
+     */
     private void generateGame() {
         List<GameCard> duplicatedGameCards = new ArrayList<>();
         for (GameCard gameCard : cardSet.getGameCards()) {
@@ -55,6 +68,10 @@ public class Game {
         this.gameCards = duplicatedGameCards;
     }
 
+    /**
+     * Method to flip a card
+     * @param gameCard The card to flip
+     */
     public void flipCard(GameCard gameCard) {
         if (isFlipping) {
             return;
@@ -96,20 +113,37 @@ public class Game {
         }
     }
 
+    /**
+     * Method to check if two cards match
+     * @param card1 The first card
+     * @param card2 The second card
+     * @return True if the cards match, false otherwise
+     */
     private boolean checkMatch(GameCard card1, GameCard card2) {
         return card1.getId() == card2.getId();
     }
 
+    /**
+     * Method to check if the game has ended
+     */
     private void checkEndGame() {
         if (pairsFound == NB_FINAL_PAIRS) {
             gameActivity.endGame();
         }
     }
 
+    /**
+     * Getter for the score
+     * @return The score of the game
+     */
     public int getScore() {
         return score;
     }
 
+    /**
+     * Method to update the score
+     * @param seconds The time taken to flip the card
+     */
     public void updateScore(int seconds) {
         switch (difficulty) {
             case 1:
@@ -136,10 +170,18 @@ public class Game {
         }
     }
 
+    /**
+     * Getter for the score multiplier
+     * @return The score multiplier
+     */
     public double getScoreMultiplier() {
         return scoreMultiplier;
     }
 
+    /**
+     * Getter for the card set
+     * @return The card set
+     */
     private double getSuccessMultiplier() {
         switch (difficulty) {
             case 1:
@@ -153,6 +195,10 @@ public class Game {
         }
     }
 
+    /**
+     * Getter for the failure multiplier
+     * @return The failure multiplier
+     */
     private double getFailureMultiplier() {
         switch (difficulty) {
             case 1:

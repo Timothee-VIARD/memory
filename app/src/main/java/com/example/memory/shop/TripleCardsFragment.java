@@ -16,17 +16,14 @@ import com.example.memory.databinding.FragmentTripleCardsBinding;
  * create an instance of this fragment.
  */
 public class TripleCardsFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-
-    // TODO: Rename and change types of parameters
     private CardFragment card1 = null;
     private CardFragment card2 = null;
     private CardFragment card3 = null;
 
+    /**
+     * Empty constructor.
+     */
     public TripleCardsFragment() {
-        // Required empty public constructor
     }
 
     /**
@@ -40,7 +37,6 @@ public class TripleCardsFragment extends Fragment {
      */
     public static TripleCardsFragment newInstance(CardFragment card1, CardFragment card2, CardFragment card3) {
         TripleCardsFragment fragment = new TripleCardsFragment();
-    // TODO: Rename and change types and number of parameters
         Bundle args = new Bundle();
         if (card1 != null)
             args.putSerializable("cardA", card1);
@@ -52,6 +48,11 @@ public class TripleCardsFragment extends Fragment {
         return fragment;
     }
 
+    /**
+     * Called when the fragment is being created.
+     * @param savedInstanceState If the fragment is being re-created from
+     * a previous saved state, this is the state.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,12 +66,22 @@ public class TripleCardsFragment extends Fragment {
         }
     }
 
+    /**
+     * Called to have the fragment instantiate its user interface view.
+     * @param inflater The LayoutInflater object that can be used to inflate
+     * any views in the fragment,
+     * @param container If non-null, this is the parent view that the fragment's
+     * UI should be attached to.  The fragment should not add the view itself,
+     * but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     *
+     * @return The View for the fragment's UI, or null.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         FragmentTripleCardsBinding binding = FragmentTripleCardsBinding.inflate(inflater, container, false);
-
         if (savedInstanceState == null) {
             if (card1 != null)
                 getParentFragmentManager().beginTransaction().add(R.id.card1, card1, "cardA").commit();
@@ -83,25 +94,50 @@ public class TripleCardsFragment extends Fragment {
         return binding.getRoot();
     }
 
+    /**
+     * Getters and setters for the cards.
+     * @return The card 1.
+     */
     public CardFragment getCard1() {
         return card1;
     }
 
+    /**
+     * Getters and setters for the cards.
+     * @return The card 2.
+     */
     public CardFragment getCard2() {
         return card2;
     }
 
+    /**
+     * Getters and setters for the cards.
+     * @return The card 3.
+     */
     public CardFragment getCard3() {
         return card3;
     }
 
+    /**
+     * Getters and setters for the cards.
+     * @param card The card 1.
+     */
     public void setCard1(CardFragment card) {
         card1 = card;
     }
+
+    /**
+     * Getters and setters for the cards.
+     * @param card The card 2.
+     */
     public void setCard2(CardFragment card) {
         card2 = card;
     }
 
+    /**
+     * Getters and setters for the cards.
+     * @param card The card 3.
+     */
     public void setCard3(CardFragment card) {
         card3 = card;
     }

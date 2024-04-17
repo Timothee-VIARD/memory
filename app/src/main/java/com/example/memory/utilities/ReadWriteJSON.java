@@ -22,9 +22,13 @@ import java.util.Locale;
 public class ReadWriteJSON {
     private Context context;
 
+    /**
+     * Constructor
+     * @param context Context : context of the activity
+     * @param fileName String : name of the file
+     */
     public ReadWriteJSON(Context context, String fileName) {
         this.context = context;
-        //test si fichier existe sinon le créer et le remplir avec le fichier json de assets
         File file = new File(context.getFilesDir(), fileName);
         if (!file.exists()) {
             try {
@@ -36,6 +40,11 @@ public class ReadWriteJSON {
         }
     }
 
+    /**
+     * Read the JSON file
+     * @param fileName String : name of the file
+     * @return String : the JSON file
+     */
     public String readJSON(String fileName) {
         String json = null;
         InputStream jsonAssetsFile;
@@ -59,6 +68,11 @@ public class ReadWriteJSON {
         return json;
     }
 
+    /**
+     * Edit the JSON file
+     * @param cardName String : name of the card
+     * @param newIsBought boolean : if the card is bought or not
+     */
     public void editJSONCard(String cardName, boolean newIsBought) {
         FileWriter fileWriter = null;
         BufferedWriter writer = null;
@@ -71,17 +85,12 @@ public class ReadWriteJSON {
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject cardObject = jsonArray.getJSONObject(i);
                 if (cardObject.getString("name").equals(cardName)) {
-                    // Modifier les propriétés de la carte
                     cardObject.put("estAchetee", newIsBought);
                     jsonArray.put(i, cardObject);
                     break;
                 }
             }
-
-            // Convertir le jsonArray en jsonobject
             jsonObject.put("cards", jsonArray);
-
-            //Editer la carte qui correspond au cardName
             fileWriter = new FileWriter(file.getAbsoluteFile());
             writer = new BufferedWriter(fileWriter);
             writer.write(jsonObject.toString());
@@ -91,6 +100,12 @@ public class ReadWriteJSON {
         }
     }
 
+    /**
+     * Edit the JSON file
+     * @param cardName String : name of the card
+     * @param newIsBought boolean : if the card is bought or not
+     * @param selected boolean : if the card is selected or not
+     */
     public void editJSONCard(String cardName, boolean newIsBought, boolean selected) {
         FileWriter fileWriter = null;
         BufferedWriter writer = null;
@@ -104,18 +119,13 @@ public class ReadWriteJSON {
                 JSONObject cardObject = jsonArray.getJSONObject(i);
 
                 if (cardObject.getString("name").equals(cardName)) {
-                    // Modifier les propriétés de la carte
                     cardObject.put("estAchetee", newIsBought);
                     cardObject.put("selected", selected);
                     jsonArray.put(i, cardObject);
                     break;
                 }
             }
-
-            // Convertir le jsonArray en jsonobject
             jsonObject.put("cards", jsonArray);
-
-            //Editer la carte qui correspond au cardName
             fileWriter = new FileWriter(file.getAbsoluteFile());
             writer = new BufferedWriter(fileWriter);
             writer.write(jsonObject.toString());
@@ -125,27 +135,25 @@ public class ReadWriteJSON {
         }
     }
 
+    /**
+     * Edit the JSON file
+     * @param mode String : mode of the game
+     * @param difficulty String : difficulty of the game
+     * @param gameScore int : score of the game
+     * @param time int : time of the game
+     * @throws ParseException : exception
+     */
     public void editJSONLeaderboard(String mode, String difficulty, int gameScore, int time) throws ParseException {
         FileWriter fileWriter = null;
         BufferedWriter writer = null;
-
-        // Créer un objet SimpleDateFormat avec le format actuel de la date
         SimpleDateFormat currentFormat = new SimpleDateFormat("dd MMMM yyyy", Locale.FRENCH);
-
         Date date = new Date();
-
-        // Analyser la chaîne de date en un objet Date
         Date dateFormated = currentFormat.parse(currentFormat.format(date));
-
-        // Créer un objet SimpleDateFormat avec le format souhaité
         SimpleDateFormat desiredFormat = new SimpleDateFormat("dd/MM/yyyy");
-
-        // Utiliser la méthode format pour formater l'objet Date au format souhaité
         String formattedDate = desiredFormat.format(dateFormated);
         File file = new File(context.getFilesDir(), "leaderboard.json");
         try {
             JSONObject jsonObject = new JSONObject(readJSON("leaderboard.json"));
-
             if(mode.equals(context.getString(R.string.normal))) {
                 JSONObject jsonArrayNormal = jsonObject.getJSONObject("Normal");
                 if(difficulty.equals("1")) {
@@ -201,8 +209,6 @@ public class ReadWriteJSON {
                     jsonArray.put(newScore);
                 }
             }
-
-            //Remplacer le tableau de scores
             fileWriter = new FileWriter(file.getAbsoluteFile());
             writer = new BufferedWriter(fileWriter);
             writer.write(jsonObject.toString());
@@ -212,11 +218,14 @@ public class ReadWriteJSON {
         }
     }
 
+    /**
+     * Edit the JSON file
+     * @param fileName String : name of the file
+     */
     public void setJSON(String fileName) {
         InputStream jsonAssetsFile;
         FileWriter fileWriter = null;
         BufferedWriter writer = null;
-
         File file = new File(context.getFilesDir(), fileName);
         try {
             jsonAssetsFile = context.getAssets().open(fileName);

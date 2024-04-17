@@ -24,6 +24,10 @@ public class MenuStartActivity extends AppCompatActivity implements BottomNavFra
     private ActivityMenuStartBinding binding;
     Spinner spinner;
 
+    /**
+     * This method is called when the activity is first created.
+     * @param savedInstanceState a reference to a Bundle object that is passed into the onCreate method of every Android Activity.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +56,6 @@ public class MenuStartActivity extends AppCompatActivity implements BottomNavFra
             }
         });
 
-        //Récupération de la difficulté choisie dans la seek bar
         SeekBar seekBar = findViewById(R.id.seekBarStart);
         setPreferences(seekBar.getProgress(), spinner.getSelectedItem().toString());
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -63,16 +66,13 @@ public class MenuStartActivity extends AppCompatActivity implements BottomNavFra
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                //rien
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                //rien
             }
         });
 
-        //Récupération du mode de jeu choisi
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -85,6 +85,9 @@ public class MenuStartActivity extends AppCompatActivity implements BottomNavFra
         });
     }
 
+    /**
+     * Method to set the preferences of the game.
+     */
     private void setPreferences(int progress, String mode) {
         SharedPreferences sharedPref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
@@ -93,6 +96,9 @@ public class MenuStartActivity extends AppCompatActivity implements BottomNavFra
         editor.apply();
     }
 
+    /**
+     * This method is called when the activity is paused.
+     */
     @Override
     public void onPauseGame() {
     }

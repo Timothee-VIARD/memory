@@ -20,9 +20,6 @@ import com.example.memory.databinding.FragmentHeaderBinding;
  * create an instance of this fragment.
  */
 public class HeaderFragment extends Fragment {
-
-
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String IMAGE_BACK = String.valueOf(0);
     private static final String TITLE = "param2";
     private static final String DESCRITION = null;
@@ -31,8 +28,10 @@ public class HeaderFragment extends Fragment {
     private String title;
     private String description;
 
+    /**
+     * Required empty public constructor
+     */
     public HeaderFragment() {
-        // Required empty public constructor
     }
 
     /**
@@ -46,7 +45,6 @@ public class HeaderFragment extends Fragment {
      */
     public static HeaderFragment newInstance(int imageID, String title, String description) {
         HeaderFragment fragment = new HeaderFragment();
-    // TODO: Rename and change types and number of parameters
         Bundle args = new Bundle();
         args.putInt(IMAGE_BACK, imageID);
         args.putString(TITLE, title);
@@ -55,6 +53,12 @@ public class HeaderFragment extends Fragment {
         return fragment;
     }
 
+    /**
+     * Use this factory method to create a new instance of this fragment using the provided parameters.
+     * @param imageID    Parameter 1.
+     * @param title     Parameter 2.
+     * @return A new instance of fragment HeaderFragment.
+     */
     public static HeaderFragment newInstance(int imageID, String title) {
         HeaderFragment fragment = new HeaderFragment();
         Bundle args = new Bundle();
@@ -64,6 +68,11 @@ public class HeaderFragment extends Fragment {
         return fragment;
     }
 
+    /**
+     * Called to do initial creation of a fragment. This is called after onAttach(Activity)
+     * @param savedInstanceState If the fragment is being re-created from
+     * a previous saved state, this is the state.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +83,18 @@ public class HeaderFragment extends Fragment {
         }
     }
 
+    /**
+     * Called to have the fragment instantiate its user interface view.
+     * @param inflater The LayoutInflater object that can be used to inflate
+     * any views in the fragment,
+     * @param container If non-null, this is the parent view that the fragment's
+     * UI should be attached to.  The fragment should not add the view itself,
+     * but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     *
+     * @return Return the View for the fragment's UI, or null.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -86,18 +107,18 @@ public class HeaderFragment extends Fragment {
         if(!title.equals(getString(R.string.app_name)) && !title.equals(getString(R.string.start))) {
             changeColor(binding.imageView);
         }
-        // Inflate the layout for this fragment
         return binding.getRoot();
     }
 
+    /**
+     * Change the color of the close button based on the theme
+     * @param dialogClose the image
+     */
     private void changeColor(ImageView dialogClose) {
-        // Test le mode nuit de l'application pour adapter la couleur de la croix de fermeture
         int nightModeFlags = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
         if (nightModeFlags == Configuration.UI_MODE_NIGHT_YES) {
-            // Mode nuit activé, mettre la couleur claire
             dialogClose.setColorFilter(ContextCompat.getColor(this.getContext(), R.color.primaryLight), PorterDuff.Mode.SRC_IN);
         } else {
-            // Mode nuit désactivé, mettre la couleur sombre
             dialogClose.setColorFilter(ContextCompat.getColor(this.getContext(), R.color.primaryDark), PorterDuff.Mode.SRC_IN);
         }
         dialogClose.setBackgroundColor(ContextCompat.getColor(this.getContext(), R.color.transparent));

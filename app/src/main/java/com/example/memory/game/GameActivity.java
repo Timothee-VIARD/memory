@@ -2,6 +2,7 @@ package com.example.memory.game;
 
 import static java.lang.Math.round;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -9,6 +10,9 @@ import android.content.ServiceConnection;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -167,7 +171,6 @@ public class GameActivity extends AppCompatActivity implements BottomNavFragment
         }
         updateScore();
 
-        Dialog dialog = new Dialog(this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             try {
                 readWriteJSON.editJSONLeaderboard(mode, String.valueOf(difficulty), game.getScore(), chronoService.getSeconds());
@@ -175,7 +178,13 @@ public class GameActivity extends AppCompatActivity implements BottomNavFragment
                 throw new RuntimeException(e);
             }
         }
-        dialog.setContentView(R.layout.menu_dialog);
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomAlertDialog);
+        ViewGroup viewGroup = findViewById(android.R.id.content);
+        View dialog = LayoutInflater.from(this).inflate(R.layout.pause_end_game_dialog, viewGroup, false);
+        builder.setView(dialog);
+        final AlertDialog alertDialog = builder.create();
+
         TextView title = dialog.findViewById(R.id.title);
         TextView score = dialog.findViewById(R.id.score);
         TextView time = dialog.findViewById(R.id.time);
@@ -187,12 +196,12 @@ public class GameActivity extends AppCompatActivity implements BottomNavFragment
         buttonLabel1.setText(R.string.menu_du_jeu);
         buttonLabel2.setText(R.string.rejouer);
         buttonLabel1.setOnClickListener(v -> {
-            dialog.dismiss();
+            alertDialog.dismiss();
             Intent intent = new Intent(GameActivity.this, HomeActivity.class);
             startActivity(intent);
         });
         buttonLabel2.setOnClickListener(v -> {
-            dialog.dismiss();
+            alertDialog.dismiss();
             game = new Game(this, difficulty, this);
             updateUI();
             if (isBound) {
@@ -205,7 +214,7 @@ public class GameActivity extends AppCompatActivity implements BottomNavFragment
             startService(intentService);
             bindService(intentService, serviceConnection, BIND_AUTO_CREATE);
         });
-        dialog.show();
+        alertDialog.show();
     }
 
     @Override
@@ -214,8 +223,12 @@ public class GameActivity extends AppCompatActivity implements BottomNavFragment
             chronoService.pauseTimer();
         }
 
-        Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.menu_dialog);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomAlertDialog);
+        ViewGroup viewGroup = findViewById(android.R.id.content);
+        View dialog = LayoutInflater.from(this).inflate(R.layout.pause_end_game_dialog, viewGroup, false);
+        builder.setView(dialog);
+        final AlertDialog alertDialog = builder.create();
+
         TextView title = dialog.findViewById(R.id.title);
         TextView score = dialog.findViewById(R.id.score);
         TextView time = dialog.findViewById(R.id.time);
@@ -227,7 +240,7 @@ public class GameActivity extends AppCompatActivity implements BottomNavFragment
         buttonLabel1.setText(getString(R.string.restart));
         buttonLabel2.setText(getString(R.string.continuer));
         buttonLabel1.setOnClickListener(v -> {
-            dialog.dismiss();
+            alertDialog.dismiss();
             game = new Game(this, difficulty, this);
             updateUI();
             if (isBound) {
@@ -245,12 +258,12 @@ public class GameActivity extends AppCompatActivity implements BottomNavFragment
             bindService(intentService, serviceConnection, BIND_AUTO_CREATE);
         });
         buttonLabel2.setOnClickListener(v -> {
-            dialog.dismiss();
+            alertDialog.dismiss();
             if (isBound) {
                 chronoService.resumeTimer();
             }
         });
-        dialog.show();
+        alertDialog.show();
     }
 
     private void setDifficultyText(TextView difficultyView) {

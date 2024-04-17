@@ -9,6 +9,7 @@ import android.content.ServiceConnection;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -103,18 +104,36 @@ public class GameActivity extends AppCompatActivity implements BottomNavFragment
     }
 
     private void generateDimensions() {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int height = displayMetrics.heightPixels;
+
+        double param1;
+        double param2;
+        double param3;
+
+        if (height > 2000) {
+            param1 = 1.75;
+            param2 = 2.25;
+            param3 = 2.75;
+        } else {
+            param1 = 2.0;
+            param2 = 2.5;
+            param3 = 3.25;
+        }
+
         switch (difficulty) {
             case 1:
-                this.widthCard = (int) round(this.widthCard / 2);
-                this.heightCard = (int) round(this.heightCard / 2);
+                this.widthCard = (int) round(this.widthCard / param1);
+                this.heightCard = (int) round(this.heightCard / param1);
                 break;
             case 2:
-                this.widthCard = (int) round(this.widthCard / 2.5);
-                this.heightCard = (int) round(this.heightCard / 2.5);
+                this.widthCard = (int) round(this.widthCard / param2);
+                this.heightCard = (int) round(this.heightCard / param2);
                 break;
             case 3:
-                this.widthCard = (int) round(this.widthCard / 3.25);
-                this.heightCard = (int) round(this.heightCard / 3.25);
+                this.widthCard = (int) round(this.widthCard / param3);
+                this.heightCard = (int) round(this.heightCard / param3);
                 break;
         }
     }

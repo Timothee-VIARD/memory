@@ -9,6 +9,8 @@
     <string name="card6_description">The biggest game with little content</string>
     <string name="card7_description">The one who shoots faster than Lucky Luke</string>
     <string name="card8_description">The biggest of the small</string>
+    <string name="card10_description">The tactical game that will make you valiant</string>
+    <string name="card11_description">The legendary Lonk who follows in the footsteps of Princess Zaldo</string>
 
     <string name="condition">*1. Object of the Agreement
         The purpose of this Agreement is to define the terms of purchase, delivery, warranty and return of the products sold by SellerCo to BuyerSim.
@@ -63,6 +65,7 @@
     <string name="language_selector">Language selector :</string>
     <string name="about_string">Here is the Android project of the best: DIBKE Mathis, MAIGNAN Clémence and VIARD Timothée.</string>
     <string name="github_string">You can find the project on the github of VIARD Timothée: https://github.com/Timothee-VIARD/memory</string>
-    <string name="easter_egg">If you\'ve made it this far, it\'s because you\'re lost. But you leave with a little gift: a cookie! 🍪. \n\nYou also win the codes of a credit card usable ONLY on our application, enjoy! (Card number: 4242 4242 4242 4242, Expiration date: 12/24, Security code: 424, Name: ESEO)</string>
+    <string name="easter_egg">If you\'ve made it this far, it\'s because you\'re lost. But you leave with a little gift: a cookie! 🍪. \n\nYou also win the codes of a credit card usable ONLY on our application, enjoy! (Card number: 4242 4242 4242 4242, Expiration date: 12/42, Security code: 424, Name: ESEO)</string>
+    <string name="about_us">About us</string>
 
 </resources>

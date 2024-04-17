@@ -16,8 +16,8 @@
             android:id="@+id/headerLeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
             android:layout_marginTop="60dp"
+            android:layout_weight="2"
             android:orientation="horizontal" />
 
         <LinearLayout
@@ -28,17 +28,30 @@
             android:orientation="vertical"
             android:weightSum="17">
 
-
-            <SeekBar
-                android:id="@+id/seekBarLeader"
-                android:layout_width="200dp"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:gravity="center"
                 android:layout_marginTop="15dp"
                 android:layout_weight="1"
-                android:max="2"
-                android:progress="0" />
+                android:orientation="horizontal">
 
+                <SeekBar
+                    android:id="@+id/seekBarLeader"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:max="2"
+                    android:progress="0" />
+
+                <TextView
+                    android:id="@+id/seekBarValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"/>
+            </LinearLayout>
 
             <Spinner
                 android:id="@+id/spinnerLeader"

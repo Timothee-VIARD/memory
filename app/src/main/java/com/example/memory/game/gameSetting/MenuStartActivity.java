@@ -58,10 +58,32 @@ public class MenuStartActivity extends AppCompatActivity implements BottomNavFra
 
         SeekBar seekBar = findViewById(R.id.seekBarStart);
         setPreferences(seekBar.getProgress(), spinner.getSelectedItem().toString());
+        switch (seekBar.getProgress()) {
+            case 0:
+                binding.seekBarValue.setText(getString(R.string.facile));
+                break;
+            case 1:
+                binding.seekBarValue.setText(getString(R.string.normal));
+                break;
+            case 2:
+                binding.seekBarValue.setText(getString(R.string.difficile));
+                break;
+        }
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 setPreferences(progress, spinner.getSelectedItem().toString());
+                switch (progress) {
+                    case 0:
+                        binding.seekBarValue.setText(getString(R.string.facile));
+                        break;
+                    case 1:
+                        binding.seekBarValue.setText(getString(R.string.normal));
+                        break;
+                    case 2:
+                        binding.seekBarValue.setText(getString(R.string.difficile));
+                        break;
+                }
             }
 
             @Override

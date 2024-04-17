@@ -68,11 +68,33 @@ public class LeaderboardActivity extends AppCompatActivity implements BottomNavF
         });
 
         seekBarDifficulty[0] = String.valueOf(binding.seekBarLeader.getProgress());
+        switch (binding.seekBarLeader.getProgress()) {
+            case 0:
+                binding.seekBarValue.setText(getString(R.string.facile));
+                break;
+            case 1:
+                binding.seekBarValue.setText(getString(R.string.normal));
+                break;
+            case 2:
+                binding.seekBarValue.setText(getString(R.string.difficile));
+                break;
+        }
         binding.seekBarLeader.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 seekBarDifficulty[0] = String.valueOf(seekBar.getProgress());
                 updateLeaderboard();
+                switch (progress) {
+                    case 0:
+                        binding.seekBarValue.setText(getString(R.string.facile));
+                        break;
+                    case 1:
+                        binding.seekBarValue.setText(getString(R.string.normal));
+                        break;
+                    case 2:
+                        binding.seekBarValue.setText(getString(R.string.difficile));
+                        break;
+                }
             }
 
             @Override

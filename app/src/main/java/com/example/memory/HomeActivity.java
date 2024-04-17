@@ -1,6 +1,5 @@
 package com.example.memory;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,14 +10,9 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.memory.databinding.ActivityMenuGameBinding;
-import com.example.memory.game.LeaderboardActivity;
-import com.example.memory.game.gameSetting.MenuStartActivity;
 import com.example.memory.navigation.BottomNavFragment;
-import com.example.memory.navigation.HeaderFragment;
 import com.example.memory.utilities.ReadWriteJSON;
 import com.google.android.material.navigation.NavigationView;
-
-import java.util.Locale;
 
 public class HomeActivity extends AppCompatActivity implements BottomNavFragment.OnFragmentInteractionListener {
 

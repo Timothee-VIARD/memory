@@ -35,14 +35,14 @@ public class ChronoService extends Service {
     }
 
     /**
-     * The interface On second change listener.
+     * The interface on second change listener.
      */
     public interface OnSecondChangeListener {
         void onSecondChange(int seconds);
     }
 
     /**
-     * The interface On timer finished listener.
+     * The interface on timer finished listener.
      */
     public interface OnTimerFinishedListener {
         void onTimerFinished();

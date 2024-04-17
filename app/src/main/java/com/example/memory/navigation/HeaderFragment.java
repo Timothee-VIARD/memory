@@ -23,7 +23,6 @@ public class HeaderFragment extends Fragment {
     private static final String IMAGE_BACK = String.valueOf(0);
     private static final String TITLE = "param2";
     private static final String DESCRITION = null;
-
     private int imageBack;
     private String title;
     private String description;
@@ -96,8 +95,7 @@ public class HeaderFragment extends Fragment {
      * @return Return the View for the fragment's UI, or null.
      */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         FragmentHeaderBinding binding = FragmentHeaderBinding.inflate(inflater, container, false);
         binding.titleView.setText(title);
         if(description != "null") {

@@ -44,14 +44,6 @@ public class CardSet {
     }
 
     /**
-     * Returns the image front.
-     * @return the image front
-     */
-    public ImageView getImageFrontView() {
-        return imageFrontView;
-    }
-
-    /**
      * Returns the image back.
      * @return the image back
      */
@@ -125,5 +117,4 @@ public class CardSet {
             }
         }
     }
-
 }

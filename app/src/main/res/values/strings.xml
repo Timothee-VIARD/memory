@@ -56,6 +56,15 @@
     <string name="information_erron_e">Information erronée</string>
     <string name="specialChamp">En cochant cette case, vous évitez le moyen de payement, en contre partie de l\'accord suivant en bas de page*.</string>
     <string name="autre_mode_de_paiement">Autre mode de paiement :</string>
+    <string name="normal">Normal</string>
+    <string name="contre_la_montre">Contre la Montre</string>
+    <string name="menu_du_jeu">Menu du jeu</string>
+    <string name="rejouer">Rejouer</string>
+    <string name="fin_de_la_partie">Fin de la partie</string>
+    <string name="temps">"Chrono : "</string>
+    <string name="facile">Facile</string>
+    <string name="moyen">Moyen</string>
+    <string name="difficile">Difficile</string>
 
     <!--String pour la navigation bar-->
     <string name="title_activity_setting">Setting</string>
@@ -66,4 +75,5 @@
     <string name="about_string">Voici le projet Android des meilleurs : DIBKE Mathis, MAIGNAN Clémence et VIARD Timothée.</string>
     <string name="github_string">Vous trouverez le projet sur le github de VIARD Timothée : https://github.com/Timothee-VIARD/memory</string>
     <string name="easter_egg">Si vous êtes arrivé jusque ici, c\'est que vous vous êtes perdu. Mais vous repartez avec un petit cadeau : un cookie ! 🍪. \n\nVous gagnez aussi les codes d\'une carte bancaires utilisable UNIQUEMENT sur notre application, profitez-en ! (Numéro de carte : 4242 4242 4242 4242, Date d\'expiration : 12/24, Code de sécurité : 424, Nom : ESEO)</string>
+
 </resources>

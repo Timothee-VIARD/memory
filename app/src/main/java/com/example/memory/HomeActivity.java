@@ -1,5 +1,6 @@
 package com.example.memory;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,18 +11,30 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.memory.databinding.ActivityMenuGameBinding;
+import com.example.memory.game.LeaderboardActivity;
+import com.example.memory.game.gameSetting.MenuStartActivity;
+import com.example.memory.navigation.BottomNavFragment;
+import com.example.memory.navigation.HeaderFragment;
+import com.example.memory.utilities.ReadWriteJSON;
 import com.google.android.material.navigation.NavigationView;
 
-public class MenuGame extends AppCompatActivity {
+import java.util.Locale;
+
+public class HomeActivity extends AppCompatActivity implements BottomNavFragment.OnFragmentInteractionListener {
+
     private ActivityMenuGameBinding binding;
     private AppBarConfiguration mAppBarConfiguration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Copier le fichier JSON vers le stockage interne
+        ReadWriteJSON readWriteJSONCards = new ReadWriteJSON(getApplicationContext(), "cards.json");
+        ReadWriteJSON readWriteJSONLeaderboard = new ReadWriteJSON(getApplicationContext(), "leaderboard.json");
 
-        ReadWriteJSON readWriteJSON = new ReadWriteJSON(getApplicationContext());
-        readWriteJSON.setJSON();
+        // TODO : Supprimer les lignes suivantes
+//        readWriteJSONCards.setJSON("cards.json");
+//        readWriteJSONLeaderboard.setJSON("leaderboard.json");
 
         binding = ActivityMenuGameBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -44,5 +57,10 @@ public class MenuGame extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    @Override
+    public void onPauseGame() {
+        // Implement what should happen when the game is paused
     }
 }

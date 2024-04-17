@@ -2,7 +2,8 @@
   "cards": [
     {
       "name": "Basic Simple",
-      "image": "cards_basicskin_drawable",
+      "imageFront": "basic_set",
+      "imageBack": "cards_basicskin_drawable",
       "description": "card1_description",
       "prix": "Free",
       "estAchetee": true,
@@ -12,7 +13,8 @@
     },
     {
       "name": "Free",
-      "image": "cards_basicskin2_drawable",
+      "imageFront": "basic_set",
+      "imageBack": "cards_basicskin2_drawable",
       "description": "card2_description",
       "prix": "Free",
       "estAchetee": false,
@@ -22,7 +24,8 @@
     },
     {
       "name": "Le Zoo",
-      "image": "cards_zoo_drawable",
+      "imageFront": "basic_set",
+      "imageBack": "cards_zoo_drawable",
       "description": "card3_description",
       "prix": "999 999 999 999 999,99",
       "estAchetee": false,
@@ -32,7 +35,8 @@
     },
     {
       "name": "3ario",
-      "image": "cards_mario_drawable",
+      "imageFront": "basic_set",
+      "imageBack": "cards_mario_drawable",
       "description": "card4_description",
       "prix": "3,33",
       "estAchetee": false,
@@ -42,7 +46,8 @@
     },
     {
       "name": "Suber Sonig Bros.",
-      "image": "cards_sonic_drawable",
+      "imageFront": "basic_set",
+      "imageBack": "cards_sonic_drawable",
       "description": "card5_description",
       "prix": "4,99",
       "estAchetee": false,
@@ -52,7 +57,8 @@
     },
     {
       "name": "Density",
-      "image": "cards_density_drawable",
+      "imageFront": "basic_set",
+      "imageBack": "cards_density_drawable",
       "description": "card6_description",
       "prix": "29,99999",
       "estAchetee": false,
@@ -62,7 +68,8 @@
     },
     {
       "name": "Overmatch",
-      "image": "cards_overmatch_drawable",
+      "imageFront": "basic_set",
+      "imageBack": "cards_overmatch_drawable",
       "description": "card7_description",
       "prix": "39.99",
       "estAchetee": false,
@@ -72,7 +79,8 @@
     },
     {
       "name": "Call of Bounty",
-      "image": "cards_call_of_bounty_drawable",
+      "imageFront": "basic_set",
+      "imageBack": "cards_call_of_bounty_drawable",
       "description": "card8_description",
       "prix": "39.99",
       "estAchetee": false,
@@ -82,7 +90,8 @@
     },
     {
       "name": "Spooder-Man into the Spooder-Verse",
-      "image": "cards_spooderman_drawable",
+      "imageFront": "basic_set",
+      "imageBack": "cards_spooderman_drawable",
       "description": "card9_description",
       "prix": "89.99",
       "estAchetee": false,

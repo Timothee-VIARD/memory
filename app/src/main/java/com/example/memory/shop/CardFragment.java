@@ -1,4 +1,4 @@
-package com.example.memory;
+package com.example.memory.shop;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -23,6 +23,8 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.memory.R;
+import com.example.memory.utilities.ReadWriteJSON;
 import com.example.memory.databinding.FragmentCardBinding;
 
 import java.io.Serializable;
@@ -30,10 +32,10 @@ import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link Card#newInstance} factory method to
+ * Use the {@link CardFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Card extends Fragment implements Serializable {
+public class CardFragment extends Fragment implements Serializable {
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String NOM = "name";
@@ -41,27 +43,27 @@ public class Card extends Fragment implements Serializable {
     private static final String PRIX = "price";
     private static final String ACHETE = "bought";
     private static final String RARETE = "Rarity";
-    private static final String IMAGE = "image";
+    private static final String IMAGE_BACK = "imageBack";
     private static final String INVENTORY = "inventory";
     private static final String SELECTED = "selected";
-    private static final String DEFAULTCARD = "Card";
+    private static final String DEFAULTCARD = "CardFragment";
 
     private String nom;
     private String description;
     private String prix;
     private boolean achete;
     private Rarity rarete;
-    private String image;
+    private String imageBack;
     private FragmentCardBinding binding;
     private OnCardBoughtListener listener;
     private boolean selected = false;
     private boolean inventory = false;
-    private static Card currentSelectedCard = null;
+    private static CardFragment currentSelectedCard = null;
     private ReadWriteJSON readWriteJSON;
     private boolean defaultCard;
     private boolean slash = false;
 
-    public Card() {
+    public CardFragment() {
         // Required empty public constructor
     }
 
@@ -75,13 +77,13 @@ public class Card extends Fragment implements Serializable {
      * @param description Description of the card.
      * @param isBought    If the card is bought.
      * @param rarity      Rarity of the card.
-     * @return A new instance of fragment Card.
+     * @return A new instance of fragment CardFragment.
      */
-    public static Card newInstance(String name, String image, String price, String description, boolean isBought, Rarity rarity, boolean defaultCard) {
-        Card fragment = new Card();
+    public static CardFragment newInstance(String name, String image, String price, String description, boolean isBought, Rarity rarity, boolean defaultCard) {
+        CardFragment fragment = new CardFragment();
         Bundle args = new Bundle();
         args.putString(NOM, name);
-        args.putString(IMAGE, image);
+        args.putString(IMAGE_BACK, image);
         args.putString(PRIX, price);
         args.putString(DESCRIPTION, description);
         args.putBoolean(ACHETE, isBought);
@@ -91,11 +93,11 @@ public class Card extends Fragment implements Serializable {
         return fragment;
     }
 
-    public static Card newInstance(String name, String image, String price, String description, boolean isBought, Rarity rarity, boolean inventory, boolean selected) {
-        Card fragment = new Card();
+    public static CardFragment newInstance(String name, String image, String price, String description, boolean isBought, Rarity rarity, boolean inventory, boolean selected) {
+        CardFragment fragment = new CardFragment();
         Bundle args = new Bundle();
         args.putString(NOM, name);
-        args.putString(IMAGE, image);
+        args.putString(IMAGE_BACK, image);
         args.putString(PRIX, price);
         args.putString(DESCRIPTION, description);
         args.putBoolean(ACHETE, isBought);
@@ -115,7 +117,7 @@ public class Card extends Fragment implements Serializable {
             prix = getArguments().getString(PRIX);
             achete = getArguments().getBoolean(ACHETE);
             rarete = Rarity.valueOf(getArguments().getString(RARETE));
-            image = getArguments().getString(IMAGE);
+            imageBack = getArguments().getString(IMAGE_BACK);
             inventory = getArguments().getBoolean(INVENTORY);
             defaultCard = getArguments().getBoolean(DEFAULTCARD);
         }
@@ -124,9 +126,9 @@ public class Card extends Fragment implements Serializable {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        readWriteJSON = new ReadWriteJSON(getContext());
+        readWriteJSON = new ReadWriteJSON(getContext(), "cards.json");
         binding = FragmentCardBinding.inflate(inflater, container, false);
-        binding.cardImage.setImageResource(getResources().getIdentifier(image, "drawable", requireActivity().getPackageName()));
+        binding.cardImage.setImageResource(getResources().getIdentifier(imageBack, "drawable", requireActivity().getPackageName()));
         switch (rarete) {
             case UNCOMMON:
                 binding.cardImage.setBackground(getResources().getDrawable(R.drawable.outline_uncommon_cards));
@@ -205,7 +207,7 @@ public class Card extends Fragment implements Serializable {
         Button dialogButton = dialog.findViewById(R.id.returnButton);
         ImageButton dialogClose = dialog.findViewById(R.id.exitButton);
 
-        dialogImage.setImageResource(getResources().getIdentifier(image, "drawable", requireActivity().getPackageName()));
+        dialogImage.setImageResource(getResources().getIdentifier(imageBack, "drawable", requireActivity().getPackageName()));
         dialogName.setText(nom);
         dialogRarity.setText(String.valueOf(rarete));
         switch (rarete) {
@@ -262,7 +264,7 @@ public class Card extends Fragment implements Serializable {
                 } else {
                     setBought();
                     if (listener != null) {
-                        listener.onCardBought(Card.this);
+                        listener.onCardBought(CardFragment.this);
                     }
                     alertDialog.dismiss();
                 }
@@ -303,7 +305,7 @@ public class Card extends Fragment implements Serializable {
 
         changeColor(dialogClose);
 
-        dialogImage.setImageResource(getResources().getIdentifier(image, "drawable", requireActivity().getPackageName()));
+        dialogImage.setImageResource(getResources().getIdentifier(imageBack, "drawable", requireActivity().getPackageName()));
         dialogName.setText(nom);
         dialogRarity.setText(String.valueOf(rarete));
         switch (rarete) {
@@ -389,7 +391,7 @@ public class Card extends Fragment implements Serializable {
                 if (dialogCardNumber.getText().toString().equals("4242424242424242") && dialogCardExpiration.getText().toString().equals("12/42") && dialogCardCVV.getText().toString().equals("424") && dialogCardName.getText().toString().equals("ESEO")) {
                     setBought();
                     if (listener != null) {
-                        listener.onCardBought(Card.this);
+                        listener.onCardBought(CardFragment.this);
                     }
                     alertDialog.dismiss();
                 } else {
@@ -405,7 +407,7 @@ public class Card extends Fragment implements Serializable {
                 if (dialogCheckBox.isChecked()) {
                     setBought();
                     if (listener != null) {
-                        listener.onCardBought(Card.this);
+                        listener.onCardBought(CardFragment.this);
                     }
                     alertDialog.dismiss();
                 }
@@ -430,7 +432,7 @@ public class Card extends Fragment implements Serializable {
     }
 
     public String getImage() {
-        return getArguments() != null ? getArguments().getString(IMAGE) : null;
+        return getArguments() != null ? getArguments().getString(IMAGE_BACK) : null;
     }
 
     public String getName() {
@@ -506,7 +508,7 @@ public class Card extends Fragment implements Serializable {
             setArguments(args);
         }
         if (readWriteJSON != null) {
-            readWriteJSON.editJSON(getName(), getIsBought(), selected);
+            readWriteJSON.editJSONCard(getName(), getIsBought(), selected);
         }
     }
 

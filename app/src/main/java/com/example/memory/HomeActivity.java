@@ -1,5 +1,6 @@
 package com.example.memory;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -51,28 +52,6 @@ public class HomeActivity extends AppCompatActivity implements BottomNavFragment
         NavigationUI.setupWithNavController(navigationView, navController);
     }
 
-        binding.startButton.setOnClickListener(v -> {
-            Intent intent = new Intent(this, MenuStartActivity.class);
-            startActivity(intent);
-            finish();
-        });
-
-        binding.leaderButton.setOnClickListener(v -> {
-            Intent intent = new Intent(this, LeaderboardActivity.class);
-            startActivity(intent);
-            finish();
-        });
-
-        binding.languageButton.setOnClickListener(v -> {
-            if (conf.getLocales().get(0).getLanguage().equals("fr"))
-                conf.setLocale(new Locale("en"));
-            else if (conf.getLocales().get(0).getLanguage().equals("en"))
-                conf.setLocale(new Locale("fr"));
-            res.updateConfiguration(conf, res.getDisplayMetrics());
-            Intent intent = new Intent(this, HomeActivity.class);
-            startActivity(intent);
-            finish();
-        });
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);

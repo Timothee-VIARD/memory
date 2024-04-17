@@ -3,13 +3,14 @@ package com.example.memory.cards;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
 import com.example.memory.R;
-import com.example.memory.cards.CardPairs;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
+import com.example.memory.utilities.ReadWriteJSON;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,24 +20,26 @@ public class CardSet {
     private final int ROWS = 3;
     private final int COLS = 5;
     private final int difficulty;
-    private final int sourceImage;
-    private ImageView sourceImageView;
+    private int imageFront;
+    private int imageBack;
+    private ImageView imageFrontView;
     private List<CardPairs> pairs;
     private List<GameCard> gameCards = new ArrayList<>();
     private Context context;
 
-    public CardSet(Context context, int sourceImage, int difficulty) {
-        this.sourceImage = sourceImage;
-        this.difficulty = difficulty;
+    public CardSet(Context context, int difficulty) {
         this.context = context;
+        this.difficulty = difficulty;
         this.pairs = getPairsForDifficulty(this.difficulty);
-        this.sourceImageView = new ImageView(context);
-        this.sourceImageView.setImageResource(sourceImage);
-        loadImages();
+        try {
+            loadImages();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
-    public ImageView getSourceImageView() {
-        return sourceImageView;
+    public ImageView getImageFrontView() {
+        return imageFrontView;
     }
 
     public List<GameCard> getGameCards() {
@@ -69,8 +72,27 @@ public class CardSet {
     /**
      * Loads the images.
      */
-    public void loadImages() {
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), sourceImage);
+    public void loadImages() throws JSONException {
+        ReadWriteJSON readWriteJSON = new ReadWriteJSON(context, "cards.json");
+        JSONObject cards = new JSONObject(readWriteJSON.readJSON("cards.json"));
+        JSONArray jsonArray = cards.getJSONArray("cards");
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject card = jsonArray.getJSONObject(i);
+            if (card.getString("selected").equals("true")) {
+                // todo select the set for specific skins
+                this.imageFront = context.getResources().getIdentifier(card.getString("imageFront"), "drawable", context.getPackageName());
+                this.imageBack = context.getResources().getIdentifier(card.getString("imageBack"), "drawable", context.getPackageName());
+                break;
+            } else {
+                this.imageFront = R.drawable.basic_set;
+            }
+        }
+
+        this.imageFrontView = new ImageView(context);
+        this.imageFrontView.setImageResource(imageFront);
+
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), imageFront);
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
         int chunkWidth = width / COLS;
@@ -78,17 +100,18 @@ public class CardSet {
 
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++) {
-                if (i*COLS + j >= this.pairs.size()) {
+                if (i * COLS + j >= this.pairs.size()) {
                     break;
                 }
                 Bitmap chunk = Bitmap.createBitmap(bitmap, j * chunkWidth, i * chunkHeight, chunkWidth, chunkHeight);
                 ImageView imageView = new ImageView(context);
                 imageView.setImageBitmap(chunk);
                 ImageView imageViewBack = new ImageView(context);
-                imageViewBack.setImageResource(R.drawable.zoo_drawable);
-                GameCard gameCard = new GameCard(i*COLS + j, imageView,  imageViewBack);
+                imageViewBack.setImageResource(this.imageBack);
+                GameCard gameCard = new GameCard(i * COLS + j, imageView, imageViewBack);
                 gameCards.add(gameCard);
             }
         }
     }
+
 }

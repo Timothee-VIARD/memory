@@ -125,7 +125,7 @@ public class ReadWriteJSON {
         }
     }
 
-    public void editJSONLeaderboard(String mode, String difficulty, int gameScore, int attempts) throws ParseException {
+    public void editJSONLeaderboard(String mode, String difficulty, int gameScore, int time) throws ParseException {
         FileWriter fileWriter = null;
         BufferedWriter writer = null;
 
@@ -154,7 +154,7 @@ public class ReadWriteJSON {
                     JSONObject newScore = new JSONObject();
                     newScore.put("date", formattedDate.toString());
                     newScore.put("score", gameScore);
-                    newScore.put("attempts", attempts);
+                    newScore.put("attempts", time);
                     jsonArray.put(newScore);
                 } else if(difficulty.equals("2")) {
                     JSONObject jsonArrayDifficulty = jsonArrayNormal.getJSONObject("2");
@@ -162,7 +162,7 @@ public class ReadWriteJSON {
                     JSONObject newScore = new JSONObject();
                     newScore.put("date", formattedDate.toString());
                     newScore.put("score", gameScore);
-                    newScore.put("attempts", attempts);
+                    newScore.put("attempts", time);
                     jsonArray.put(newScore);
                 } else if(difficulty.equals("3")) {
                     JSONObject jsonArrayDifficulty = jsonArrayNormal.getJSONObject("3");
@@ -170,7 +170,7 @@ public class ReadWriteJSON {
                     JSONObject newScore = new JSONObject();
                     newScore.put("date", formattedDate.toString());
                     newScore.put("score", gameScore);
-                    newScore.put("attempts", attempts);
+                    newScore.put("attempts", time);
                     jsonArray.put(newScore);
                 }
             } else if (mode.equals(context.getString(R.string.contre_la_montre))) {
@@ -181,7 +181,7 @@ public class ReadWriteJSON {
                     JSONObject newScore = new JSONObject();
                     newScore.put("date", formattedDate.toString());
                     newScore.put("score", gameScore);
-                    newScore.put("attempts", attempts);
+                    newScore.put("attempts", time);
                     jsonArray.put(newScore);
                 } else if(difficulty.equals("2")) {
                     JSONObject jsonArrayDifficulty = jsonArrayChrono.getJSONObject("2");
@@ -189,7 +189,7 @@ public class ReadWriteJSON {
                     JSONObject newScore = new JSONObject();
                     newScore.put("date", formattedDate.toString());
                     newScore.put("score", gameScore);
-                    newScore.put("attempts", attempts);
+                    newScore.put("attempts", time);
                     jsonArray.put(newScore);
                 } else if(difficulty.equals("3")) {
                     JSONObject jsonArrayDifficulty = jsonArrayChrono.getJSONObject("3");
@@ -197,7 +197,7 @@ public class ReadWriteJSON {
                     JSONObject newScore = new JSONObject();
                     newScore.put("date", formattedDate.toString());
                     newScore.put("score", gameScore);
-                    newScore.put("attempts", attempts);
+                    newScore.put("attempts", time);
                     jsonArray.put(newScore);
                 }
             }

@@ -2,10 +2,10 @@ package com.example.memory.cards;
 
 public enum CardPairs {
     PAIR_1(1, "pair_1"),
-    PAIR_2(2, "pair_2"),
-    PAIR_3(2, "pair_3"),
-    PAIR_4(2, "pair_4"),
-    PAIR_5(2, "pair_5"),
+    PAIR_2(1, "pair_2"),
+    PAIR_3(1, "pair_3"),
+    PAIR_4(1, "pair_4"),
+    PAIR_5(1, "pair_5"),
     PAIR_6(2, "pair_6"),
     PAIR_7(2, "pair_7"),
     PAIR_8(2, "pair_8"),

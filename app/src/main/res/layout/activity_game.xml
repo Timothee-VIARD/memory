@@ -26,9 +26,10 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:layout_width="70dp"
+                    android:layout_width="56dp"
                     android:layout_height="match_parent"
                     android:src="@drawable/logo_drawable_main"
+                    android:layout_marginEnd="5dp"
                     android:contentDescription="Logo" />
 
                 <TextView
@@ -36,7 +37,9 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center|start"
-                    android:text="Memory" />
+                    android:text="Memory"
+                    android:textSize="28sp"
+                    android:textStyle="bold" />
 
             </com.google.android.flexbox.FlexboxLayout>
 
@@ -61,7 +64,9 @@
                         android:layout_weight="1"
                         android:gravity="top|end"
                         android:paddingTop="5dp"
-                        android:text="Contre la montre" />
+                        android:text="Contre la montre"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/difficulty"
@@ -70,7 +75,9 @@
                         android:layout_weight="1"
                         android:gravity="bottom|end"
                         android:paddingBottom="5dp"
-                        android:text="Difficile" />
+                        android:text="Difficile"
+                        android:textSize="18sp"
+                        android:textStyle="bold"  />
                 </LinearLayout>
             </com.google.android.flexbox.FlexboxLayout>
 
@@ -89,12 +96,10 @@
                 android:layout_height="match_parent"
                 app:alignContent="stretch"
                 app:alignItems="stretch"
-                app:flexWrap="wrap"
-                app:layout_flexGrow="1"
-                android:paddingStart="10dp">
+                app:flexWrap="wrap">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="start"
                     android:orientation="vertical">
@@ -106,7 +111,8 @@
                         android:layout_weight="1"
                         android:gravity="top|start"
                         android:paddingTop="5dp"
-                        android:text="Score : 0" />
+                        android:text="Score : 0"
+                        android:textStyle="bold"  />
 
                     <TextView
                         android:id="@+id/chrono"
@@ -115,27 +121,32 @@
                         android:layout_weight="1"
                         android:gravity="bottom|start"
                         android:paddingBottom="5dp"
-                        android:text="Chrono : 0s" />
+                        android:text="Chrono : 0s"
+                        android:textStyle="bold"  />
                 </LinearLayout>
             </com.google.android.flexbox.FlexboxLayout>
 
-<!--            <com.google.android.flexbox.FlexboxLayout-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content">-->
+            <com.google.android.flexbox.FlexboxLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:alignContent="stretch"
+                app:alignItems="stretch"
+                app:flexWrap="wrap"
+                app:layout_flexGrow="1">
 
-<!--                <ImageView-->
-<!--                    android:layout_width="70dp"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:src="@drawable/logo_drawable_main" />-->
+                <TextView
+                    android:id="@+id/multiplier"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="bottom|end"
+                    android:paddingTop="5dp"
+                    android:text="x1"
+                    android:textAllCaps="false"
+                    android:textSize="28sp"
+                    android:textStyle="bold" />
 
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:gravity="center|start"-->
-<!--                    android:text="Memory" />-->
-
-<!--            </com.google.android.flexbox.FlexboxLayout>-->
+            </com.google.android.flexbox.FlexboxLayout>
 
         </com.google.android.flexbox.FlexboxLayout>
 

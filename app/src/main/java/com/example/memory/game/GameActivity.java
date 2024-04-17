@@ -3,9 +3,12 @@ package com.example.memory.game;
 import static java.lang.Math.round;
 
 import android.app.Dialog;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,8 +19,8 @@ import com.example.memory.HomeActivity;
 import com.example.memory.R;
 import com.example.memory.cards.GameCard;
 import com.example.memory.databinding.ActivityGameBinding;
+import com.example.memory.game.service.ChronoService;
 import com.example.memory.navigation.BottomNavFragment;
-import com.example.memory.navigation.HeaderFragment;
 import com.example.memory.utilities.ReadWriteJSON;
 import com.google.android.flexbox.AlignContent;
 import com.google.android.flexbox.AlignItems;
@@ -27,20 +30,36 @@ import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.flexbox.JustifyContent;
 
 import java.text.ParseException;
-import java.util.Timer;
-import java.util.TimerTask;
 
-public class GameActivity extends AppCompatActivity implements BottomNavFragment.OnFragmentInteractionListener {
+public class GameActivity extends AppCompatActivity implements BottomNavFragment.OnFragmentInteractionListener, ChronoService.OnSecondChangeListener, ChronoService.OnTimerFinishedListener {
     private ActivityGameBinding binding;
     private Game game;
+    private ChronoService chronoService;
+    private Intent intentService;
+    private boolean isBound = false;
     private int difficulty;
     private String mode;
     private int widthCard = 383;
     private int heightCard = 536;
     private ReadWriteJSON readWriteJSON;
-    private Timer timer;
     private int seconds = 0;
-    private int cardSet = R.drawable.basic_set;
+    private ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            ChronoService.MyBinder myBinder = (ChronoService.MyBinder) service;
+            chronoService = myBinder.getService();
+            chronoService.setOnSecondChangeListener(GameActivity.this);
+            chronoService.setOnTimerFinishedListener(GameActivity.this);
+            isBound = true;
+
+            onSecondChange(chronoService.getSeconds());
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            isBound = false;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +67,15 @@ public class GameActivity extends AppCompatActivity implements BottomNavFragment
         binding = ActivityGameBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        startTimer(false);
-
         Intent intent = getIntent();
         this.difficulty = intent.getIntExtra("difficulty", 0);
         this.mode = intent.getStringExtra("mode");
+
+        intentService = new Intent(this, ChronoService.class);
+        intentService.putExtra("mode", mode);
+        intentService.putExtra("difficulty", difficulty);
+        startService(intentService);
+        bindService(intentService, serviceConnection, BIND_AUTO_CREATE);
 
         readWriteJSON = new ReadWriteJSON(getApplicationContext(), "leaderboard.json");
         TextView modeView = findViewById(R.id.mode);
@@ -69,16 +92,36 @@ public class GameActivity extends AppCompatActivity implements BottomNavFragment
         flexboxLayout.setAlignItems(AlignItems.FLEX_START);
         flexboxLayout.setJustifyContent(JustifyContent.CENTER);
 
-        Game game = new Game(this, cardSet, difficulty, this);
+        Game game = new Game(this, difficulty, this);
         this.game = game;
+
         generateDimensions();
         setUI(flexboxLayout);
+    }
+
+    private void generateDimensions() {
+        switch (difficulty) {
+            case 1:
+                this.widthCard = (int) round(this.widthCard / 2);
+                this.heightCard = (int) round(this.heightCard / 2);
+                break;
+            case 2:
+                this.widthCard = (int) round(this.widthCard / 2.5);
+                this.heightCard = (int) round(this.heightCard / 2.5);
+                break;
+            case 3:
+                this.widthCard = (int) round(this.widthCard / 3.25);
+                this.heightCard = (int) round(this.heightCard / 3.25);
+                break;
+        }
     }
 
     public void updateUI() {
         FlexboxLayout flexboxLayout = findViewById(R.id.container);
         flexboxLayout.removeAllViews();
         setUI(flexboxLayout);
+        updateScore();
+        updateMultiplier();
     }
 
     private void setUI(FlexboxLayout flexboxLayout) {
@@ -97,34 +140,37 @@ public class GameActivity extends AppCompatActivity implements BottomNavFragment
         }
     }
 
-    private void generateDimensions() {
-        switch (difficulty) {
-            case 1:
-                this.widthCard = (int) round(this.widthCard / 1.75);
-                this.heightCard = (int) round(this.heightCard / 1.75);
-                break;
-            case 2:
-                this.widthCard = (int) round(this.widthCard / 2.5);
-                this.heightCard = (int) round(this.heightCard / 2.5);
-                break;
-            case 3:
-                this.widthCard = (int) round(this.widthCard / 3.25);
-                this.heightCard = (int) round(this.heightCard / 3.25);
-                break;
+    public void updateScore() {
+        TextView score = findViewById(R.id.score);
+        score.setText("Score : " + game.getScore());
+    }
+
+    public void updateMultiplier() {
+        TextView multiplier = findViewById(R.id.multiplier);
+        if (game.getScoreMultiplier() < 0) {
+            multiplier.setText("x(" + Math.round(game.getScoreMultiplier() * 10) / 10.0 + ")");
+        } else {
+            multiplier.setText("x" + Math.round(game.getScoreMultiplier() * 10) / 10.0);
         }
     }
 
-    public void updateScore() {
-        TextView score = findViewById(R.id.score);
-        score.setText("Score: " + game.getScore());
-    }
-
     public void endGame() {
-        stopTimer();
+        if (isBound) {
+            chronoService.cancelTimer();
+            unbindService(serviceConnection);
+            isBound = false;
+        }
+        stopService(new Intent(this, ChronoService.class));
+
+        if (mode.equals(getString(R.string.normal))) {
+            game.updateScore(seconds);
+        }
+        updateScore();
+
         Dialog dialog = new Dialog(this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             try {
-                readWriteJSON.editJSONLeaderboard(mode, String.valueOf(difficulty), game.getScore(), game.getAttempts());
+                readWriteJSON.editJSONLeaderboard(mode, String.valueOf(difficulty), game.getScore(), chronoService.getSeconds());
             } catch (ParseException e) {
                 throw new RuntimeException(e);
             }
@@ -135,11 +181,11 @@ public class GameActivity extends AppCompatActivity implements BottomNavFragment
         TextView time = dialog.findViewById(R.id.time);
         Button buttonLabel1 = dialog.findViewById(R.id.button1);
         Button buttonLabel2 = dialog.findViewById(R.id.button2);
-        title.setText("Fin de la partie");
+        title.setText(R.string.fin_de_la_partie);
         score.setText("Score: " + game.getScore());
-        time.setText("Temps: " + (seconds - 1) + "s");
-        buttonLabel1.setText("Menu du jeu");
-        buttonLabel2.setText("Rejouer");
+        time.setText(getString(R.string.temps) + chronoService.getSeconds() + "s");
+        buttonLabel1.setText(R.string.menu_du_jeu);
+        buttonLabel2.setText(R.string.rejouer);
         buttonLabel1.setOnClickListener(v -> {
             dialog.dismiss();
             Intent intent = new Intent(GameActivity.this, HomeActivity.class);
@@ -147,16 +193,27 @@ public class GameActivity extends AppCompatActivity implements BottomNavFragment
         });
         buttonLabel2.setOnClickListener(v -> {
             dialog.dismiss();
-            game = new Game(this, cardSet, difficulty, this);
+            game = new Game(this, difficulty, this);
             updateUI();
-            startTimer(false);
+            if (isBound) {
+                unbindService(serviceConnection);
+                isBound = false;
+            }
+            intentService = new Intent(this, ChronoService.class);
+            intentService.putExtra("mode", mode);
+            intentService.putExtra("difficulty", difficulty);
+            startService(intentService);
+            bindService(intentService, serviceConnection, BIND_AUTO_CREATE);
         });
         dialog.show();
     }
 
     @Override
     public void onPauseGame() {
-        stopTimer();
+        if (isBound) {
+            chronoService.pauseTimer();
+        }
+
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.menu_dialog);
         TextView title = dialog.findViewById(R.id.title);
@@ -164,60 +221,75 @@ public class GameActivity extends AppCompatActivity implements BottomNavFragment
         TextView time = dialog.findViewById(R.id.time);
         Button buttonLabel1 = dialog.findViewById(R.id.button1);
         Button buttonLabel2 = dialog.findViewById(R.id.button2);
-        title.setText("Pause");
-        score.setText("Score: " + game.getScore());
-        time.setText("Temps: " + (seconds - 1) + "s");
-        buttonLabel1.setText("Restart");
-        buttonLabel2.setText("Reprendre");
+        title.setText(getString(R.string.pause));
+        score.setText("Score : " + game.getScore());
+        time.setText(getString(R.string.temps) + chronoService.getSeconds() + "s");
+        buttonLabel1.setText(getString(R.string.restart));
+        buttonLabel2.setText(getString(R.string.continuer));
         buttonLabel1.setOnClickListener(v -> {
             dialog.dismiss();
-            game = new Game(this, cardSet, difficulty, this);
+            game = new Game(this, difficulty, this);
             updateUI();
-            startTimer(false);
+            if (isBound) {
+                chronoService.resetTimer();
+                chronoService.resumeTimer();
+                unbindService(serviceConnection);
+                isBound = false;
+            }
+
+            intentService = new Intent(this, ChronoService.class);
+            intentService.putExtra("mode", mode);
+            intentService.putExtra("difficulty", difficulty);
+            chronoService.cancelTimer();
+            startService(intentService);
+            bindService(intentService, serviceConnection, BIND_AUTO_CREATE);
         });
         buttonLabel2.setOnClickListener(v -> {
             dialog.dismiss();
-            startTimer(true);
+            if (isBound) {
+                chronoService.resumeTimer();
+            }
         });
         dialog.show();
-    }
-
-    private void startTimer(Boolean isContinued) {
-        this.timer = new Timer();
-
-        if (!isContinued) {
-            this.seconds = 0;
-        }
-        this.timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        TextView chrono = findViewById(R.id.chrono);
-                        chrono.setText("Chrono : " + seconds + "s");
-                        seconds++;
-                    }
-                });
-            }
-        }, 0, 1000);
-    }
-
-    private void stopTimer() {
-        this.timer.cancel();
     }
 
     private void setDifficultyText(TextView difficultyView) {
         switch (difficulty) {
             case 1:
-                difficultyView.setText("Facile");
+                difficultyView.setText(R.string.facile);
                 break;
             case 2:
-                difficultyView.setText("Moyen");
+                difficultyView.setText(R.string.moyen);
                 break;
             case 3:
-                difficultyView.setText("Difficile");
+                difficultyView.setText(R.string.difficile);
                 break;
         }
+    }
+
+    @Override
+    public void onSecondChange(int seconds) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                TextView time = findViewById(R.id.chrono);
+                time.setText(getString(R.string.temps) + seconds + "s");
+            }
+        });
+    }
+
+    @Override
+    public void onTimerFinished() {
+        endGame();
+    }
+
+    public void onDestroy() {
+        super.onDestroy();
+        if (isBound) {
+            chronoService.cancelTimer();
+            unbindService(serviceConnection);
+            isBound = false;
+        }
+        stopService(new Intent(this, ChronoService.class));
     }
 }

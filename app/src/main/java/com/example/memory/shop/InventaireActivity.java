@@ -93,7 +93,7 @@ public class InventaireActivity extends AppCompatActivity implements OnCardBough
                 // Get the name of the card
                 String name = cardObject.getString("name");
                 // Get the image from the resources
-                String image = cardObject.getString("image");
+                String imageBack = cardObject.getString("imageBack");
                 // Get the price of the card
                 String price = cardObject.getString("prix");
                 // Get the id description of the card
@@ -107,7 +107,7 @@ public class InventaireActivity extends AppCompatActivity implements OnCardBough
                 // Get the selected state of the card
                 boolean selected1 = cardObject.getBoolean("selected");
                 // Use the raw to create a new card
-                CardFragment card = CardFragment.newInstance(name, image, price, description, isBought, rarity, true, selected1);
+                CardFragment card = CardFragment.newInstance(name, imageBack, price, description, isBought, rarity, true, selected1);
                 // Add the card to your list of cards or to your user interface
                 cards.add(card);
             }

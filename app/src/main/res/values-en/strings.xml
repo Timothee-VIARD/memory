@@ -45,6 +45,15 @@
     <string name="information_erron_e">Incorrect information</string>
     <string name="specialChamp">By checking this box you avoid the means of payment, in return for the agreement below*</string>
     <string name="autre_mode_de_paiement">Other payment method :</string>
+    <string name="normal">Normal</string>
+    <string name="contre_la_montre">Against the Clock</string>
+    <string name="menu_du_jeu">Game menu</string>
+    <string name="rejouer">Replay</string>
+    <string name="fin_de_la_partie">End of the game</string>
+    <string name="temps">"Time: "</string>
+    <string name="facile">Easy</string>
+    <string name="moyen">Medium</string>
+    <string name="difficile">Hard</string>
 
     <!--String for the navigation bar-->
     <string name="title_activity_setting">Setting</string>

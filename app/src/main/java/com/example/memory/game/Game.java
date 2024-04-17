@@ -23,20 +23,17 @@ public class Game {
     private int NB_FINAL_PAIRS;
     private int pairsFound = 0;
     private int score = 0;
-    private int attempts = 0;
+    private double scoreMultiplier = 1.0;
+    private int successStreak = 0;
+    private int failureStreak = 0;
 
-
-    public Game(Context context, int sourceImage, int difficulty, GameActivity gameActivity) {
+    public Game(Context context, int difficulty, GameActivity gameActivity) {
         this.difficulty = difficulty;
         this.context = context;
-        this.cardSet = new CardSet(context, sourceImage, this.difficulty);
+        this.cardSet = new CardSet(context, this.difficulty);
         this.NB_FINAL_PAIRS = cardSet.getPairs().size();
         this.gameActivity = gameActivity;
         generateGame();
-    }
-
-    public void setGameCards(List<GameCard> gameCards) {
-        this.gameCards = gameCards;
     }
 
     public List<GameCard> getGameCards() {
@@ -55,14 +52,13 @@ public class Game {
             duplicatedGameCards.add(newGameCard);
         }
         Collections.shuffle(duplicatedGameCards);
-        setGameCards(duplicatedGameCards);
+        this.gameCards = duplicatedGameCards;
     }
 
     public void flipCard(GameCard gameCard) {
         if (isFlipping) {
             return;
         }
-        attempts++;
         if (lastFlippedCard == null) {
             lastFlippedCard = gameCard;
             gameCard.flip();
@@ -71,10 +67,21 @@ public class Game {
                 lastFlippedCard = null;
                 gameCard.flip();
                 pairsFound++;
+                successStreak++;
+                failureStreak = 0;
+                if (successStreak > 1) {
+                    scoreMultiplier += getSuccessMultiplier();
+                }
+                score += 100 * scoreMultiplier;
                 checkEndGame();
             } else {
                 isFlipping = true;
                 gameCard.flip();
+                successStreak = 0;
+                failureStreak++;
+                if (failureStreak > 1) {
+                    scoreMultiplier -= getFailureMultiplier();
+                }
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -103,7 +110,59 @@ public class Game {
         return score;
     }
 
-    public int getAttempts() {
-        return attempts;
+    public void updateScore(int seconds) {
+        switch (difficulty) {
+            case 1:
+                if (seconds != 0) {
+                    score += 250 / seconds;
+                } else {
+                    score += 250;
+                }
+                break;
+            case 2:
+                if (seconds != 0) {
+                    score += 500 / seconds;
+                } else {
+                    score += 500;
+                }
+                break;
+            case 3:
+                if (seconds != 0) {
+                    score += 1000 / seconds;
+                } else {
+                    score += 1000;
+                }
+                break;
+        }
+    }
+
+    public double getScoreMultiplier() {
+        return scoreMultiplier;
+    }
+
+    private double getSuccessMultiplier() {
+        switch (difficulty) {
+            case 1:
+                return 2.0;
+            case 2:
+                return 3.0;
+            case 3:
+                return 4.0;
+            default:
+                return 1.0;
+        }
+    }
+
+    private double getFailureMultiplier() {
+        switch (difficulty) {
+            case 1:
+                return 0.1;
+            case 2:
+                return 0.15;
+            case 3:
+                return 0.2;
+            default:
+                return 0.0;
+        }
     }
 }

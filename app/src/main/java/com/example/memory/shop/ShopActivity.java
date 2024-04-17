@@ -84,7 +84,7 @@ public class ShopActivity extends AppCompatActivity implements OnCardBoughtListe
                 // Get the name of the card
                 String name = cardObject.getString("name");
                 // Get the image from the resourcesa
-                String image = cardObject.getString("image");
+                String imageBack = cardObject.getString("imageBack");
                 // Get the price of the card
                 String price = cardObject.getString("prix");
                 // Get the id description of the card
@@ -98,7 +98,7 @@ public class ShopActivity extends AppCompatActivity implements OnCardBoughtListe
                 // Get default card
                 boolean selected = cardObject.getBoolean("default");
                 // Use the raw to create a new card
-                CardFragment card = CardFragment.newInstance(name, image, price, description, isBought, rarity, selected);
+                CardFragment card = CardFragment.newInstance(name, imageBack, price, description, isBought, rarity, selected);
                 cards.add(card);
             }
             return cards;
